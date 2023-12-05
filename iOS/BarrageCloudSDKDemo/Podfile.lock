@@ -1,0 +1,68 @@
+PODS:
+  - AgoraRtcEngine_iOS (4.2.2):
+    - AgoraRtcEngine_iOS/AIAEC (= 4.2.2)
+    - AgoraRtcEngine_iOS/AINS (= 4.2.2)
+    - AgoraRtcEngine_iOS/AudioBeauty (= 4.2.2)
+    - AgoraRtcEngine_iOS/ClearVision (= 4.2.2)
+    - AgoraRtcEngine_iOS/ContentInspect (= 4.2.2)
+    - AgoraRtcEngine_iOS/DRM (= 4.2.2)
+    - AgoraRtcEngine_iOS/FaceDetection (= 4.2.2)
+    - AgoraRtcEngine_iOS/ReplayKit (= 4.2.2)
+    - AgoraRtcEngine_iOS/RtcBasic (= 4.2.2)
+    - AgoraRtcEngine_iOS/SpatialAudio (= 4.2.2)
+    - AgoraRtcEngine_iOS/VideoCodecDec (= 4.2.2)
+    - AgoraRtcEngine_iOS/VideoCodecEnc (= 4.2.2)
+    - AgoraRtcEngine_iOS/VirtualBackground (= 4.2.2)
+    - AgoraRtcEngine_iOS/VQA (= 4.2.2)
+  - AgoraRtcEngine_iOS/AIAEC (4.2.2)
+  - AgoraRtcEngine_iOS/AINS (4.2.2)
+  - AgoraRtcEngine_iOS/AudioBeauty (4.2.2)
+  - AgoraRtcEngine_iOS/ClearVision (4.2.2)
+  - AgoraRtcEngine_iOS/ContentInspect (4.2.2)
+  - AgoraRtcEngine_iOS/DRM (4.2.2)
+  - AgoraRtcEngine_iOS/FaceDetection (4.2.2)
+  - AgoraRtcEngine_iOS/ReplayKit (4.2.2)
+  - AgoraRtcEngine_iOS/RtcBasic (4.2.2)
+  - AgoraRtcEngine_iOS/SpatialAudio (4.2.2)
+  - AgoraRtcEngine_iOS/VideoCodecDec (4.2.2)
+  - AgoraRtcEngine_iOS/VideoCodecEnc (4.2.2)
+  - AgoraRtcEngine_iOS/VirtualBackground (4.2.2)
+  - AgoraRtcEngine_iOS/VQA (4.2.2)
+  - IQKeyboardManager (6.5.16)
+  - Kingfisher (7.9.1)
+  - OpenSSL-Universal (1.0.2.17)
+  - RTMTokenBuilder (1.0.2):
+    - OpenSSL-Universal (= 1.0.2.17)
+  - SVProgressHUD (2.2.5)
+  - SwiftProtobuf (1.24.0)
+
+DEPENDENCIES:
+  - AgoraRtcEngine_iOS (= 4.2.2)
+  - IQKeyboardManager
+  - Kingfisher (= 7.9.1)
+  - RTMTokenBuilder
+  - SVProgressHUD
+  - SwiftProtobuf (= 1.24.0)
+
+SPEC REPOS:
+  trunk:
+    - AgoraRtcEngine_iOS
+    - IQKeyboardManager
+    - Kingfisher
+    - OpenSSL-Universal
+    - RTMTokenBuilder
+    - SVProgressHUD
+    - SwiftProtobuf
+
+SPEC CHECKSUMS:
+  AgoraRtcEngine_iOS: c510de329cd905daff3f01fa4c872ea6d5eaee23
+  IQKeyboardManager: 024b54d7dcb765c5bc99882cb4d5ea24a8cb7c3c
+  Kingfisher: 1d14e9f59cbe19389f591c929000332bf70efd32
+  OpenSSL-Universal: ff04c2e6befc3f1247ae039e60c93f76345b3b5a
+  RTMTokenBuilder: 7c618fd0c0979ec66366fe69a288a0a8040890fe
+  SVProgressHUD: 1428aafac632c1f86f62aa4243ec12008d7a51d6
+  SwiftProtobuf: bcfd2bc231cf9ae552cdc7c4e877bd3b41fe57b1
+
+PODFILE CHECKSUM: c75a451cc56eba2218f0588fcbf2351fb097f95b
+
+COCOAPODS: 1.12.0

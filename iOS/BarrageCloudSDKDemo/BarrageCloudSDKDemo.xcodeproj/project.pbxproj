@@ -1,0 +1,1037 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		A8139C8F2AC2B8C30040AD13 /* GameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8139C8E2AC2B8C30040AD13 /* GameView.swift */; };
+		A8139CA32AD2872E0040AD13 /* CloudGameFramework.docc in Sources */ = {isa = PBXBuildFile; fileRef = A8139CA22AD2872E0040AD13 /* CloudGameFramework.docc */; };
+		A8139CA42AD2872E0040AD13 /* CloudGameFramework.h in Headers */ = {isa = PBXBuildFile; fileRef = A8139CA12AD2872E0040AD13 /* CloudGameFramework.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		A8139CA72AD2872E0040AD13 /* CloudGameFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A8139C9F2AD2872E0040AD13 /* CloudGameFramework.framework */; };
+		A8139CA82AD2872E0040AD13 /* CloudGameFramework.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A8139C9F2AD2872E0040AD13 /* CloudGameFramework.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		A82EE7B32AB7FF2F00E124B6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A82EE7B22AB7FF2F00E124B6 /* AppDelegate.swift */; };
+		A82EE7B52AB7FF2F00E124B6 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A82EE7B42AB7FF2F00E124B6 /* SceneDelegate.swift */; };
+		A82EE7BA2AB7FF2F00E124B6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A82EE7B82AB7FF2F00E124B6 /* Main.storyboard */; };
+		A82EE7BC2AB7FF3200E124B6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A82EE7BB2AB7FF3200E124B6 /* Assets.xcassets */; };
+		A82EE7BF2AB7FF3200E124B6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A82EE7BD2AB7FF3200E124B6 /* LaunchScreen.storyboard */; };
+		A82EE7DC2AB8008F00E124B6 /* BarrageCloudSDKTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A82EE7DB2AB8008F00E124B6 /* BarrageCloudSDKTests.swift */; };
+		A835EE702AE21C37007E8331 /* TokenCreater.swift in Sources */ = {isa = PBXBuildFile; fileRef = A840D16F2AE13AD60084B903 /* TokenCreater.swift */; };
+		A835EE712AE21C6A007E8331 /* CloudGameManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8139CAC2AD287A20040AD13 /* CloudGameManager.swift */; };
+		A835EE722AE21C6F007E8331 /* CloudGameGift.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8139CAD2AD287A20040AD13 /* CloudGameGift.swift */; };
+		A835EE732AE21C73007E8331 /* CloudGameDetailInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8139CAF2AD287A20040AD13 /* CloudGameDetailInfo.swift */; };
+		A835EE742AE21C77007E8331 /* CloudGameBaseInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8139CB02AD287A20040AD13 /* CloudGameBaseInfo.swift */; };
+		A835EE752AE21C7B007E8331 /* ICloudGameEventHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8139CAE2AD287A20040AD13 /* ICloudGameEventHandler.swift */; };
+		A840D16E2AE0DEEB0084B903 /* GameGuideViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A840D16D2AE0DEEB0084B903 /* GameGuideViewController.swift */; };
+		A876878E2ABA9B24004F5299 /* GamesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A876878D2ABA9B24004F5299 /* GamesTableViewController.swift */; };
+		A87687902ABA9C7A004F5299 /* GameTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A876878F2ABA9C7A004F5299 /* GameTableViewCell.swift */; };
+		A88764212AD7FAD0000CC8D8 /* CloudGameMsgHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = A887641F2AD7FAD0000CC8D8 /* CloudGameMsgHandler.swift */; };
+		A88764222AD7FAD0000CC8D8 /* RctrlMsg.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = A88764202AD7FAD0000CC8D8 /* RctrlMsg.pb.swift */; };
+		A8B491DF2ABAC71900509A70 /* GameLiveViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8B491DE2ABAC71900509A70 /* GameLiveViewController.swift */; };
+		A8B491E12ABAC8C300509A70 /* KeyCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8B491E02ABAC8C300509A70 /* KeyCenter.swift */; };
+		A8B491E32ABAC93700509A70 /* RandomIdCreator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8B491E22ABAC93700509A70 /* RandomIdCreator.swift */; };
+		A8B491E62ABADEDB00509A70 /* GameControllerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8B491E52ABADEDB00509A70 /* GameControllerView.swift */; };
+		A8B491E82ABBE3C900509A70 /* GameSelectRoomViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8B491E72ABBE3C900509A70 /* GameSelectRoomViewController.swift */; };
+		A8B491EA2ABC183800509A70 /* GameGiftsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8B491E92ABC183800509A70 /* GameGiftsViewController.swift */; };
+		A8B491EC2ABC1B0D00509A70 /* GameGiftCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8B491EB2ABC1B0D00509A70 /* GameGiftCell.swift */; };
+		F680F23086AE452659E4F7F5 /* Pods_BarrageCloudSDKDemo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C02F4AD90B8DB3DFDDA2EF6C /* Pods_BarrageCloudSDKDemo.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		A8139CA52AD2872E0040AD13 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A82EE7A72AB7FF2F00E124B6 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A8139C9E2AD2872E0040AD13;
+			remoteInfo = CloudGameFramework;
+		};
+		A82EE7D82AB8008F00E124B6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A82EE7A72AB7FF2F00E124B6 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A82EE7AE2AB7FF2F00E124B6;
+			remoteInfo = BarrageCloudSDKDemo;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		A82EE7E52AB8009000E124B6 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				A8139CA82AD2872E0040AD13 /* CloudGameFramework.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		4CA1653E43BE8C394B6E568C /* Pods-BarrageCloudSDKDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BarrageCloudSDKDemo.release.xcconfig"; path = "Target Support Files/Pods-BarrageCloudSDKDemo/Pods-BarrageCloudSDKDemo.release.xcconfig"; sourceTree = "<group>"; };
+		A8139C8E2AC2B8C30040AD13 /* GameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameView.swift; sourceTree = "<group>"; };
+		A8139C9F2AD2872E0040AD13 /* CloudGameFramework.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CloudGameFramework.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		A8139CA12AD2872E0040AD13 /* CloudGameFramework.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CloudGameFramework.h; sourceTree = "<group>"; };
+		A8139CA22AD2872E0040AD13 /* CloudGameFramework.docc */ = {isa = PBXFileReference; lastKnownFileType = folder.documentationcatalog; path = CloudGameFramework.docc; sourceTree = "<group>"; };
+		A8139CAC2AD287A20040AD13 /* CloudGameManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CloudGameManager.swift; sourceTree = "<group>"; };
+		A8139CAD2AD287A20040AD13 /* CloudGameGift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CloudGameGift.swift; sourceTree = "<group>"; };
+		A8139CAE2AD287A20040AD13 /* ICloudGameEventHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ICloudGameEventHandler.swift; sourceTree = "<group>"; };
+		A8139CAF2AD287A20040AD13 /* CloudGameDetailInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CloudGameDetailInfo.swift; sourceTree = "<group>"; };
+		A8139CB02AD287A20040AD13 /* CloudGameBaseInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CloudGameBaseInfo.swift; sourceTree = "<group>"; };
+		A82EE7AF2AB7FF2F00E124B6 /* BarrageCloudSDKDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BarrageCloudSDKDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		A82EE7B22AB7FF2F00E124B6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		A82EE7B42AB7FF2F00E124B6 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		A82EE7B92AB7FF2F00E124B6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		A82EE7BB2AB7FF3200E124B6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		A82EE7BE2AB7FF3200E124B6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		A82EE7C02AB7FF3200E124B6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A82EE7D42AB8008F00E124B6 /* BarrageCloudSDKTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BarrageCloudSDKTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		A82EE7DB2AB8008F00E124B6 /* BarrageCloudSDKTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarrageCloudSDKTests.swift; sourceTree = "<group>"; };
+		A840D16D2AE0DEEB0084B903 /* GameGuideViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameGuideViewController.swift; sourceTree = "<group>"; };
+		A840D16F2AE13AD60084B903 /* TokenCreater.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenCreater.swift; sourceTree = "<group>"; };
+		A876878D2ABA9B24004F5299 /* GamesTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GamesTableViewController.swift; sourceTree = "<group>"; };
+		A876878F2ABA9C7A004F5299 /* GameTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameTableViewCell.swift; sourceTree = "<group>"; };
+		A88764172AD7FA1A000CC8D8 /* libSwiftProtobuf.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libSwiftProtobuf.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		A887641F2AD7FAD0000CC8D8 /* CloudGameMsgHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CloudGameMsgHandler.swift; sourceTree = "<group>"; };
+		A88764202AD7FAD0000CC8D8 /* RctrlMsg.pb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RctrlMsg.pb.swift; sourceTree = "<group>"; };
+		A8986B532AB84FE500FAEE0A /* libSnapKit.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libSnapKit.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		A8B491DE2ABAC71900509A70 /* GameLiveViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameLiveViewController.swift; sourceTree = "<group>"; };
+		A8B491E02ABAC8C300509A70 /* KeyCenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyCenter.swift; sourceTree = "<group>"; };
+		A8B491E22ABAC93700509A70 /* RandomIdCreator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RandomIdCreator.swift; sourceTree = "<group>"; };
+		A8B491E52ABADEDB00509A70 /* GameControllerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameControllerView.swift; sourceTree = "<group>"; };
+		A8B491E72ABBE3C900509A70 /* GameSelectRoomViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameSelectRoomViewController.swift; sourceTree = "<group>"; };
+		A8B491E92ABC183800509A70 /* GameGiftsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameGiftsViewController.swift; sourceTree = "<group>"; };
+		A8B491EB2ABC1B0D00509A70 /* GameGiftCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameGiftCell.swift; sourceTree = "<group>"; };
+		A8BBC1EF2AD2AA4E001DF82D /* BarrageCloudSDKDemo-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "BarrageCloudSDKDemo-Bridging-Header.h"; sourceTree = "<group>"; };
+		C02F4AD90B8DB3DFDDA2EF6C /* Pods_BarrageCloudSDKDemo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BarrageCloudSDKDemo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		DE9E2975DDA05F22B845064C /* Pods-BarrageCloudSDKDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BarrageCloudSDKDemo.debug.xcconfig"; path = "Target Support Files/Pods-BarrageCloudSDKDemo/Pods-BarrageCloudSDKDemo.debug.xcconfig"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		A8139C9C2AD2872E0040AD13 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A82EE7AC2AB7FF2F00E124B6 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A8139CA72AD2872E0040AD13 /* CloudGameFramework.framework in Frameworks */,
+				F680F23086AE452659E4F7F5 /* Pods_BarrageCloudSDKDemo.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A82EE7D12AB8008F00E124B6 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		1BF8ACD4D767C7F44C56E6D5 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				A88764172AD7FA1A000CC8D8 /* libSwiftProtobuf.a */,
+				A8986B532AB84FE500FAEE0A /* libSnapKit.a */,
+				C02F4AD90B8DB3DFDDA2EF6C /* Pods_BarrageCloudSDKDemo.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		1ED356033BF5B7EF06AC0E92 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				DE9E2975DDA05F22B845064C /* Pods-BarrageCloudSDKDemo.debug.xcconfig */,
+				4CA1653E43BE8C394B6E568C /* Pods-BarrageCloudSDKDemo.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		A8139C872AC138FA0040AD13 /* Message */ = {
+			isa = PBXGroup;
+			children = (
+				A887641F2AD7FAD0000CC8D8 /* CloudGameMsgHandler.swift */,
+				A88764202AD7FAD0000CC8D8 /* RctrlMsg.pb.swift */,
+				A8BBC1EF2AD2AA4E001DF82D /* BarrageCloudSDKDemo-Bridging-Header.h */,
+			);
+			path = Message;
+			sourceTree = "<group>";
+		};
+		A8139C8C2AC160E90040AD13 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				A8B491E92ABC183800509A70 /* GameGiftsViewController.swift */,
+				A876878D2ABA9B24004F5299 /* GamesTableViewController.swift */,
+				A8B491E72ABBE3C900509A70 /* GameSelectRoomViewController.swift */,
+				A8B491DE2ABAC71900509A70 /* GameLiveViewController.swift */,
+				A840D16D2AE0DEEB0084B903 /* GameGuideViewController.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		A8139C8D2AC161330040AD13 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				A876878F2ABA9C7A004F5299 /* GameTableViewCell.swift */,
+				A8B491EB2ABC1B0D00509A70 /* GameGiftCell.swift */,
+				A8139C8E2AC2B8C30040AD13 /* GameView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		A8139CA02AD2872E0040AD13 /* CloudGameFramework */ = {
+			isa = PBXGroup;
+			children = (
+				A8139CA12AD2872E0040AD13 /* CloudGameFramework.h */,
+				A8139CA22AD2872E0040AD13 /* CloudGameFramework.docc */,
+			);
+			path = CloudGameFramework;
+			sourceTree = "<group>";
+		};
+		A82EE7A62AB7FF2F00E124B6 = {
+			isa = PBXGroup;
+			children = (
+				A82EE7B12AB7FF2F00E124B6 /* BarrageCloudSDKDemo */,
+				A82EE7DA2AB8008F00E124B6 /* BarrageCloudSDKTests */,
+				A8139CA02AD2872E0040AD13 /* CloudGameFramework */,
+				A82EE7B02AB7FF2F00E124B6 /* Products */,
+				1ED356033BF5B7EF06AC0E92 /* Pods */,
+				1BF8ACD4D767C7F44C56E6D5 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		A82EE7B02AB7FF2F00E124B6 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				A82EE7AF2AB7FF2F00E124B6 /* BarrageCloudSDKDemo.app */,
+				A82EE7D42AB8008F00E124B6 /* BarrageCloudSDKTests.xctest */,
+				A8139C9F2AD2872E0040AD13 /* CloudGameFramework.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		A82EE7B12AB7FF2F00E124B6 /* BarrageCloudSDKDemo */ = {
+			isa = PBXGroup;
+			children = (
+				A835EE6F2AE21871007E8331 /* GameAPI */,
+				A8139C8D2AC161330040AD13 /* Views */,
+				A8139C8C2AC160E90040AD13 /* Controllers */,
+				A8139C872AC138FA0040AD13 /* Message */,
+				A8B491E42ABADEBA00509A70 /* GameCtl */,
+				A8B491E02ABAC8C300509A70 /* KeyCenter.swift */,
+				A8B491E22ABAC93700509A70 /* RandomIdCreator.swift */,
+				A840D16F2AE13AD60084B903 /* TokenCreater.swift */,
+				A82EE7B22AB7FF2F00E124B6 /* AppDelegate.swift */,
+				A82EE7B42AB7FF2F00E124B6 /* SceneDelegate.swift */,
+				A82EE7B82AB7FF2F00E124B6 /* Main.storyboard */,
+				A82EE7BB2AB7FF3200E124B6 /* Assets.xcassets */,
+				A82EE7BD2AB7FF3200E124B6 /* LaunchScreen.storyboard */,
+				A82EE7C02AB7FF3200E124B6 /* Info.plist */,
+			);
+			path = BarrageCloudSDKDemo;
+			sourceTree = "<group>";
+		};
+		A82EE7DA2AB8008F00E124B6 /* BarrageCloudSDKTests */ = {
+			isa = PBXGroup;
+			children = (
+				A82EE7DB2AB8008F00E124B6 /* BarrageCloudSDKTests.swift */,
+			);
+			path = BarrageCloudSDKTests;
+			sourceTree = "<group>";
+		};
+		A835EE6F2AE21871007E8331 /* GameAPI */ = {
+			isa = PBXGroup;
+			children = (
+				A8139CB02AD287A20040AD13 /* CloudGameBaseInfo.swift */,
+				A8139CAF2AD287A20040AD13 /* CloudGameDetailInfo.swift */,
+				A8139CAD2AD287A20040AD13 /* CloudGameGift.swift */,
+				A8139CAC2AD287A20040AD13 /* CloudGameManager.swift */,
+				A8139CAE2AD287A20040AD13 /* ICloudGameEventHandler.swift */,
+			);
+			path = GameAPI;
+			sourceTree = "<group>";
+		};
+		A8B491E42ABADEBA00509A70 /* GameCtl */ = {
+			isa = PBXGroup;
+			children = (
+				A8B491E52ABADEDB00509A70 /* GameControllerView.swift */,
+			);
+			path = GameCtl;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		A8139C9A2AD2872E0040AD13 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A8139CA42AD2872E0040AD13 /* CloudGameFramework.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		A8139C9E2AD2872E0040AD13 /* CloudGameFramework */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A8139CA92AD2872E0040AD13 /* Build configuration list for PBXNativeTarget "CloudGameFramework" */;
+			buildPhases = (
+				A8139C9A2AD2872E0040AD13 /* Headers */,
+				A8139C9B2AD2872E0040AD13 /* Sources */,
+				A8139C9C2AD2872E0040AD13 /* Frameworks */,
+				A8139C9D2AD2872E0040AD13 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = CloudGameFramework;
+			productName = CloudGameFramework;
+			productReference = A8139C9F2AD2872E0040AD13 /* CloudGameFramework.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		A82EE7AE2AB7FF2F00E124B6 /* BarrageCloudSDKDemo */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A82EE7C32AB7FF3200E124B6 /* Build configuration list for PBXNativeTarget "BarrageCloudSDKDemo" */;
+			buildPhases = (
+				FCC3ADD7F96D0E27F6DC13B8 /* [CP] Check Pods Manifest.lock */,
+				A82EE7AB2AB7FF2F00E124B6 /* Sources */,
+				A82EE7AC2AB7FF2F00E124B6 /* Frameworks */,
+				A82EE7AD2AB7FF2F00E124B6 /* Resources */,
+				A82EE7E52AB8009000E124B6 /* Embed Frameworks */,
+				52B974EA68E66C2CB064AB4F /* [CP] Embed Pods Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				A8139CA62AD2872E0040AD13 /* PBXTargetDependency */,
+			);
+			name = BarrageCloudSDKDemo;
+			productName = BarrageCloudSDKDemo;
+			productReference = A82EE7AF2AB7FF2F00E124B6 /* BarrageCloudSDKDemo.app */;
+			productType = "com.apple.product-type.application";
+		};
+		A82EE7D32AB8008F00E124B6 /* BarrageCloudSDKTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A82EE7E62AB8009000E124B6 /* Build configuration list for PBXNativeTarget "BarrageCloudSDKTests" */;
+			buildPhases = (
+				A82EE7D02AB8008F00E124B6 /* Sources */,
+				A82EE7D12AB8008F00E124B6 /* Frameworks */,
+				A82EE7D22AB8008F00E124B6 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				A82EE7D92AB8008F00E124B6 /* PBXTargetDependency */,
+			);
+			name = BarrageCloudSDKTests;
+			productName = BarrageCloudSDKTests;
+			productReference = A82EE7D42AB8008F00E124B6 /* BarrageCloudSDKTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		A82EE7A72AB7FF2F00E124B6 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1430;
+				LastUpgradeCheck = 1430;
+				TargetAttributes = {
+					A8139C9E2AD2872E0040AD13 = {
+						CreatedOnToolsVersion = 14.3.1;
+					};
+					A82EE7AE2AB7FF2F00E124B6 = {
+						CreatedOnToolsVersion = 14.3.1;
+						LastSwiftMigration = 1430;
+					};
+					A82EE7D32AB8008F00E124B6 = {
+						CreatedOnToolsVersion = 14.3.1;
+						TestTargetID = A82EE7AE2AB7FF2F00E124B6;
+					};
+				};
+			};
+			buildConfigurationList = A82EE7AA2AB7FF2F00E124B6 /* Build configuration list for PBXProject "BarrageCloudSDKDemo" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = A82EE7A62AB7FF2F00E124B6;
+			packageReferences = (
+				A8139C912AC2DC840040AD13 /* XCRemoteSwiftPackageReference "swift-protobuf" */,
+			);
+			productRefGroup = A82EE7B02AB7FF2F00E124B6 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				A82EE7AE2AB7FF2F00E124B6 /* BarrageCloudSDKDemo */,
+				A82EE7D32AB8008F00E124B6 /* BarrageCloudSDKTests */,
+				A8139C9E2AD2872E0040AD13 /* CloudGameFramework */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		A8139C9D2AD2872E0040AD13 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A82EE7AD2AB7FF2F00E124B6 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A82EE7BF2AB7FF3200E124B6 /* LaunchScreen.storyboard in Resources */,
+				A82EE7BC2AB7FF3200E124B6 /* Assets.xcassets in Resources */,
+				A82EE7BA2AB7FF2F00E124B6 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A82EE7D22AB8008F00E124B6 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		52B974EA68E66C2CB064AB4F /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-BarrageCloudSDKDemo/Pods-BarrageCloudSDKDemo-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-BarrageCloudSDKDemo/Pods-BarrageCloudSDKDemo-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-BarrageCloudSDKDemo/Pods-BarrageCloudSDKDemo-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		FCC3ADD7F96D0E27F6DC13B8 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-BarrageCloudSDKDemo-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		A8139C9B2AD2872E0040AD13 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A8139CA32AD2872E0040AD13 /* CloudGameFramework.docc in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A82EE7AB2AB7FF2F00E124B6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A87687902ABA9C7A004F5299 /* GameTableViewCell.swift in Sources */,
+				A876878E2ABA9B24004F5299 /* GamesTableViewController.swift in Sources */,
+				A8B491EA2ABC183800509A70 /* GameGiftsViewController.swift in Sources */,
+				A82EE7B32AB7FF2F00E124B6 /* AppDelegate.swift in Sources */,
+				A835EE702AE21C37007E8331 /* TokenCreater.swift in Sources */,
+				A835EE732AE21C73007E8331 /* CloudGameDetailInfo.swift in Sources */,
+				A840D16E2AE0DEEB0084B903 /* GameGuideViewController.swift in Sources */,
+				A88764222AD7FAD0000CC8D8 /* RctrlMsg.pb.swift in Sources */,
+				A835EE722AE21C6F007E8331 /* CloudGameGift.swift in Sources */,
+				A88764212AD7FAD0000CC8D8 /* CloudGameMsgHandler.swift in Sources */,
+				A82EE7B52AB7FF2F00E124B6 /* SceneDelegate.swift in Sources */,
+				A8B491E62ABADEDB00509A70 /* GameControllerView.swift in Sources */,
+				A8B491E82ABBE3C900509A70 /* GameSelectRoomViewController.swift in Sources */,
+				A8B491EC2ABC1B0D00509A70 /* GameGiftCell.swift in Sources */,
+				A835EE752AE21C7B007E8331 /* ICloudGameEventHandler.swift in Sources */,
+				A835EE742AE21C77007E8331 /* CloudGameBaseInfo.swift in Sources */,
+				A8B491E12ABAC8C300509A70 /* KeyCenter.swift in Sources */,
+				A8B491DF2ABAC71900509A70 /* GameLiveViewController.swift in Sources */,
+				A835EE712AE21C6A007E8331 /* CloudGameManager.swift in Sources */,
+				A8139C8F2AC2B8C30040AD13 /* GameView.swift in Sources */,
+				A8B491E32ABAC93700509A70 /* RandomIdCreator.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A82EE7D02AB8008F00E124B6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A82EE7DC2AB8008F00E124B6 /* BarrageCloudSDKTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		A8139CA62AD2872E0040AD13 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A8139C9E2AD2872E0040AD13 /* CloudGameFramework */;
+			targetProxy = A8139CA52AD2872E0040AD13 /* PBXContainerItemProxy */;
+		};
+		A82EE7D92AB8008F00E124B6 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A82EE7AE2AB7FF2F00E124B6 /* BarrageCloudSDKDemo */;
+			targetProxy = A82EE7D82AB8008F00E124B6 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		A82EE7B82AB7FF2F00E124B6 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				A82EE7B92AB7FF2F00E124B6 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		A82EE7BD2AB7FF3200E124B6 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				A82EE7BE2AB7FF3200E124B6 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		A8139CAA2AD2872E0040AD13 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = JDPG69R49Z;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_MODULE_VERIFIER = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
+				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu11 gnu++20";
+				PRODUCT_BUNDLE_IDENTIFIER = com.test.aes.CloudGameFramework;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		A8139CAB2AD2872E0040AD13 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = JDPG69R49Z;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_MODULE_VERIFIER = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
+				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu11 gnu++20";
+				PRODUCT_BUNDLE_IDENTIFIER = com.test.aes.CloudGameFramework;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		A82EE7C12AB7FF3200E124B6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_PRECOMPILE_BRIDGING_HEADER = YES;
+			};
+			name = Debug;
+		};
+		A82EE7C22AB7FF3200E124B6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_PRECOMPILE_BRIDGING_HEADER = YES;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		A82EE7C42AB7FF3200E124B6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = DE9E2975DDA05F22B845064C /* Pods-BarrageCloudSDKDemo.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = JDPG69R49Z;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/RTMTokenBuilder\"",
+					"\"${PODS_ROOT}/AgoraRtcEngine_iOS\"",
+					"\"${PODS_XCFRAMEWORKS_BUILD_DIR}/AgoraRtcEngine_iOS/AIAEC\"",
+					"\"${PODS_XCFRAMEWORKS_BUILD_DIR}/AgoraRtcEngine_iOS/AINS\"",
+					"\"${PODS_XCFRAMEWORKS_BUILD_DIR}/AgoraRtcEngine_iOS/AudioBeauty\"",
+					"\"${PODS_XCFRAMEWORKS_BUILD_DIR}/AgoraRtcEngine_iOS/ClearVision\"",
+					"\"${PODS_XCFRAMEWORKS_BUILD_DIR}/AgoraRtcEngine_iOS/ContentInspect\"",
+					"\"${PODS_XCFRAMEWORKS_BUILD_DIR}/AgoraRtcEngine_iOS/DRM\"",
+					"\"${PODS_XCFRAMEWORKS_BUILD_DIR}/AgoraRtcEngine_iOS/FaceDetection\"",
+					"\"${PODS_XCFRAMEWORKS_BUILD_DIR}/AgoraRtcEngine_iOS/ReplayKit\"",
+					"\"${PODS_XCFRAMEWORKS_BUILD_DIR}/AgoraRtcEngine_iOS/RtcBasic\"",
+					"\"${PODS_XCFRAMEWORKS_BUILD_DIR}/AgoraRtcEngine_iOS/SpatialAudio\"",
+					"\"${PODS_XCFRAMEWORKS_BUILD_DIR}/AgoraRtcEngine_iOS/VQA\"",
+					"\"${PODS_XCFRAMEWORKS_BUILD_DIR}/AgoraRtcEngine_iOS/VideoCodecDec\"",
+					"\"${PODS_XCFRAMEWORKS_BUILD_DIR}/AgoraRtcEngine_iOS/VideoCodecEnc\"",
+					"\"${PODS_XCFRAMEWORKS_BUILD_DIR}/AgoraRtcEngine_iOS/VirtualBackground\"",
+				);
+				GENERATE_INFOPLIST_FILE = YES;
+				HEADER_SEARCH_PATHS = "";
+				INFOPLIST_FILE = BarrageCloudSDKDemo/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "主播需要用摄像头";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "主播需要用麦克风";
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Token/openssl/lib",
+				);
+				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+					"-framework",
+					"\"Accelerate\"",
+					"-framework",
+					"\"AgoraAiEchoCancellationExtension\"",
+					"-framework",
+					"\"AgoraAiNoiseSuppressionExtension\"",
+					"-framework",
+					"\"AgoraAudioBeautyExtension\"",
+					"-framework",
+					"\"AgoraClearVisionExtension\"",
+					"-framework",
+					"\"AgoraContentInspectExtension\"",
+					"-framework",
+					"\"AgoraCore\"",
+					"-framework",
+					"\"AgoraDrmLoaderExtension\"",
+					"-framework",
+					"\"AgoraFaceDetectionExtension\"",
+					"-framework",
+					"\"AgoraReplayKitExtension\"",
+					"-framework",
+					"\"AgoraRtcKit\"",
+					"-framework",
+					"\"AgoraSoundTouch\"",
+					"-framework",
+					"\"AgoraSpatialAudioExtension\"",
+					"-framework",
+					"\"AgoraVideoDecoderExtension\"",
+					"-framework",
+					"\"AgoraVideoEncoderExtension\"",
+					"-framework",
+					"\"AgoraVideoQualityAnalyzerExtension\"",
+					"-framework",
+					"\"AgoraVideoSegmentationExtension\"",
+					"-framework",
+					"\"Agorafdkaac\"",
+					"-framework",
+					"\"Agoraffmpeg\"",
+					"-framework",
+					"\"CFNetwork\"",
+					"-framework",
+					"\"video_dec\"",
+					"-framework",
+					"\"video_enc\"",
+					"-weak_framework",
+					"\"Combine\"",
+					"-weak_framework",
+					"\"SwiftUI\"",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.test.aes.BarrageCloudSDKDemo;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_PRECOMPILE_BRIDGING_HEADER = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		A82EE7C52AB7FF3200E124B6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 4CA1653E43BE8C394B6E568C /* Pods-BarrageCloudSDKDemo.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_MODULES = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = JDPG69R49Z;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/RTMTokenBuilder\"",
+					"\"${PODS_ROOT}/AgoraRtcEngine_iOS\"",
+					"\"${PODS_XCFRAMEWORKS_BUILD_DIR}/AgoraRtcEngine_iOS/AIAEC\"",
+					"\"${PODS_XCFRAMEWORKS_BUILD_DIR}/AgoraRtcEngine_iOS/AINS\"",
+					"\"${PODS_XCFRAMEWORKS_BUILD_DIR}/AgoraRtcEngine_iOS/AudioBeauty\"",
+					"\"${PODS_XCFRAMEWORKS_BUILD_DIR}/AgoraRtcEngine_iOS/ClearVision\"",
+					"\"${PODS_XCFRAMEWORKS_BUILD_DIR}/AgoraRtcEngine_iOS/ContentInspect\"",
+					"\"${PODS_XCFRAMEWORKS_BUILD_DIR}/AgoraRtcEngine_iOS/DRM\"",
+					"\"${PODS_XCFRAMEWORKS_BUILD_DIR}/AgoraRtcEngine_iOS/FaceDetection\"",
+					"\"${PODS_XCFRAMEWORKS_BUILD_DIR}/AgoraRtcEngine_iOS/ReplayKit\"",
+					"\"${PODS_XCFRAMEWORKS_BUILD_DIR}/AgoraRtcEngine_iOS/RtcBasic\"",
+					"\"${PODS_XCFRAMEWORKS_BUILD_DIR}/AgoraRtcEngine_iOS/SpatialAudio\"",
+					"\"${PODS_XCFRAMEWORKS_BUILD_DIR}/AgoraRtcEngine_iOS/VQA\"",
+					"\"${PODS_XCFRAMEWORKS_BUILD_DIR}/AgoraRtcEngine_iOS/VideoCodecDec\"",
+					"\"${PODS_XCFRAMEWORKS_BUILD_DIR}/AgoraRtcEngine_iOS/VideoCodecEnc\"",
+					"\"${PODS_XCFRAMEWORKS_BUILD_DIR}/AgoraRtcEngine_iOS/VirtualBackground\"",
+				);
+				GENERATE_INFOPLIST_FILE = YES;
+				HEADER_SEARCH_PATHS = "";
+				INFOPLIST_FILE = BarrageCloudSDKDemo/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "主播需要用摄像头";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "主播需要用麦克风";
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Token/openssl/lib",
+				);
+				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+					"-framework",
+					"\"Accelerate\"",
+					"-framework",
+					"\"AgoraAiEchoCancellationExtension\"",
+					"-framework",
+					"\"AgoraAiNoiseSuppressionExtension\"",
+					"-framework",
+					"\"AgoraAudioBeautyExtension\"",
+					"-framework",
+					"\"AgoraClearVisionExtension\"",
+					"-framework",
+					"\"AgoraContentInspectExtension\"",
+					"-framework",
+					"\"AgoraCore\"",
+					"-framework",
+					"\"AgoraDrmLoaderExtension\"",
+					"-framework",
+					"\"AgoraFaceDetectionExtension\"",
+					"-framework",
+					"\"AgoraReplayKitExtension\"",
+					"-framework",
+					"\"AgoraRtcKit\"",
+					"-framework",
+					"\"AgoraSoundTouch\"",
+					"-framework",
+					"\"AgoraSpatialAudioExtension\"",
+					"-framework",
+					"\"AgoraVideoDecoderExtension\"",
+					"-framework",
+					"\"AgoraVideoEncoderExtension\"",
+					"-framework",
+					"\"AgoraVideoQualityAnalyzerExtension\"",
+					"-framework",
+					"\"AgoraVideoSegmentationExtension\"",
+					"-framework",
+					"\"Agorafdkaac\"",
+					"-framework",
+					"\"Agoraffmpeg\"",
+					"-framework",
+					"\"CFNetwork\"",
+					"-framework",
+					"\"video_dec\"",
+					"-framework",
+					"\"video_enc\"",
+					"-weak_framework",
+					"\"Combine\"",
+					"-weak_framework",
+					"\"SwiftUI\"",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = io.agora.barrageCoudDemo;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = dis_agora_barrageCloudDemo;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "";
+				SWIFT_PRECOMPILE_BRIDGING_HEADER = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		A82EE7E72AB8009000E124B6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = JDPG69R49Z;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.test.aes.BarrageCloudSDKTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/BarrageCloudSDKDemo.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/BarrageCloudSDKDemo";
+			};
+			name = Debug;
+		};
+		A82EE7E82AB8009000E124B6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = JDPG69R49Z;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.test.aes.BarrageCloudSDKTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/BarrageCloudSDKDemo.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/BarrageCloudSDKDemo";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		A8139CA92AD2872E0040AD13 /* Build configuration list for PBXNativeTarget "CloudGameFramework" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A8139CAA2AD2872E0040AD13 /* Debug */,
+				A8139CAB2AD2872E0040AD13 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A82EE7AA2AB7FF2F00E124B6 /* Build configuration list for PBXProject "BarrageCloudSDKDemo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A82EE7C12AB7FF3200E124B6 /* Debug */,
+				A82EE7C22AB7FF3200E124B6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A82EE7C32AB7FF3200E124B6 /* Build configuration list for PBXNativeTarget "BarrageCloudSDKDemo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A82EE7C42AB7FF3200E124B6 /* Debug */,
+				A82EE7C52AB7FF3200E124B6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A82EE7E62AB8009000E124B6 /* Build configuration list for PBXNativeTarget "BarrageCloudSDKTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A82EE7E72AB8009000E124B6 /* Debug */,
+				A82EE7E82AB8009000E124B6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		A8139C912AC2DC840040AD13 /* XCRemoteSwiftPackageReference "swift-protobuf" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/apple/swift-protobuf.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+	};
+	rootObject = A82EE7A72AB7FF2F00E124B6 /* Project object */;
+}
