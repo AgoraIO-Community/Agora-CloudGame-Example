@@ -185,13 +185,11 @@ public class CloudGameManager: NSObject {
     /// 结束游戏
     /// - Parameters:
     ///   - id: 游戏id
-    ///   - vid: 声网vid
     ///   - roomId: 房间id
     ///   - openId: openid
     ///   - taskId: taskId
-    public func endGame(with id:String, vid: String, roomId: String, openId: String, taskId: String, completion: ((_ code: Int?)->Void)? = nil) {
+    public func endGame(with id:String, roomId: String, openId: String, taskId: String, completion: ((_ code: Int?)->Void)? = nil) {
         var params = [String: Any]()
-        params["vid"] = vid
         params["room_id"] = roomId
         params["open_id"] = openId
         params["task_id"] = taskId

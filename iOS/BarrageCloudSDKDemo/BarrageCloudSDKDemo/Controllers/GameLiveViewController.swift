@@ -226,7 +226,6 @@ class GameLiveViewController: UIViewController {
         guard let gameId = game?.gameId else {return}
         if let text = commentTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines), text.count > 0 {
             let config = CloudGameSendCommentConfigure()
-            config.vid = KeyCenter.Vid
             config.roomId = roomId
             config.openId = openId
             config.nickname = "user_\(myUid!)"
@@ -248,7 +247,6 @@ class GameLiveViewController: UIViewController {
     @IBAction func didClickLikeButton(_ sender: UIButton) {
         guard let gameId = game?.gameId else {return}
         let config = CloudGameSendLikeConfigure()
-        config.vid = KeyCenter.Vid
         config.roomId = roomId
         config.openId = openId
         config.nickname = "user_\(myUid!)"
@@ -287,7 +285,6 @@ class GameLiveViewController: UIViewController {
                 vc?.whenSendGift({[weak self] gift, count in
                     guard let self = self else { return }
                     let config = CloudGameSendGiftConfigure()
-                    config.vid = KeyCenter.Vid
                     config.openId = openId
                     config.nickname = "user_\(myUid!)"
                     config.roomId = self.roomId
@@ -345,7 +342,6 @@ extension GameLiveViewController {
             let token = TokenCreater.createRctToken(uid: Int32(assistantUid) ?? 0, channelName: roomId, role: Int32(1))
             print("create token uid = \(uid), channel = \(roomId!), token = \(token)")
             let config = CloudGameStartConfigure()
-            config.vid = KeyCenter.Vid
             config.roomId = roomId
             config.openId = openId
             config.nickname = "user_\(myUid!)"
@@ -372,7 +368,7 @@ extension GameLiveViewController {
     func stopGame(gameId: String){
         if let taskId = taskId {
             startButton.isEnabled = false
-            CloudGameManager.shared.endGame(with: gameId, vid: KeyCenter.Vid, roomId: roomId, openId: openId, taskId: taskId) {[weak self] code in
+            CloudGameManager.shared.endGame(with: gameId, roomId: roomId, openId: openId, taskId: taskId) {[weak self] code in
                 self?.taskId = nil
                 if code == 0 {
                     SVProgressHUD.showSuccess(withStatus: "结束游戏成功")

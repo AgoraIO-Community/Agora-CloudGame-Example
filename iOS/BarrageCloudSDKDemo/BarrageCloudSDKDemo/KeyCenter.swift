@@ -24,8 +24,6 @@ class KeyCenter: NSObject {
      进入声网控制台(https://console.agora.io/)，创建一个项目，进入项目配置页，即可看到APP ID。
      */
     
-    static let Vid: String = <#Vid#>
-    
     static let AppId: String = <#AppId#>
     
     static let Certificate = <#Certificate#>
