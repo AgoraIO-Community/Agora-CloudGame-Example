@@ -88,12 +88,12 @@ buildConfigField "String", "API_HOST", "\"https://api-test.agora.io/\""
 
 ## 6.1 主播端
 
-![Untitled 1](https://github.com/AgoraIO-Community/Agora-CloudGame-Example/assets/3213611/a1a474ba-14c2-4631-af61-b2b4c5fa8522)
+![Untitled](https://github.com/AgoraIO-Community/Agora-CloudGame-Example/assets/3213611/db98269e-4fda-439a-97af-9762a1369ef0)
 
 
 ## 6.2 观众端
-![Untitled](https://github.com/AgoraIO-Community/Agora-CloudGame-Example/assets/3213611/db98269e-4fda-439a-97af-9762a1369ef0)
 
+![Untitled 1](https://github.com/AgoraIO-Community/Agora-CloudGame-Example/assets/3213611/a1a474ba-14c2-4631-af61-b2b4c5fa8522)
 
 
 # 7、主要功能介绍
