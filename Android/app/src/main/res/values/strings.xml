@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">Agora-CloudGame-Example</string>
+    <string name="home_dou_notice">再按一次退出</string>
+    <string name="alert_dialog_message">OK</string>
+    <string name="alert_dialog_ok">确定</string>
+    <string name="alert_dialog_cancel">取消</string>
+    <string name="menu_gift">礼物</string>
+    <string name="exit">退出</string>
+    <string name="gift">礼物</string>
+    <string name="comment">评论</string>
+    <string name="z">Z(出兵)</string>
+    <string name="like">点赞</string>
+    <string name="game_state">游戏状态:</string>
+
+</resources>

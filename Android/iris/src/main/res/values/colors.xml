@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#000000</color>
+    <color name="text2">#333333</color>
+    <color name="background">#F9F7F8</color>
+    <color name="cp_shadow">#AAEBEBEB</color>
+    <color name="blue">#0068cf</color>
+    <color name="blue_80">#0080FF</color>
+    <color name="blue_00">#0000FF</color>
+    <color name="blue_87">#87CEEB</color>
+    <color name="split_line">#11112233</color>
+    <color name="white">#FFFFFF</color>
+    <color name="unselect">#FFC6C6C6</color>
+    <color name="select">#FF111111</color>
+    <color name="shadow">#FFE8E8EB</color>
+    <color name="colorPrimary">#01B38A</color>
+
+</resources>

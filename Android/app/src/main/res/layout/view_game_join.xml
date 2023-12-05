@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/shape_info_dialog"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="43dp"
+        android:layout_marginLeft="45dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="55dp"
+        android:background="@drawable/shape_password_input">
+
+        <EditText
+            android:id="@+id/new_text"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="20dp"
+            android:background="@null"
+            android:inputType="text"
+            android:textColor="#ACACAC"
+            android:textSize="14sp" />
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="43dp"
+        android:layout_marginLeft="45dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="55dp"
+        android:background="@drawable/shape_password_input">
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="20dp"
+            android:background="@null"
+            android:inputType="text"
+            android:textColor="#ACACAC"
+            android:textSize="14sp" />
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="43dp"
+        android:layout_marginLeft="45dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="55dp"
+        android:background="@drawable/shape_password_input">
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="20dp"
+            android:background="@null"
+            android:inputType="text"
+            android:hint="助手token"
+            android:textColor="#ACACAC"
+            android:textSize="14sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="43dp"
+        android:layout_marginLeft="45dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="55dp"
+        android:background="@drawable/shape_password_input">
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="20dp"
+            android:background="@null"
+            android:inputType="text"
+            android:textColor="#ACACAC"
+            android:textSize="14sp" />
+
+    </LinearLayout>
+
+
+    <TextView
+        android:id="@+id/join_view"
+        android:layout_width="match_parent"
+        android:layout_height="43dp"
+        android:layout_marginLeft="45dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="55dp"
+        android:background="@drawable/shape_user_send"
+        android:gravity="center"
+        android:text="加入房间"
+        android:fontFamily="sans-serif-medium"
+        android:textColor="@color/white"
+        android:textSize="14sp" />
+
+
+</LinearLayout>
+
+

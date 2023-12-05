@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="tabs_height">50dp</dimen>
+    <dimen name="tab_text_size">16sp</dimen>
+    <dimen name="tab_sort_size">14sp</dimen>
+    <dimen name="tab_text_selected_size">20dp</dimen>
+    <dimen name="divider">1dp</dimen>
+    <dimen name="divider_half">0.5dp</dimen>
+    <dimen name="divider_gym">0dp</dimen>
+    <dimen name="card_first_divider">5dp</dimen>
+    <dimen name="divider_border">16dp</dimen>
+
+    <dimen name="loading_dialog_width">96dp</dimen>
+    <dimen name="dialog_corner">16dp</dimen>
+    <dimen name="dialog_entry_corner">3dp</dimen>
+    <dimen name="dialog_login_height">200dp</dimen>
+    <dimen name="dialog_picker_height">280dp</dimen>
+
+    <dimen name="textSize_14">14.0sp</dimen>
+    <dimen name="progress_bar_height">2dp</dimen>
+
+</resources>

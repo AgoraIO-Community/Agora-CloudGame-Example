@@ -1,0 +1,2 @@
+include ':app', ':iris'
+rootProject.name = "Agora-CloudGame-Example"

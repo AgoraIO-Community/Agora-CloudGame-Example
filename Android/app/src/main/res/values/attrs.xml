@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="AsyncImageView">
+        <attr name="placeholder" format="reference" />
+        <attr name="error" format="reference" />
+        <attr name="radius" format="dimension" />
+    </declare-styleable>
+
+    <declare-styleable name="TabLayout">
+        <attr name="indicatorStartColor" format="color|reference" />
+        <attr name="indicatorEndColor" format="color|reference" />
+        <attr name="indicatorMarginStart" format="dimension|reference" />
+        <attr name="indicatorMarginEnd" format="dimension|reference" />
+        <attr name="indicatorMarginBottom" format="dimension|reference" />
+    </declare-styleable>
+
+    <declare-styleable name="ExpandableTextView">
+        <attr name="etvMaxLinesOnShrink" format="reference|integer" />
+        <attr name="etvEllipsisHint" format="reference|string" />
+        <attr name="etvToExpandHint" format="reference|string" />
+        <attr name="etvToShrinkHint" format="reference|string" />
+        <attr name="etvGapToExpandHint" format="reference|string" />
+        <attr name="etvGapToShrinkHint" format="reference|string" />
+        <attr name="etvEnableToggle" format="reference|boolean" />
+        <attr name="etvToExpandHintShow" format="reference|boolean" />
+        <attr name="etvToShrinkHintShow" format="reference|boolean" />
+        <attr name="etvToExpandHintColor" format="reference|color" />
+        <attr name="etvToShrinkHintColor" format="reference|color" />
+        <attr name="etvInitState" format="enum">
+            <enum name="shrink" value="0" />
+            <enum name="expand" value="1" />
+        </attr>
+    </declare-styleable>
+
+    <!--分段式进度条-->
+    <declare-styleable name="ProgressBar">
+        <attr name="progress" format="integer" />
+        <attr name="max" format="integer" />
+        <attr name="progressBarColor" format="color" />
+        <attr name="progressBackground" format="color" />
+    </declare-styleable>
+
+    <declare-styleable name="StoriesProgressView">
+        <attr name="progressCount" format="integer|reference" />
+    </declare-styleable>
+
+    <declare-styleable name="CircleProgressView">
+        <attr name="progressWidth" format="dimension" />
+        <attr name="progressColor" format="reference" />
+        <attr name="progressBackgroundColor" format="reference" />
+        <attr name="startAngle" format="integer" />
+        <attr name="endAngle" format="integer" />
+        <attr name="animation" format="boolean" />
+        <attr name="duration" format="integer" />
+    </declare-styleable>
+
+</resources>

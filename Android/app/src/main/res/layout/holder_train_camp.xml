@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="data"
+            type="io.agora.cloudgame.network.model.GameEntity" />
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_marginTop="6dp"
+        android:layout_marginLeft="14dp"
+        android:layout_marginRight="14dp"
+        android:layout_marginBottom="4dp"
+        android:orientation="vertical"
+        android:background="@drawable/shape_card_white"
+        android:layout_height="wrap_content">
+
+        <io.agora.cloudgame.widget.AsyncImageView
+            android:id="@+id/async_view"
+            android:src="@drawable/img_empty"
+            android:layout_width="match_parent"
+            android:layout_height="228dp"
+            android:scaleType="centerCrop"
+            app:radius="10dp"
+            app:error="@drawable/shape_default_image"
+            app:placeholder="@drawable/shape_default_image" />
+
+        <TextView
+            android:text="@{data.name}"
+            android:textColor="#ff494949"
+            android:textSize="16sp"
+            android:fontFamily="sans-serif-medium"
+            android:layout_margin="15dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:text="@{data.brief}"
+            android:textColor="#ff82868e"
+            android:textSize="12sp"
+            android:layout_marginBottom="15dp"
+            android:fontFamily="sans-serif-medium"
+            android:layout_marginLeft="15dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+</layout>

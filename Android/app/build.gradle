@@ -1,0 +1,151 @@
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+    id 'kotlin-android-extensions'
+    id 'com.google.protobuf'
+}
+
+Properties properties = new Properties()
+InputStream inputStream = project.rootProject.file('local.properties').newDataInputStream()
+properties.load(inputStream)
+
+android {
+    namespace 'io.agora.cloudgame.example'
+    compileSdk 31
+
+    defaultConfig {
+        applicationId "io.agora.cloudgame.example"
+        minSdk 26
+        targetSdk 31
+        versionCode 1
+        versionName "1.3.1121.1"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        vectorDrawables {
+            useSupportLibrary true
+        }
+
+        ndk {
+            abiFilters "arm64-v8a"
+        }
+
+        buildConfigField("String", "VID", "\"${properties.getProperty("VID", "")}\"")
+        buildConfigField("String", "APP_ID", "\"${properties.getProperty("APP_ID", "")}\"")
+        buildConfigField("String", "APP_CERTIFICATE", "\"${properties.getProperty("APP_CERTIFICATE", "")}\"")
+
+        //buildConfigField "String", "API_HOST", "\"http://maybews-qa.sh2.agoralab.co\""
+        buildConfigField "String", "API_HOST", "\"https://api-test.agora.io/\""
+    }
+
+    signingConfigs {
+        release {
+            keyAlias "key0"
+            keyPassword "123456"
+            storeFile file('./keystore/testkey.jks')
+            storePassword "123456"
+        }
+        debug {
+            keyAlias "key0"
+            keyPassword "123456"
+            storeFile file('./keystore/testkey.jks')
+            storePassword "123456"
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            zipAlignEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+        }
+
+        debug {
+            minifyEnabled false
+            signingConfig signingConfigs.debug
+        }
+    }
+
+    applicationVariants.configureEach { variant ->
+        variant.outputs.configureEach {
+            outputFileName = "Agora-CloudGame-Example-${versionName}-${variant.buildType.name}-${releaseTime()}.apk"
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility = 1.8
+        targetCompatibility = 1.8
+    }
+    dataBinding {
+        enabled = true
+    }
+
+    sourceSets {
+        main {
+            //实际测试指不指定无所谓，不影响 Java 文件生成
+            proto {
+                srcDir 'src/main'
+            }
+        }
+    }
+}
+
+protobuf {
+    //配置 protoc 编译器
+    protoc {
+        artifact = 'com.google.protobuf:protoc:3.19.2'
+    }
+    //配置生成目录，编译后会在 build 的目录下生成对应的java文件
+    generateProtoTasks {
+        all().each { task ->
+            task.builtins {
+                remove java
+            }
+            task.builtins {
+                java {}
+            }
+        }
+    }
+}
+
+dependencies {
+    api fileTree(include: ['*.jar', '*.aar'], dir: 'libs')
+    implementation project(':iris')
+
+    implementation 'androidx.appcompat:appcompat:1.1.0'
+    implementation 'com.google.android.material:material:1.1.0'
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation 'androidx.core:core-ktx:1.1.0'
+    testImplementation 'junit:junit:4.+'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.2.2'
+    implementation 'com.squareup.retrofit2:retrofit:2.6.2'
+    implementation 'com.squareup.retrofit2:converter-gson:2.6.2'
+    implementation 'com.google.code.gson:gson:2.8.6'
+    implementation 'androidx.lifecycle:lifecycle-livedata:2.1.0'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel:2.1.0'
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.1.0'
+    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.0.0'
+
+    implementation "io.agora.rtc:full-sdk:4.2.2"
+    implementation 'io.agora:authentication:2.0.0'
+    implementation 'commons-codec:commons-codec:1.16.0'
+
+    implementation 'com.gyf.immersionbar:immersionbar:3.0.0-beta05'
+    implementation 'com.github.dfqin:grantor:2.1.0'
+    implementation 'androidx.multidex:multidex:2.0.1'
+    implementation 'com.squareup.picasso:picasso:2.71828'
+    implementation 'com.afollestad.material-dialogs:core:3.3.0'
+    implementation 'com.afollestad.material-dialogs:bottomsheets:3.3.0'
+
+    implementation 'com.google.protobuf:protobuf-java:3.19.3'
+    implementation 'com.google.protobuf:protobuf-java-util:3.19.3'
+
+}
+
+static def releaseTime() {
+    return new Date().format("yyyyMMdd_HHmmss")
+}

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <LinearLayout
+        android:id="@+id/chat_bottom"
+        android:visibility="gone"
+        android:layout_gravity="bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/chat_edit"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:gravity="center"
+            android:background="@color/clear">
+
+            <LinearLayout
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginLeft="19dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/shape_friend_search"
+                android:orientation="vertical">
+
+                <EditText
+                    android:id="@+id/chat_input"
+                    style="@style/chat_input"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:hint="评论"
+                    android:gravity="center_vertical"
+                    android:inputType="textMultiLine"
+                    android:textCursorDrawable="@drawable/chat_edit_cursor"
+                    android:visibility="visible" />
+
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/chat_right"
+                android:layout_marginRight="15dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/chat_send" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</layout>
