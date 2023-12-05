@@ -263,13 +263,16 @@ mBinding.frameLayout.setOnTouchListener((view, event) -> {
             return true;
         });
 
-private void sendMouseMessage(MotionEvent event, int value) {
+    private void sendMouseMessage(MotionEvent event, int value) {
         if (!isLiveRole) {
             return;
         }
+        Log.i(TAG, "sendMouseMessage:event x:" + event.getX() + ",event y:" + event.getY() + ",value:" + value);
+        Log.i(TAG, "sendMouseMessage:event x/width:" + event.getX() / mBinding.frameLayout.getMeasuredWidth() + ",event y/height:" + event.getY() / mBinding.frameLayout.getMeasuredHeight());
 
         int x = ((int) (event.getX()) << 16) / mBinding.frameLayout.getMeasuredWidth();
         int y = ((int) (event.getY()) << 16) / mBinding.frameLayout.getMeasuredHeight();
+
 
         RemoteCtrlMsg.MouseEventMsg eventMsg = RemoteCtrlMsg.MouseEventMsg.newBuilder()
                 .setMouseEvent(value)
@@ -283,9 +286,17 @@ private void sendMouseMessage(MotionEvent event, int value) {
                 .setPayload(eventMsg.toByteString())
                 .build();
 
+        if (System.currentTimeMillis() - mLastSendMouseMessageTime > 30) {
+            mMouseEventMessagelist.clear();
+        }
+        mMouseEventMessagelist.add(rctrlMsg);
+
         RemoteCtrlMsg.RctrlMsges rctrlMsges = RemoteCtrlMsg.RctrlMsges.newBuilder()
-                .addMsges(rctrlMsg)
+                .addAllMsges(mMouseEventMessagelist)
                 .build();
+
+        mLastSendMouseMessageTime = System.currentTimeMillis();
+
         mRtcEngine.sendStreamMessage(mStreamId, rctrlMsges.toByteArray());
     }
 ```
@@ -314,7 +325,7 @@ mBinding.zView.setOnTouchListener(new View.OnTouchListener() {
             }
         });
 
-private void sendKeyboardMessage(RemoteCtrlMsg.KeyboardEventType eventType, char key) {
+    private void sendKeyboardMessage(RemoteCtrlMsg.KeyboardEventType eventType, char key) {
         if (!isLiveRole) {
             return;
         }
@@ -331,9 +342,16 @@ private void sendKeyboardMessage(RemoteCtrlMsg.KeyboardEventType eventType, char
                 .setPayload(eventMsg.toByteString())
                 .build();
 
+        if (System.currentTimeMillis() - mLastSendKeyboardMessageTime > 30) {
+            mKeyboardEventMessagelist.clear();
+        }
+        mKeyboardEventMessagelist.add(rctrlMsg);
+
         RemoteCtrlMsg.RctrlMsges rctrlMsges = RemoteCtrlMsg.RctrlMsges.newBuilder()
-                .addMsges(rctrlMsg)
+                .addAllMsges(mKeyboardEventMessagelist)
                 .build();
+
+        mLastSendKeyboardMessageTime = System.currentTimeMillis();
         mRtcEngine.sendStreamMessage(mStreamId, rctrlMsges.toByteArray());
         Log.i(TAG, "sendKeyboardMessage:" + eventType + ",key:" + key);
     }
