@@ -222,7 +222,6 @@ public class GameDetailsDelegate extends PageDelegate {
     private void initData() {
         Random random = new Random();
 
-        mGameEntity.vid = BuildConfig.VID;
         mGameEntity.openId = isLiveRole ? "abcd" : KeyCenter.getUserUid() + "";
         mGameEntity.nickname = "00";
         mGameEntity.avatar = "./avatar.png";
@@ -668,7 +667,6 @@ public class GameDetailsDelegate extends PageDelegate {
 
         list.add(message);
         SendMessage send = new SendMessage();
-        send.vid = mGameEntity.vid;
         send.roomId = mGameEntity.roomId;
         send.payload = list;
 

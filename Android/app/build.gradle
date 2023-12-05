@@ -29,7 +29,6 @@ android {
             abiFilters "arm64-v8a"
         }
 
-        buildConfigField("String", "VID", "\"${properties.getProperty("VID", "")}\"")
         buildConfigField("String", "APP_ID", "\"${properties.getProperty("APP_ID", "")}\"")
         buildConfigField("String", "APP_CERTIFICATE", "\"${properties.getProperty("APP_CERTIFICATE", "")}\"")
 

@@ -11,10 +11,6 @@ public class GameEntity implements JsonModel {
     public Long id;
 
     @Expose
-    @SerializedName("vid")
-    public String vid;
-
-    @Expose
     @SerializedName("uid")
     public int uid;
 
