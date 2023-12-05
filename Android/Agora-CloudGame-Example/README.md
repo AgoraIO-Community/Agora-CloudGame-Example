@@ -82,11 +82,13 @@ APP_ID=<#AppId#>
 
 ## 6.1 主播端
 
-![主播端.png](%E5%BC%B9%E5%B9%95%E4%BA%91%E6%B8%B8%E6%88%8F%E6%8E%A5%E5%85%A5-Android%E6%8E%A5%E5%85%A5%20877a06d8d9074dfcad86b99455b4d78c/%25E4%25B8%25BB%25E6%2592%25AD%25E7%25AB%25AF.png)
+![主播端](https://github.com/AgoraIO-Community/Agora-CloudGame-Example/assets/3213611/3ddbecc6-9422-41af-91b8-32eaee7dd664)
+
 
 ## 6.2 观众端
 
-![观众端.png](%E5%BC%B9%E5%B9%95%E4%BA%91%E6%B8%B8%E6%88%8F%E6%8E%A5%E5%85%A5-Android%E6%8E%A5%E5%85%A5%20877a06d8d9074dfcad86b99455b4d78c/%25E8%25A7%2582%25E4%25BC%2597%25E7%25AB%25AF.png)
+![观众端](https://github.com/AgoraIO-Community/Agora-CloudGame-Example/assets/3213611/14d6917c-1114-45a8-8a65-8e9a0ae1456f)
+
 
 # 7、主要功能介绍
 
