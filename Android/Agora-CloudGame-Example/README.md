@@ -65,7 +65,7 @@ APP_ID=<#AppId#>
 | 参数 | 描述 | 获取方式 |
 | --- | --- | --- |
 | Certificate | 声网项目的 App 证书 | https://docportal.shengwang.cn/cn/Agora%20Platform/get_appid_token?platform=All%20Platforms#%E8%8E%B7%E5%8F%96-app-%E8%AF%81%E4%B9%A6 |
-| AppId | 声网项目的 App ID | https://docportal.shengwang.cn/cn/Agora%20Platform/get_appid_token?platform=All%20Platforms#%E8%8E%B7%E5%8F%96-app-id4.3 设置云游戏服务器地址 |
+| AppId | 声网项目的 App ID | https://docportal.shengwang.cn/cn/Agora%20Platform/get_appid_token?platform=All%20Platforms#%E8%8E%B7%E5%8F%96-app-id |
 
 注：设置AppId和Certificate是为了端侧demo动态生成token，正式项目需要在服务器生成token，参考**[如何在 RESTful API 中进行 HTTP 基本认证和 Token 认证?](https://docportal.shengwang.cn/cn/video-legacy/faq/restful_authentication)**
 
@@ -82,21 +82,11 @@ APP_ID=<#AppId#>
 
 ## 6.1 主播端
 
-<<<<<<< Updated upstream
-![Untitled](https://github.com/AgoraIO-Community/Agora-CloudGame-Example/assets/3213611/db98269e-4fda-439a-97af-9762a1369ef0)
-
-
-## 6.2 观众端
-
-![Untitled 1](https://github.com/AgoraIO-Community/Agora-CloudGame-Example/assets/3213611/a1a474ba-14c2-4631-af61-b2b4c5fa8522)
-
-=======
 ![主播端.png](%E5%BC%B9%E5%B9%95%E4%BA%91%E6%B8%B8%E6%88%8F%E6%8E%A5%E5%85%A5-Android%E6%8E%A5%E5%85%A5%20877a06d8d9074dfcad86b99455b4d78c/%25E4%25B8%25BB%25E6%2592%25AD%25E7%25AB%25AF.png)
 
 ## 6.2 观众端
 
 ![观众端.png](%E5%BC%B9%E5%B9%95%E4%BA%91%E6%B8%B8%E6%88%8F%E6%8E%A5%E5%85%A5-Android%E6%8E%A5%E5%85%A5%20877a06d8d9074dfcad86b99455b4d78c/%25E8%25A7%2582%25E4%25BC%2597%25E7%25AB%25AF.png)
->>>>>>> Stashed changes
 
 # 7、主要功能介绍
 
