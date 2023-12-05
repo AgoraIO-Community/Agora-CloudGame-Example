@@ -96,10 +96,19 @@ public class GameDetailsDelegate extends PageDelegate {
 
     private Timer mTimer;
 
+    private final List<RemoteCtrlMsg.RctrlMsg> mMouseEventMessagelist;
+    private final List<RemoteCtrlMsg.RctrlMsg> mKeyboardEventMessagelist;
+    private long mLastSendMouseMessageTime;
+    private long mLastSendKeyboardMessageTime;
+
     public GameDetailsDelegate(GameEntity entity, boolean live) {
         mGameEntity = entity;
         isLiveRole = live;
         isJoinChannel = false;
+        mMouseEventMessagelist = new ArrayList<>(1);
+        mKeyboardEventMessagelist = new ArrayList<>(1);
+        mLastSendMouseMessageTime = 0;
+        mLastSendKeyboardMessageTime = 0;
     }
 
     private void setImmerse() {
@@ -448,9 +457,17 @@ public class GameDetailsDelegate extends PageDelegate {
                 .setPayload(eventMsg.toByteString())
                 .build();
 
+        if (System.currentTimeMillis() - mLastSendMouseMessageTime > 30) {
+            mMouseEventMessagelist.clear();
+        }
+        mMouseEventMessagelist.add(rctrlMsg);
+
         RemoteCtrlMsg.RctrlMsges rctrlMsges = RemoteCtrlMsg.RctrlMsges.newBuilder()
-                .addMsges(rctrlMsg)
+                .addAllMsges(mMouseEventMessagelist)
                 .build();
+
+        mLastSendMouseMessageTime = System.currentTimeMillis();
+
         mRtcEngine.sendStreamMessage(mStreamId, rctrlMsges.toByteArray());
     }
 
@@ -471,9 +488,16 @@ public class GameDetailsDelegate extends PageDelegate {
                 .setPayload(eventMsg.toByteString())
                 .build();
 
+        if (System.currentTimeMillis() - mLastSendKeyboardMessageTime > 30) {
+            mKeyboardEventMessagelist.clear();
+        }
+        mKeyboardEventMessagelist.add(rctrlMsg);
+
         RemoteCtrlMsg.RctrlMsges rctrlMsges = RemoteCtrlMsg.RctrlMsges.newBuilder()
-                .addMsges(rctrlMsg)
+                .addAllMsges(mKeyboardEventMessagelist)
                 .build();
+
+        mLastSendKeyboardMessageTime = System.currentTimeMillis();
         mRtcEngine.sendStreamMessage(mStreamId, rctrlMsges.toByteArray());
         Log.i(TAG, "sendKeyboardMessage:" + eventType + ",key:" + key);
     }
