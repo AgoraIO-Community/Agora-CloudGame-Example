@@ -255,6 +255,20 @@ int y = ((int) (event.getY()) << 16) / mBinding.frameLayout.getMeasuredHeight();
 参考以下代码：
 
 ```java
+mBinding.frameLayout.setOnTouchListener((view, event) -> {
+            switch (event.getAction()) {
+                case MotionEvent.ACTION_DOWN:
+                    sendMouseMessage(event, RemoteCtrlMsg.MouseEventType.MOUSE_EVENT_LBUTTON_DOWN.getNumber());
+                    break;
+                case MotionEvent.ACTION_UP:
+                    sendMouseMessage(event, RemoteCtrlMsg.MouseEventType.MOUSE_EVENT_LBUTTON_UP.getNumber());
+                    break;
+                default:
+                    break;
+            }
+            return true;
+        });
+
 private void sendMouseMessage(MotionEvent event, int value) {
         if (!isLiveRole) {
             return;
@@ -287,6 +301,25 @@ private void sendMouseMessage(MotionEvent event, int value) {
 参考以下代码：
 
 ```java
+mBinding.zView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        setControllerView(mBinding.zView, false);
+                        sendKeyboardMessage(RemoteCtrlMsg.KeyboardEventType.KEYBOARD_EVENT_KEY_DOWN, 'Z');
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        setControllerView(mBinding.zView, true);
+                        sendKeyboardMessage(RemoteCtrlMsg.KeyboardEventType.KEYBOARD_EVENT_KEY_UP, 'Z');
+                        break;
+                    default:
+                        break;
+                }
+                return true;
+            }
+        });
+
 private void sendKeyboardMessage(RemoteCtrlMsg.KeyboardEventType eventType, char key) {
         if (!isLiveRole) {
             return;
