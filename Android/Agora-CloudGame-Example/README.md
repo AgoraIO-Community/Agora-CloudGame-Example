@@ -1,14 +1,43 @@
 # 弹幕云游戏接入-Android接入
 
-本文档主要介绍如何快速跑通弹幕云游戏demo示例工程及相关功能业务
+本文档主要介绍如何快速跑通弹幕云游戏Example示例工程及相关功能业务
+
+# 0 总体介绍
+
+        客户在接入弹幕云游戏的时候，推荐的系统接入框架为：[弹幕云游戏接入-总体方案](https://confluence.agoralab.co/pages/viewpage.action?pageId=1373341067)
+
+        该框架和K歌房类似，遵循一个原则，业务相关的信息，尤其是会产生费用的交互（比如弹幕里面的送礼），都强烈建议通过客户的app Server来和我司的后台服务对接；客户的app 不直接和我司的后台服务对接。
+
+       本Example是一个使用的sample code，不是正式的对外演示app，因此在demo的框架上，并没有遵循接入框架准则。而是采用简单的【无app server】的方式来演示如何弹幕云游戏的一些接入技术点。
+
+本Example是期望体现如下信息：
+
+- 1 弹幕云游戏玩法的时序关系
+    
+    包括游戏开启关闭、rtc的接入、游戏控制指令的操作、弹幕玩法的操作、游戏画面的接收显示（关注点！！这个和普通rtc有点不一样）
+    
+- 2 弹幕云游戏restful api的使用方法
+- 3 弹幕云游戏app端如何对游戏做控制
+
+Example框架图
+
+![Untitled](%E5%BC%B9%E5%B9%95%E4%BA%91%E6%B8%B8%E6%88%8F%E6%8E%A5%E5%85%A5-Android%E6%8E%A5%E5%85%A5%20877a06d8d9074dfcad86b99455b4d78c/Untitled.png)
+
+客户接入弹幕云游戏的注意事项：
+
+如上所述，本Example没有遵循正式的云游戏接入框架，因此，客户如果要接入的时候，需要做如下：
+
+- 2: 替换： 是客户的app通过客户自己定义的restful 访问客户的appserver，然后由客户的app server来实现#2
+- 3: 代码复制级的参考：这个部分，客户的app是可以完全用source code的方式来参考
+- 1: 流程参考：除了对#2的实现需要用客户自己定义的restful协议外，时序完全可以参考本demo
 
 # 1. **前提条件**
 
 - [Git](https://git-scm.com/downloads)
 - [Java Development Kit](https://www.oracle.com/java/technologies/javase-downloads.html)
-- [Android Studio](https://developer.android.com/studio/) 4.1 及以上
-- Android API 级别 22 及以上
-- Android 设备，版本 Android 5.1 及以上
+- [Android Studio](https://developer.android.com/studio/) 4.2 及以上。
+- Android API 级别 21 及以上
+- Android 设备，版本 Android 5.0 及以上
     
     声网推荐使用真机运行项目。部分模拟机可能存在功能缺失或者性能问题。
     
@@ -82,13 +111,11 @@ APP_ID=<#AppId#>
 
 ## 6.1 主播端
 
-![主播端](https://github.com/AgoraIO-Community/Agora-CloudGame-Example/assets/3213611/3ddbecc6-9422-41af-91b8-32eaee7dd664)
-
+![主播端.png](%E5%BC%B9%E5%B9%95%E4%BA%91%E6%B8%B8%E6%88%8F%E6%8E%A5%E5%85%A5-Android%E6%8E%A5%E5%85%A5%20877a06d8d9074dfcad86b99455b4d78c/%25E4%25B8%25BB%25E6%2592%25AD%25E7%25AB%25AF.png)
 
 ## 6.2 观众端
 
-![观众端](https://github.com/AgoraIO-Community/Agora-CloudGame-Example/assets/3213611/14d6917c-1114-45a8-8a65-8e9a0ae1456f)
-
+![观众端.png](%E5%BC%B9%E5%B9%95%E4%BA%91%E6%B8%B8%E6%88%8F%E6%8E%A5%E5%85%A5-Android%E6%8E%A5%E5%85%A5%20877a06d8d9074dfcad86b99455b4d78c/%25E8%25A7%2582%25E4%25BC%2597%25E7%25AB%25AF.png)
 
 # 7、主要功能介绍
 
@@ -263,7 +290,7 @@ mBinding.frameLayout.setOnTouchListener((view, event) -> {
             return true;
         });
 
-    private void sendMouseMessage(MotionEvent event, int value) {
+private synchronized void sendMouseMessage(MotionEvent event, int value) {
         if (!isLiveRole) {
             return;
         }
@@ -272,7 +299,6 @@ mBinding.frameLayout.setOnTouchListener((view, event) -> {
 
         int x = ((int) (event.getX()) << 16) / mBinding.frameLayout.getMeasuredWidth();
         int y = ((int) (event.getY()) << 16) / mBinding.frameLayout.getMeasuredHeight();
-
 
         RemoteCtrlMsg.MouseEventMsg eventMsg = RemoteCtrlMsg.MouseEventMsg.newBuilder()
                 .setMouseEvent(value)
@@ -286,18 +312,28 @@ mBinding.frameLayout.setOnTouchListener((view, event) -> {
                 .setPayload(eventMsg.toByteString())
                 .build();
 
-        if (System.currentTimeMillis() - mLastSendMouseMessageTime > 30) {
-            mMouseEventMessagelist.clear();
+        mEventMessagelist.add(rctrlMsg);
+        if (System.currentTimeMillis() - mLastSendEventMessageTime > INTERVAL_SEND_EVENT_MESSAGE) {
+            sendEventMessages();
+        } else {
+            mHandler.sendEmptyMessageDelayed(MESSAGE_SEND_EVENT_MESSAGE, INTERVAL_SEND_EVENT_MESSAGE - (System.currentTimeMillis() - mLastSendEventMessageTime));
         }
-        mMouseEventMessagelist.add(rctrlMsg);
+    }
 
+private void sendEventMessages() {
+        if (mEventMessagelist.size() == 0) {
+            return;
+        }
+        mHandler.removeMessages(MESSAGE_SEND_EVENT_MESSAGE);
+        Log.i(TAG, "sendEventMessages:" + mEventMessagelist.size());
         RemoteCtrlMsg.RctrlMsges rctrlMsges = RemoteCtrlMsg.RctrlMsges.newBuilder()
-                .addAllMsges(mMouseEventMessagelist)
+                .addAllMsges(mEventMessagelist)
                 .build();
 
-        mLastSendMouseMessageTime = System.currentTimeMillis();
+        mLastSendEventMessageTime = System.currentTimeMillis();
 
         mRtcEngine.sendStreamMessage(mStreamId, rctrlMsges.toByteArray());
+        mEventMessagelist.clear();
     }
 ```
 
@@ -325,10 +361,12 @@ mBinding.zView.setOnTouchListener(new View.OnTouchListener() {
             }
         });
 
-    private void sendKeyboardMessage(RemoteCtrlMsg.KeyboardEventType eventType, char key) {
+private synchronized void sendKeyboardMessage(RemoteCtrlMsg.KeyboardEventType eventType, char key) {
         if (!isLiveRole) {
             return;
         }
+
+        Log.i(TAG, "sendKeyboardMessage:" + eventType + ",key:" + key);
 
         RemoteCtrlMsg.KeyboardEventMsg eventMsg = RemoteCtrlMsg.KeyboardEventMsg.newBuilder()
                 .setVkey((int) key)
@@ -342,18 +380,29 @@ mBinding.zView.setOnTouchListener(new View.OnTouchListener() {
                 .setPayload(eventMsg.toByteString())
                 .build();
 
-        if (System.currentTimeMillis() - mLastSendKeyboardMessageTime > 30) {
-            mKeyboardEventMessagelist.clear();
+        mEventMessagelist.add(rctrlMsg);
+        
+        if (System.currentTimeMillis() - mLastSendEventMessageTime > INTERVAL_SEND_EVENT_MESSAGE) {
+            sendEventMessages();
+        } else {
+            mHandler.sendEmptyMessageDelayed(MESSAGE_SEND_EVENT_MESSAGE, INTERVAL_SEND_EVENT_MESSAGE - (System.currentTimeMillis() - mLastSendEventMessageTime));
         }
-        mKeyboardEventMessagelist.add(rctrlMsg);
+    }
 
+private void sendEventMessages() {
+        if (mEventMessagelist.size() == 0) {
+            return;
+        }
+        mHandler.removeMessages(MESSAGE_SEND_EVENT_MESSAGE);
+        Log.i(TAG, "sendEventMessages:" + mEventMessagelist.size());
         RemoteCtrlMsg.RctrlMsges rctrlMsges = RemoteCtrlMsg.RctrlMsges.newBuilder()
-                .addAllMsges(mKeyboardEventMessagelist)
+                .addAllMsges(mEventMessagelist)
                 .build();
 
-        mLastSendKeyboardMessageTime = System.currentTimeMillis();
+        mLastSendEventMessageTime = System.currentTimeMillis();
+
         mRtcEngine.sendStreamMessage(mStreamId, rctrlMsges.toByteArray());
-        Log.i(TAG, "sendKeyboardMessage:" + eventType + ",key:" + key);
+        mEventMessagelist.clear();
     }
 ```
 
