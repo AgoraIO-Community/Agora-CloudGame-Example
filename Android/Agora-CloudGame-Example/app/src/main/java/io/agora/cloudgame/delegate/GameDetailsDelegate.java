@@ -4,6 +4,8 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -96,19 +98,32 @@ public class GameDetailsDelegate extends PageDelegate {
 
     private Timer mTimer;
 
-    private final List<RemoteCtrlMsg.RctrlMsg> mMouseEventMessagelist;
-    private final List<RemoteCtrlMsg.RctrlMsg> mKeyboardEventMessagelist;
-    private long mLastSendMouseMessageTime;
-    private long mLastSendKeyboardMessageTime;
+    private final List<RemoteCtrlMsg.RctrlMsg> mEventMessagelist;
+    private long mLastSendEventMessageTime;
+    private final static int INTERVAL_SEND_EVENT_MESSAGE = 30;
+
+    private final static int MESSAGE_SEND_EVENT_MESSAGE = 1;
+    private final Handler mHandler = new Handler(Looper.getMainLooper()) {
+        @Override
+        public void handleMessage(@NonNull Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case MESSAGE_SEND_EVENT_MESSAGE:
+                    Log.i(TAG, "MESSAGE_SEND_EVENT_MESSAGE");
+                    sendEventMessages();
+                    break;
+                default:
+                    break;
+            }
+        }
+    };
 
     public GameDetailsDelegate(GameEntity entity, boolean live) {
         mGameEntity = entity;
         isLiveRole = live;
         isJoinChannel = false;
-        mMouseEventMessagelist = new ArrayList<>(1);
-        mKeyboardEventMessagelist = new ArrayList<>(1);
-        mLastSendMouseMessageTime = 0;
-        mLastSendKeyboardMessageTime = 0;
+        mEventMessagelist = new ArrayList<>(1);
+        mLastSendEventMessageTime = 0;
     }
 
     private void setImmerse() {
@@ -434,7 +449,7 @@ public class GameDetailsDelegate extends PageDelegate {
         textView.setClickable(isClick);
     }
 
-    private void sendMouseMessage(MotionEvent event, int value) {
+    private synchronized void sendMouseMessage(MotionEvent event, int value) {
         if (!isLiveRole) {
             return;
         }
@@ -457,24 +472,20 @@ public class GameDetailsDelegate extends PageDelegate {
                 .setPayload(eventMsg.toByteString())
                 .build();
 
-        if (System.currentTimeMillis() - mLastSendMouseMessageTime > 30) {
-            mMouseEventMessagelist.clear();
+        mEventMessagelist.add(rctrlMsg);
+        if (System.currentTimeMillis() - mLastSendEventMessageTime > INTERVAL_SEND_EVENT_MESSAGE) {
+            sendEventMessages();
+        } else {
+            mHandler.sendEmptyMessageDelayed(MESSAGE_SEND_EVENT_MESSAGE, INTERVAL_SEND_EVENT_MESSAGE - (System.currentTimeMillis() - mLastSendEventMessageTime));
         }
-        mMouseEventMessagelist.add(rctrlMsg);
-
-        RemoteCtrlMsg.RctrlMsges rctrlMsges = RemoteCtrlMsg.RctrlMsges.newBuilder()
-                .addAllMsges(mMouseEventMessagelist)
-                .build();
-
-        mLastSendMouseMessageTime = System.currentTimeMillis();
-
-        mRtcEngine.sendStreamMessage(mStreamId, rctrlMsges.toByteArray());
     }
 
-    private void sendKeyboardMessage(RemoteCtrlMsg.KeyboardEventType eventType, char key) {
+    private synchronized void sendKeyboardMessage(RemoteCtrlMsg.KeyboardEventType eventType, char key) {
         if (!isLiveRole) {
             return;
         }
+
+        Log.i(TAG, "sendKeyboardMessage:" + eventType + ",key:" + key);
 
         RemoteCtrlMsg.KeyboardEventMsg eventMsg = RemoteCtrlMsg.KeyboardEventMsg.newBuilder()
                 .setVkey((int) key)
@@ -488,18 +499,30 @@ public class GameDetailsDelegate extends PageDelegate {
                 .setPayload(eventMsg.toByteString())
                 .build();
 
-        if (System.currentTimeMillis() - mLastSendKeyboardMessageTime > 30) {
-            mKeyboardEventMessagelist.clear();
+        mEventMessagelist.add(rctrlMsg);
+        
+        if (System.currentTimeMillis() - mLastSendEventMessageTime > INTERVAL_SEND_EVENT_MESSAGE) {
+            sendEventMessages();
+        } else {
+            mHandler.sendEmptyMessageDelayed(MESSAGE_SEND_EVENT_MESSAGE, INTERVAL_SEND_EVENT_MESSAGE - (System.currentTimeMillis() - mLastSendEventMessageTime));
         }
-        mKeyboardEventMessagelist.add(rctrlMsg);
+    }
 
+
+    private void sendEventMessages() {
+        if (mEventMessagelist.size() == 0) {
+            return;
+        }
+        mHandler.removeMessages(MESSAGE_SEND_EVENT_MESSAGE);
+        Log.i(TAG, "sendEventMessages:" + mEventMessagelist.size());
         RemoteCtrlMsg.RctrlMsges rctrlMsges = RemoteCtrlMsg.RctrlMsges.newBuilder()
-                .addAllMsges(mKeyboardEventMessagelist)
+                .addAllMsges(mEventMessagelist)
                 .build();
 
-        mLastSendKeyboardMessageTime = System.currentTimeMillis();
+        mLastSendEventMessageTime = System.currentTimeMillis();
+
         mRtcEngine.sendStreamMessage(mStreamId, rctrlMsges.toByteArray());
-        Log.i(TAG, "sendKeyboardMessage:" + eventType + ",key:" + key);
+        mEventMessagelist.clear();
     }
 
     private final IRtcEngineEventHandler iRtcEngineEventHandler = new IRtcEngineEventHandler() {
