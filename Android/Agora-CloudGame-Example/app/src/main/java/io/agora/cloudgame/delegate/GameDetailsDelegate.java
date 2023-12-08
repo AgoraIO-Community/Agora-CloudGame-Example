@@ -500,7 +500,7 @@ public class GameDetailsDelegate extends PageDelegate {
                 .build();
 
         mEventMessagelist.add(rctrlMsg);
-        
+
         if (System.currentTimeMillis() - mLastSendEventMessageTime > INTERVAL_SEND_EVENT_MESSAGE) {
             sendEventMessages();
         } else {
@@ -678,19 +678,21 @@ public class GameDetailsDelegate extends PageDelegate {
     @Override
     protected void onDestroyView() {
         super.onDestroyView();
-        RareBackend.getInstance().stopGame(appId, mGameEntity.gameId, mGameEntity, new RareBackend.ApiRequestCallback<Boolean>() {
-            @Override
-            public void onSucceed(@NonNull ApiResult<Boolean> t) {
+        if (isLiveRole) {
+            RareBackend.getInstance().stopGame(appId, mGameEntity.gameId, mGameEntity, new RareBackend.ApiRequestCallback<Boolean>() {
+                @Override
+                public void onSucceed(@NonNull ApiResult<Boolean> t) {
 
-            }
-
-            @Override
-            public void onFailure(@NonNull ApiRequestException e) {
-                if (isAlive() && !TextUtils.isEmpty(e.message)) {
-                    showToast(e.code + " " + e.message);
                 }
-            }
-        });
+
+                @Override
+                public void onFailure(@NonNull ApiRequestException e) {
+                    if (isAlive() && !TextUtils.isEmpty(e.message)) {
+                        showToast(e.code + " " + e.message);
+                    }
+                }
+            });
+        }
         if (mRtcEngine != null) {
             // 停止本地视频预览
             mRtcEngine.stopPreview();
