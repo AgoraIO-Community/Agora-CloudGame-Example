@@ -117,7 +117,8 @@ APP_ID=<#AppId#>
 
 ## 6.2 观众端
 
-![观众端](https://github.com/AgoraIO-Community/Agora-CloudGame-Example/assets/3213611/8b95b84a-5c24-4ab3-bd4c-286d52776edc)
+![观众端](https://github.com/AgoraIO-Community/Agora-CloudGame-Example/assets/3213611/0e2571ad-6dd6-4dca-8d67-dde666a0a905)
+
 
 
 # 7、主要功能介绍
