@@ -664,6 +664,13 @@ public class GameDetailsDelegate extends PageDelegate {
                                             mGameEntity.rtcConfig.broadcastUid, mJoinChannelOptions);
                                 }
                             }
+                        } else if (t1.data.status.equals("schedule_failed")) {
+                            Objects.requireNonNull(getActivity()).runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    showToast("暂无可用的游戏资源，请稍后再试");
+                                }
+                            });
                         }
                     });
         }
