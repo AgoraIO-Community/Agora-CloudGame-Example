@@ -1,6 +1,5 @@
 package io.agora.cloudgame.delegate;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.os.Handler;
@@ -18,8 +17,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.github.dfqin.grantor.PermissionListener;
-import com.github.dfqin.grantor.PermissionsUtil;
 import com.gyf.immersionbar.ImmersionBar;
 
 import java.util.ArrayList;
@@ -148,30 +145,8 @@ public class GameDetailsDelegate extends PageDelegate {
     @Override
     protected void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        processPermission();
+        init();
         initView();
-    }
-
-    private void processPermission() {
-        String[] perms = {Manifest.permission.RECORD_AUDIO,
-                Manifest.permission.CAMERA};
-        if (PermissionsUtil.hasPermission(getContext(),
-                Manifest.permission.RECORD_AUDIO,
-                Manifest.permission.CAMERA)) {
-            init();
-        } else {
-            PermissionsUtil.requestPermission(getActivity(), new PermissionListener() {
-                @Override
-                public void permissionGranted(@NonNull String[] permissions) {
-                    init();
-                }
-
-                @Override
-                public void permissionDenied(@NonNull String[] permissions) {
-
-                }
-            }, perms);
-        }
     }
 
     private void init() {
