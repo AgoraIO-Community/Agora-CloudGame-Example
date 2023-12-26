@@ -15,7 +15,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@android:color/black"
-        android:fitsSystemWindows="true"
         android:orientation="vertical">
 
         <LinearLayout
@@ -23,10 +22,16 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
+            <View
+                android:id="@+id/toolbar_view_top"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/white" />
+
             <FrameLayout
                 android:id="@+id/frame_layout"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center" />
 
         </LinearLayout>
@@ -39,7 +44,8 @@
             <View
                 android:id="@+id/toolbar_view"
                 android:layout_width="match_parent"
-                android:layout_height="1dp" />
+                android:layout_height="1dp"
+                android:background="@color/white" />
 
             <FrameLayout
                 android:layout_width="match_parent"

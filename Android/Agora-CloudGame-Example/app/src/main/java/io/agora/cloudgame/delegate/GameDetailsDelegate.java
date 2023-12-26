@@ -191,6 +191,11 @@ public class GameDetailsDelegate extends PageDelegate {
             mBinding.nameView.setText(mGameEntity.name + "\nuid: " + KeyCenter.getUserUid() + "\n房间号：" + mGameEntity.roomId);
         }
 
+        LinearLayout.LayoutParams layoutParamsTop =
+                (LinearLayout.LayoutParams) mBinding.toolbarViewTop.getLayoutParams();
+        layoutParamsTop.height = ViewUtils.getStatusBarHeight(getContext());
+        mBinding.toolbarViewTop.setLayoutParams(layoutParamsTop);
+
         LinearLayout.LayoutParams layoutParams =
                 (LinearLayout.LayoutParams) mBinding.toolbarView.getLayoutParams();
         layoutParams.height = ViewUtils.getStatusBarHeight(getContext());
@@ -564,10 +569,10 @@ public class GameDetailsDelegate extends PageDelegate {
                                        int height, int rotation) {
             super.onVideoSizeChanged(source, uid, width, height, rotation);
             Log.i(TAG, "onVideoSizeChanged->" + uid + ", width->" + width + ", height->" + height);
-            if (null != mVideoView) {
+            if (null != mVideoView && null != GameDetailsDelegate.this.getContext()) {
                 ThreadUtils.postOnUiThread(() -> {
                     final int rootViewWidth = mBinding.rootView.getMeasuredWidth();
-                    final int rootViewHeight = mBinding.rootView.getMeasuredHeight();
+                    final int rootViewHeight = mBinding.rootView.getMeasuredHeight() - ViewUtils.getStatusBarHeight(GameDetailsDelegate.this.getContext());
 
                     Log.i(TAG, "onVideoSizeChanged->rootViewWidth:" + rootViewWidth + ",rootViewHeight:" + rootViewHeight);
                     int targetWidth;
