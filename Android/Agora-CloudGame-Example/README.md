@@ -83,7 +83,7 @@ implementation 'io.agora.rtc:full-sdk:4.2.2'
 
 ## 4.2 **设置 ID 和证书**
 
-运行示例项目前，你需要在 `./Agora-CloudGame-Example/Android/local.properties` 文件中添加并设置如下参数：
+运行示例项目前，你需要在 `./Agora-CloudGame-Example/Android/Agora-CloudGame-Example/local.properties` 文件中添加并设置如下参数：
 
 ```java
 APP_CERTIFICATE=<#Certificate#>
@@ -101,7 +101,7 @@ APP_ID=<#AppId#>
 
 # 5、**编译并运行示例项目**
 
-1. 用 Android Studio 打开 `Agora-CloudGame-Example/Android` 文件夹。
+1. 用 Android Studio 打开 `Agora-CloudGame-Example/Android/Agora-CloudGame-Example` 文件夹。
 2. 开启 Android 设备的开发者选项，打开 USB 调试，通过 USB 连接线将 Android 设备接入电脑，并在 Android 设备选项中勾选你的 Android 设备。
 3. 在 Android Studio 中，点击 **Sync Project with Gradle Files** 按钮，以让项目与 Gradle 文件同步。
 4. 待同步成功后，点击  开始编译。
