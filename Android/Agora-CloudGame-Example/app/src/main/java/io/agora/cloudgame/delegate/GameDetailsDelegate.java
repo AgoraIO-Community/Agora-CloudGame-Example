@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 
 import com.gyf.immersionbar.ImmersionBar;
 
@@ -97,6 +98,7 @@ public class GameDetailsDelegate extends PageDelegate {
 
     private final List<RemoteCtrlMsg.RctrlMsg> mEventMessagelist;
     private long mLastSendEventMessageTime;
+    private String mPreGameState;
     private final static int INTERVAL_SEND_EVENT_MESSAGE = 30;
 
     private final static int MESSAGE_SEND_EVENT_MESSAGE = 1;
@@ -166,16 +168,6 @@ public class GameDetailsDelegate extends PageDelegate {
             mBinding.nameView.setText(mGameEntity.name + "\nuid: " + KeyCenter.getUserUid() + "\n房间号：" + mGameEntity.roomId);
         }
 
-        LinearLayout.LayoutParams layoutParamsTop =
-                (LinearLayout.LayoutParams) mBinding.toolbarViewTop.getLayoutParams();
-        layoutParamsTop.height = ViewUtils.getStatusBarHeight(getContext());
-        mBinding.toolbarViewTop.setLayoutParams(layoutParamsTop);
-
-        LinearLayout.LayoutParams layoutParams =
-                (LinearLayout.LayoutParams) mBinding.toolbarView.getLayoutParams();
-        layoutParams.height = ViewUtils.getStatusBarHeight(getContext());
-        mBinding.toolbarView.setLayoutParams(layoutParams);
-
         new SoftKeyboardStateWatcher(mBinding.rootView, getContext()).addSoftKeyboardStateListener(
                 new SoftKeyboardStateWatcher.SoftKeyboardStateListener() {
                     @Override
@@ -224,6 +216,7 @@ public class GameDetailsDelegate extends PageDelegate {
     boolean isJoin = false;
 
     private void initData() {
+        mPreGameState = "";
         Random random = new Random();
 
         mGameEntity.openId = isLiveRole ? "abcd" : KeyCenter.getUserUid() + "";
@@ -546,23 +539,17 @@ public class GameDetailsDelegate extends PageDelegate {
             Log.i(TAG, "onVideoSizeChanged->" + uid + ", width->" + width + ", height->" + height);
             if (null != mVideoView && null != GameDetailsDelegate.this.getContext()) {
                 ThreadUtils.postOnUiThread(() -> {
-                    final int rootViewWidth = mBinding.rootView.getMeasuredWidth();
-                    final int rootViewHeight = mBinding.rootView.getMeasuredHeight() - ViewUtils.getStatusBarHeight(GameDetailsDelegate.this.getContext());
-
-                    Log.i(TAG, "onVideoSizeChanged->rootViewWidth:" + rootViewWidth + ",rootViewHeight:" + rootViewHeight);
-                    int targetWidth;
+                    final int gameLayoutWidth = mBinding.gameLayout.getMeasuredWidth();
+                    final int gameLayoutHeight = mBinding.gameLayout.getMeasuredHeight();
+                    Log.i(TAG, "onVideoSizeChanged->gameLayoutWidth:" + gameLayoutWidth + ",gameLayoutHeight:" + gameLayoutHeight);
+                    int targetWidth = gameLayoutWidth;
                     int targetHeight;
-                    if ((float) rootViewWidth / rootViewHeight > (float) width / height) {
-                        targetHeight = rootViewHeight;
-                        float scale = (float) targetHeight / height;
-                        targetWidth = (int) (width * scale);
-                    } else {
-                        targetWidth = rootViewWidth;
-                        float scale = (float) targetWidth / width;
-                        targetHeight = (int) (height * scale);
-                    }
+                    float scale = (float) targetWidth / width;
+                    targetHeight = (int) (height * scale);
 
-                    Log.i(TAG, "onVideoSizeChanged->targetWidth:" + targetWidth + ",targetHeight:" + targetHeight);
+                    final int topMargin = gameLayoutHeight - targetHeight;
+
+                    Log.i(TAG, "onVideoSizeChanged->targetWidth:" + targetWidth + ",targetHeight:" + targetHeight + ",topMargin:" + topMargin);
 
                     mVideoView.setVideoSize(targetWidth, targetHeight);
                     mVideoView.post(new Runnable() {
@@ -571,7 +558,17 @@ public class GameDetailsDelegate extends PageDelegate {
                             ViewGroup.LayoutParams layoutParams = mBinding.frameLayout.getLayoutParams();
                             layoutParams.width = targetWidth;
                             layoutParams.height = targetHeight;
+                            if (topMargin < 0) {
+                                ((LinearLayout.LayoutParams) layoutParams).topMargin = topMargin;
+                            }
                             mBinding.frameLayout.setLayoutParams(layoutParams);
+
+                            if (topMargin > 10) {
+                                ViewGroup.LayoutParams operatorLayoutParams = mBinding.operatorLayout.getLayoutParams();
+                                operatorLayoutParams.height = topMargin - ViewUtils.dp2px(GameDetailsDelegate.this.getContext(), 10);
+                                ((CoordinatorLayout.LayoutParams) operatorLayoutParams).bottomMargin = 0;
+                                mBinding.operatorLayout.setLayoutParams(operatorLayoutParams);
+                            }
                         }
                     });
                 });
@@ -644,7 +641,7 @@ public class GameDetailsDelegate extends PageDelegate {
                                             mGameEntity.rtcConfig.broadcastUid, mJoinChannelOptions);
                                 }
                             }
-                        } else if (t1.data.status.equals("schedule_failed")) {
+                        } else if (!mPreGameState.equals("schedule_failed") && t1.data.status.equals("schedule_failed")) {
                             Objects.requireNonNull(getActivity()).runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
@@ -652,6 +649,8 @@ public class GameDetailsDelegate extends PageDelegate {
                                 }
                             });
                         }
+
+                        mPreGameState = t1.data.status;
                     });
         }
     };
