@@ -23,6 +23,7 @@ import io.agora.cloudgame.network.model.ApiResult;
 import io.agora.cloudgame.network.model.GameEntity;
 import io.agora.cloudgame.network.model.GameResult;
 import io.agora.cloudgame.network.model.SendMessage;
+import io.agora.cloudgame.network.model.SendMessageV2;
 import me.add1.iris.ApiRequestException;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -192,6 +193,18 @@ public class RareBackend {
 
     public void gameComment(String id, String gameId, SendMessage entity, @Nullable final ApiRequestCallback<Boolean> callback) {
         mRareService.gameComment(id, gameId, entity).enqueue(new ActionApiCallback(callback));
+    }
+
+    public void sendGiftV2(String appId, String roomId, SendMessageV2 entity, @Nullable final ApiRequestCallback<Boolean> callback) {
+        mRareService.sendGiftV2(appId, roomId, entity).enqueue(new ActionApiCallback(callback));
+    }
+
+    public void gameLikeV2(String appId, String roomId, SendMessageV2 entity, @Nullable final ApiRequestCallback<Boolean> callback) {
+        mRareService.gameLikeV2(appId, roomId, entity).enqueue(new ActionApiCallback(callback));
+    }
+
+    public void gameCommentV2(String appId, String roomId, SendMessageV2 entity, @Nullable final ApiRequestCallback<Boolean> callback) {
+        mRareService.gameCommentV2(appId, roomId, entity).enqueue(new ActionApiCallback(callback));
     }
 
     public void downloadFile(@NonNull Context context, @NonNull String url,

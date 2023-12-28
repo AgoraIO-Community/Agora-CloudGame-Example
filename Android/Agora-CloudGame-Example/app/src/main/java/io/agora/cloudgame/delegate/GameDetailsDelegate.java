@@ -18,6 +18,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 
+import com.alibaba.fastjson.JSON;
 import com.gyf.immersionbar.ImmersionBar;
 
 import java.util.ArrayList;
@@ -40,8 +41,10 @@ import io.agora.cloudgame.network.model.GameEntity;
 import io.agora.cloudgame.network.model.GameResult;
 import io.agora.cloudgame.network.model.GiftEntity;
 import io.agora.cloudgame.network.model.MessageEntity;
+import io.agora.cloudgame.network.model.MessageEntityV2;
 import io.agora.cloudgame.network.model.RtcConfig;
 import io.agora.cloudgame.network.model.SendMessage;
+import io.agora.cloudgame.network.model.SendMessageV2;
 import io.agora.cloudgame.utilities.DialogUtils;
 import io.agora.cloudgame.widget.SoftKeyboardStateWatcher;
 import io.agora.cloudgame.widget.VideoTextureView;
@@ -320,12 +323,12 @@ public class GameDetailsDelegate extends PageDelegate {
                     }
                     DialogUtils.Companion.showGift(Objects.requireNonNull(getContext()), mGifts, t -> {
                         MessageEntity entity = new MessageEntity();
-                        entity.giftId = t.vendorGiftId;
-                        entity.giftValue = t.value;
+                        entity.giftId = t.id;
+                        entity.giftValue = t.price * t.giftNum;
                         entity.giftNum = t.giftNum;
                         Log.i(TAG, "giftId:" + t.vendorGiftId + ",giftValue:" + t.value + ",giftNum:" + t.giftNum);
-                        RareBackend.getInstance().sendGift(appId, mGameEntity.gameId,
-                                getSendOperator(entity),
+                        RareBackend.getInstance().sendGiftV2(appId, mGameEntity.roomId,
+                                getSendOperatorV2(entity),
                                 new RareBackend.ApiRequestCallback<Boolean>() {
                                     @Override
                                     public void onSucceed(@NonNull ApiResult<Boolean> t) {
@@ -351,8 +354,8 @@ public class GameDetailsDelegate extends PageDelegate {
                     MessageEntity entity = new MessageEntity();
                     entity.likeNum = 1;
                     setControllerView(mBinding.likeView, true);
-                    RareBackend.getInstance().gameLike(appId, mGameEntity.gameId,
-                            getSendOperator(entity)
+                    RareBackend.getInstance().gameLikeV2(appId, mGameEntity.roomId,
+                            getSendOperatorV2(entity)
                             , t -> ThreadUtils.postOnUiThread(() -> {
                             }));
                     break;
@@ -365,8 +368,8 @@ public class GameDetailsDelegate extends PageDelegate {
             MessageEntity entity = new MessageEntity();
             entity.content = mBinding.inputBottom.chatInput.getText().toString();
             ViewJudge.INSTANCE.hideKeyboard(Objects.requireNonNull(getActivity()));
-            RareBackend.getInstance().gameComment(appId, mGameEntity.gameId,
-                    getSendOperator(entity), new RareBackend.ApiRequestCallback<Boolean>() {
+            RareBackend.getInstance().gameCommentV2(appId, mGameEntity.roomId,
+                    getSendOperatorV2(entity), new RareBackend.ApiRequestCallback<Boolean>() {
                         @Override
                         public void onSucceed(@NonNull ApiResult<Boolean> t) {
                             showToast("发送评论成功");
@@ -704,6 +707,34 @@ public class GameDetailsDelegate extends PageDelegate {
         SendMessage send = new SendMessage();
         send.roomId = mGameEntity.roomId;
         send.payload = list;
+
+        return send;
+    }
+
+    private SendMessageV2 getSendOperatorV2(MessageEntity message) {
+        List<MessageEntityV2> list = new ArrayList<>();
+        message.avatar = mGameEntity.avatar;
+        message.msgId = KeyCenter.APP_ID + "_" + System.currentTimeMillis() + "_123";
+        message.avatar = mGameEntity.avatar;
+        message.nickname = mGameEntity.nickname;
+        message.openId = mGameEntity.openId;
+        message.timestamp = System.currentTimeMillis();
+
+        MessageEntityV2 messageEntityV2 = new MessageEntityV2();
+        messageEntityV2.avatar = message.avatar;
+        messageEntityV2.content = message.content;
+        messageEntityV2.giftId = message.giftId;
+        messageEntityV2.giftNum = message.giftNum;
+        messageEntityV2.giftValue = message.giftValue;
+        messageEntityV2.likeNum = message.likeNum;
+        messageEntityV2.msgId = message.msgId;
+        messageEntityV2.nickname = message.nickname;
+        messageEntityV2.openId = message.openId;
+        messageEntityV2.timestamp = message.timestamp;
+
+        list.add(messageEntityV2);
+        SendMessageV2 send = new SendMessageV2();
+        send.payload = JSON.toJSONString(list);
 
         return send;
     }

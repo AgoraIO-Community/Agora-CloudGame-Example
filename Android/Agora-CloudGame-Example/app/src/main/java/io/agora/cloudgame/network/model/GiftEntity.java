@@ -2,78 +2,83 @@ package io.agora.cloudgame.network.model;
 
 import androidx.annotation.NonNull;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
+
+import java.io.Serializable;
 
 import io.agora.cloudgame.model.JsonModel;
 
-public class GiftEntity implements JsonModel {
+public class GiftEntity implements JsonModel, Serializable {
 
     @Expose
-    @SerializedName("name")
-    public String name;
-
-    @Expose
-    @SerializedName("id")
+    @JSONField(name = "id")
     public String id;
 
     @Expose
-    @SerializedName("msg_id")
-    public String msgId;
+    @JSONField(name = "name")
+    public String name;
 
     @Expose
-    @SerializedName("open_id")
-    public String openId;
-
-    @Expose
-    @SerializedName("avatar")
-    public String avatar;
-
-    @Expose
-    @SerializedName("nickname")
-    public String nickname;
-
-    @Expose
-    @SerializedName("gift_id")
-    public String giftId;
-
-    @Expose
-    @SerializedName("gift_num")
-    public int giftNum;
-
-    @Expose
-    @SerializedName("value")
+    @JSONField(name = "value")
     public int value;
 
     @Expose
-    @SerializedName("gift_value")
+    @JSONField(name = "price")
+    public int price;
+
+    @Expose
+    @JSONField(name = "msg_id")
+    public String msgId;
+
+    @Expose
+    @JSONField(name = "open_id")
+    public String openId;
+
+    @Expose
+    @JSONField(name = "avatar")
+    public String avatar;
+
+    @Expose
+    @JSONField(name = "nickname")
+    public String nickname;
+
+    @Expose
+    @JSONField(name = "gift_id")
+    public String giftId;
+
+    @Expose
+    @JSONField(name = "gift_num")
+    public int giftNum;
+
+
+    @Expose
+    @JSONField(name = "gift_value")
     public int giftValue;
 
     @Expose
-    @SerializedName("vendor_gift_id")
+    @JSONField(name = "vendor_gift_id")
     public String vendorGiftId;
 
     @Expose
-    @SerializedName("timestamp")
+    @JSONField(name = "timestamp")
     public Long timestamp;
 
     @Expose
-    @SerializedName("game_id")
+    @JSONField(name = "game_id")
     public String gameId;
 
     @Expose
-    @SerializedName("thumbnail")
+    @JSONField(name = "thumbnail")
     public String thumbnail;
 
     @Expose
-    @SerializedName("smallPath")
+    @JSONField(name = "smallPath")
     public String smallPath;
 
-    @Expose
-    @SerializedName("price")
-    public int price;
 
     public boolean isSelect;
+
 
     @NonNull
     @Override
