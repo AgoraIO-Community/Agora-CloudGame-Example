@@ -19,7 +19,7 @@ public class MessageEntityV2 implements JsonModel, Serializable {
 
     @Expose
     @JSONField(name = "avatar_url")
-    public String avatar;
+    public String avatarUrl;
 
     @Expose
     @JSONField(name = "nickname")

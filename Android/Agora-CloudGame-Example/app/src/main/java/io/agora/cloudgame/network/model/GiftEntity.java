@@ -4,13 +4,13 @@ import androidx.annotation.NonNull;
 
 import com.alibaba.fastjson.annotation.JSONField;
 import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 
 import io.agora.cloudgame.model.JsonModel;
 
 public class GiftEntity implements JsonModel, Serializable {
-
     @Expose
     @JSONField(name = "id")
     public String id;
@@ -28,54 +28,20 @@ public class GiftEntity implements JsonModel, Serializable {
     public int price;
 
     @Expose
-    @JSONField(name = "msg_id")
-    public String msgId;
-
-    @Expose
-    @JSONField(name = "open_id")
-    public String openId;
-
-    @Expose
-    @JSONField(name = "avatar")
-    public String avatar;
-
-    @Expose
-    @JSONField(name = "nickname")
-    public String nickname;
-
-    @Expose
-    @JSONField(name = "gift_id")
-    public String giftId;
-
-    @Expose
-    @JSONField(name = "gift_num")
-    public int giftNum;
-
-
-    @Expose
-    @JSONField(name = "gift_value")
-    public int giftValue;
-
-    @Expose
-    @JSONField(name = "vendor_gift_id")
-    public String vendorGiftId;
-
-    @Expose
-    @JSONField(name = "timestamp")
-    public Long timestamp;
-
-    @Expose
-    @JSONField(name = "game_id")
-    public String gameId;
-
-    @Expose
     @JSONField(name = "thumbnail")
     public String thumbnail;
 
     @Expose
-    @JSONField(name = "smallPath")
-    public String smallPath;
+    @JSONField(name = "vendor_gift_id")
+    @SerializedName("vendor_gift_id")
+    public String vendorGiftId;
 
+    @Expose
+    @JSONField(name = "game_id")
+    @SerializedName("game_id")
+    public String gameId;
+
+    public int giftNum;
 
     public boolean isSelect;
 
@@ -84,22 +50,14 @@ public class GiftEntity implements JsonModel, Serializable {
     @Override
     public String toString() {
         return "GiftEntity{" +
-                "name='" + name + '\'' +
-                ", id='" + id + '\'' +
-                ", msgId='" + msgId + '\'' +
-                ", openId='" + openId + '\'' +
-                ", avatar='" + avatar + '\'' +
-                ", nickname='" + nickname + '\'' +
-                ", giftId='" + giftId + '\'' +
-                ", giftNum=" + giftNum +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
                 ", value=" + value +
-                ", giftValue=" + giftValue +
-                ", vendorGiftId='" + vendorGiftId + '\'' +
-                ", timestamp=" + timestamp +
-                ", gameId='" + gameId + '\'' +
-                ", thumbnail='" + thumbnail + '\'' +
-                ", smallPath='" + smallPath + '\'' +
                 ", price=" + price +
+                ", thumbnail='" + thumbnail + '\'' +
+                ", vendorGiftId='" + vendorGiftId + '\'' +
+                ", gameId='" + gameId + '\'' +
+                ", giftNum=" + giftNum +
                 ", isSelect=" + isSelect +
                 '}';
     }

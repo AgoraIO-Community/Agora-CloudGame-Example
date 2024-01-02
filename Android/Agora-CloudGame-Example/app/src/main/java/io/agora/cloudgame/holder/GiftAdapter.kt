@@ -47,7 +47,7 @@ class GiftAdapter constructor(
             mContext?.getDrawable(if (entity.isSelect) R.drawable.shape_gift_select else R.drawable.shape_gift_in_select)
         viewHolder.nameView.text = entity.name
         viewHolder.cicadaView.text = entity.price.toString()
-        viewHolder.imageView.load(entity.smallPath, null)
+        viewHolder.imageView.load(entity.thumbnail, null)
         viewHolder.amountView.amount = entity.giftNum
     }
 

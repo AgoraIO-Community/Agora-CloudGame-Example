@@ -326,7 +326,7 @@ public class GameDetailsDelegate extends PageDelegate {
                         entity.giftId = t.id;
                         entity.giftValue = t.price * t.giftNum;
                         entity.giftNum = t.giftNum;
-                        Log.i(TAG, "giftId:" + t.vendorGiftId + ",giftValue:" + t.value + ",giftNum:" + t.giftNum);
+                        Log.i(TAG, "giftId:" + t.id + ",giftValue:" + t.value + ",giftNum:" + t.giftNum);
                         RareBackend.getInstance().sendGiftV2(appId, mGameEntity.roomId,
                                 getSendOperatorV2(entity),
                                 new RareBackend.ApiRequestCallback<Boolean>() {
@@ -694,45 +694,21 @@ public class GameDetailsDelegate extends PageDelegate {
         mRtcEngine = null;
     }
 
-    private SendMessage getSendOperator(MessageEntity message) {
-        List<MessageEntity> list = new ArrayList<>();
-        message.avatar = mGameEntity.avatar;
-        message.msgId = System.currentTimeMillis() + "_123";
-        message.avatar = mGameEntity.avatar;
-        message.nickname = mGameEntity.nickname;
-        message.openId = mGameEntity.openId;
-        message.timestamp = System.currentTimeMillis();
-
-        list.add(message);
-        SendMessage send = new SendMessage();
-        send.roomId = mGameEntity.roomId;
-        send.payload = list;
-
-        return send;
-    }
-
     private SendMessageV2 getSendOperatorV2(MessageEntity message) {
         List<MessageEntityV2> list = new ArrayList<>();
-        message.avatar = mGameEntity.avatar;
-        message.msgId = KeyCenter.APP_ID + "_" + System.currentTimeMillis() + "_123";
-        message.avatar = mGameEntity.avatar;
-        message.nickname = mGameEntity.nickname;
-        message.openId = mGameEntity.openId;
-        message.timestamp = System.currentTimeMillis();
-
         MessageEntityV2 messageEntityV2 = new MessageEntityV2();
-        messageEntityV2.avatar = message.avatar;
+        messageEntityV2.msgId = KeyCenter.APP_ID + "_" + System.currentTimeMillis();
+        messageEntityV2.openId = mGameEntity.openId;
         messageEntityV2.content = message.content;
         messageEntityV2.giftId = message.giftId;
         messageEntityV2.giftNum = message.giftNum;
         messageEntityV2.giftValue = message.giftValue;
         messageEntityV2.likeNum = message.likeNum;
-        messageEntityV2.msgId = message.msgId;
-        messageEntityV2.nickname = message.nickname;
-        messageEntityV2.openId = message.openId;
-        messageEntityV2.timestamp = message.timestamp;
-
+        messageEntityV2.avatarUrl = mGameEntity.avatar;
+        messageEntityV2.nickname = mGameEntity.nickname;
+        messageEntityV2.timestamp = System.currentTimeMillis();
         list.add(messageEntityV2);
+
         SendMessageV2 send = new SendMessageV2();
         send.payload = JSON.toJSONString(list);
 

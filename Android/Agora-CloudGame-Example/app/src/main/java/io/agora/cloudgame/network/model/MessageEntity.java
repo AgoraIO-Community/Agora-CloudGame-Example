@@ -15,8 +15,8 @@ public class MessageEntity implements JsonModel {
     public String openId;
 
     @Expose
-    @SerializedName("avatar")
-    public String avatar;
+    @SerializedName("avatar_url")
+    public String avatarUrl;
 
     @Expose
     @SerializedName("nickname")
