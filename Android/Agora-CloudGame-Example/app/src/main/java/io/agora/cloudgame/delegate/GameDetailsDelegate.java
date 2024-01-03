@@ -43,7 +43,6 @@ import io.agora.cloudgame.network.model.GiftEntity;
 import io.agora.cloudgame.network.model.MessageEntity;
 import io.agora.cloudgame.network.model.MessageEntityV2;
 import io.agora.cloudgame.network.model.RtcConfig;
-import io.agora.cloudgame.network.model.SendMessage;
 import io.agora.cloudgame.network.model.SendMessageV2;
 import io.agora.cloudgame.utilities.DialogUtils;
 import io.agora.cloudgame.widget.SoftKeyboardStateWatcher;
@@ -497,8 +496,18 @@ public class GameDetailsDelegate extends PageDelegate {
 
         mLastSendEventMessageTime = System.currentTimeMillis();
 
-        mRtcEngine.sendStreamMessage(mStreamId, rctrlMsges.toByteArray());
-        mEventMessagelist.clear();
+        int ret = mRtcEngine.sendStreamMessage(mStreamId, rctrlMsges.toByteArray());
+        Log.i(TAG, "sendEventMessages:ret:" + ret);
+        if (0 == ret) {
+            mEventMessagelist.clear();
+        } else {
+            Objects.requireNonNull(getActivity()).runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    showToast("控制事件发送失败(sendStreamMessage)！");
+                }
+            });
+        }
     }
 
     private final IRtcEngineEventHandler iRtcEngineEventHandler = new IRtcEngineEventHandler() {
