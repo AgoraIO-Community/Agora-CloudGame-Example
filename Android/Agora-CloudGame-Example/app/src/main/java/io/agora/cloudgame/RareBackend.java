@@ -118,7 +118,12 @@ public class RareBackend {
                 callback.onFailure(
                         ApiRequestException.obtain(response.body().code, msg));
             } else {
-                callback.onSucceed(response.body());
+                if (0 != response.body().errNo) {
+                    callback.onFailure(
+                            ApiRequestException.obtain(response.body().errNo, response.body().errorMsg));
+                } else {
+                    callback.onSucceed(response.body());
+                }
             }
         }
 
@@ -151,7 +156,12 @@ public class RareBackend {
                 callback.onFailure(
                         ApiRequestException.obtain(response.body().code, response.body().msg));
             } else {
-                callback.onSucceed(true);
+                if (0 != response.body().errNo) {
+                    callback.onFailure(
+                            ApiRequestException.obtain(response.body().errNo, response.body().errorMsg));
+                } else {
+                    callback.onSucceed(true);
+                }
             }
         }
 
@@ -195,16 +205,16 @@ public class RareBackend {
         mRareService.gameComment(id, gameId, entity).enqueue(new ActionApiCallback(callback));
     }
 
-    public void sendGiftV2(String appId, String roomId, SendMessageV2 entity, @Nullable final ApiRequestCallback<Boolean> callback) {
-        mRareService.sendGiftV2(appId, roomId, entity).enqueue(new ActionApiCallback(callback));
+    public void sendGiftV2(String appId, String roomId, String gameId, SendMessageV2 entity, @Nullable final ApiRequestCallback<Boolean> callback) {
+        mRareService.sendGiftV2(appId, roomId, gameId, entity).enqueue(new ActionApiCallback(callback));
     }
 
-    public void gameLikeV2(String appId, String roomId, SendMessageV2 entity, @Nullable final ApiRequestCallback<Boolean> callback) {
-        mRareService.gameLikeV2(appId, roomId, entity).enqueue(new ActionApiCallback(callback));
+    public void gameLikeV2(String appId, String roomId, String gameId, SendMessageV2 entity, @Nullable final ApiRequestCallback<Boolean> callback) {
+        mRareService.gameLikeV2(appId, roomId, gameId, entity).enqueue(new ActionApiCallback(callback));
     }
 
-    public void gameCommentV2(String appId, String roomId, SendMessageV2 entity, @Nullable final ApiRequestCallback<Boolean> callback) {
-        mRareService.gameCommentV2(appId, roomId, entity).enqueue(new ActionApiCallback(callback));
+    public void gameCommentV2(String appId, String roomId, String gameId, SendMessageV2 entity, @Nullable final ApiRequestCallback<Boolean> callback) {
+        mRareService.gameCommentV2(appId, roomId, gameId, entity).enqueue(new ActionApiCallback(callback));
     }
 
     public void downloadFile(@NonNull Context context, @NonNull String url,

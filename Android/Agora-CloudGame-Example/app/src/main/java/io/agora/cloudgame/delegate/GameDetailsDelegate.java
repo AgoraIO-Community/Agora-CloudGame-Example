@@ -326,7 +326,7 @@ public class GameDetailsDelegate extends PageDelegate {
                         entity.giftValue = t.price * t.giftNum;
                         entity.giftNum = t.giftNum;
                         Log.i(TAG, "giftId:" + t.id + ",giftValue:" + t.value + ",giftNum:" + t.giftNum);
-                        RareBackend.getInstance().sendGiftV2(appId, mGameEntity.roomId,
+                        RareBackend.getInstance().sendGiftV2(appId, mGameEntity.roomId, mGameEntity.gameId,
                                 getSendOperatorV2(entity),
                                 new RareBackend.ApiRequestCallback<Boolean>() {
                                     @Override
@@ -338,7 +338,7 @@ public class GameDetailsDelegate extends PageDelegate {
 
                                     @Override
                                     public void onFailure(@NonNull ApiRequestException e) {
-                                        showToast("赠送礼物失败");
+                                        showToast(e.code + "," + e.message);
                                     }
                                 });
                     });
@@ -353,7 +353,7 @@ public class GameDetailsDelegate extends PageDelegate {
                     MessageEntity entity = new MessageEntity();
                     entity.likeNum = 1;
                     setControllerView(mBinding.likeView, true);
-                    RareBackend.getInstance().gameLikeV2(appId, mGameEntity.roomId,
+                    RareBackend.getInstance().gameLikeV2(appId, mGameEntity.roomId, mGameEntity.gameId,
                             getSendOperatorV2(entity)
                             , t -> ThreadUtils.postOnUiThread(() -> {
                             }));
@@ -367,7 +367,7 @@ public class GameDetailsDelegate extends PageDelegate {
             MessageEntity entity = new MessageEntity();
             entity.content = mBinding.inputBottom.chatInput.getText().toString();
             ViewJudge.INSTANCE.hideKeyboard(Objects.requireNonNull(getActivity()));
-            RareBackend.getInstance().gameCommentV2(appId, mGameEntity.roomId,
+            RareBackend.getInstance().gameCommentV2(appId, mGameEntity.roomId, mGameEntity.gameId,
                     getSendOperatorV2(entity), new RareBackend.ApiRequestCallback<Boolean>() {
                         @Override
                         public void onSucceed(@NonNull ApiResult<Boolean> t) {

@@ -19,6 +19,10 @@ public class ApiResult<T> {
     public int code;
 
     @Expose
+    @SerializedName("err_no")
+    public int errNo;
+
+    @Expose
     @SerializedName("result")
     public T data;
 
