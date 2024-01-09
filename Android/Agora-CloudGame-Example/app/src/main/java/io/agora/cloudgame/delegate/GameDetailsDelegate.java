@@ -223,7 +223,7 @@ public class GameDetailsDelegate extends PageDelegate {
 
         mGameEntity.openId = isLiveRole ? "abcd" : KeyCenter.getUserUid() + "";
         mGameEntity.nickname = "00";
-        mGameEntity.avatar = "./avatar.png";
+        mGameEntity.avatar = "https://agora-video-call.oss-cn-shanghai.aliyuncs.com/aigc/avatar.png";
 
         RtcConfig rtcConfig = new RtcConfig();
         rtcConfig.broadcastUid = KeyCenter.getBroadcastUid();
