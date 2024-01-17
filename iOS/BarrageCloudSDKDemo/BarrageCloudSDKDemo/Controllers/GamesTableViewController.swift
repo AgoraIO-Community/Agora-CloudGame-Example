@@ -21,7 +21,7 @@ class GamesTableViewController: UITableViewController {
         super.viewDidLoad()
 
         let manager = CloudGameManager.shared
-        manager.configCloudService(appId: KeyCenter.AppId, host: KeyCenter.Host)
+        manager.configCloudService(appId: KeyCenter.AppId, outsizeHost: KeyCenter.OutsideGameHost, inHost: KeyCenter.InGameHost)
         manager.delegate = self
         manager.getGames()
     }

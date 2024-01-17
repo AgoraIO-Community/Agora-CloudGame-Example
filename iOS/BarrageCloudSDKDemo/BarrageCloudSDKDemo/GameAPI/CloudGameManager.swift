@@ -70,7 +70,8 @@ public class CloudGameSendLikeConfigure: NSObject {
 
 public class CloudGameManager: NSObject {
     
-    private var host = ""
+    private var outsideGameHost = ""
+    private var inGameHost = ""
     
     private var appId: String = ""
     
@@ -84,15 +85,16 @@ public class CloudGameManager: NSObject {
     /// - Parameters:
     ///   - appId: appid
     ///   - host: host
-    public func configCloudService(appId: String, host: String){
+    public func configCloudService(appId: String, outsizeHost: String,inHost: String){
         self.appId = appId
-        self.host = host
+        self.outsideGameHost = outsizeHost
+        self.inGameHost = inHost
     }
     
     /// 获取游戏列表
     public func getGames(pageNum: Int = 1, pageSize: Int = 10){
         
-        httpRequest(uri: "cloud-bullet-game/games", httpMethod: "GET", params: ["page_num": pageNum, "page_size": pageSize]) {[weak self] result,code in
+        outsideGameHttpRequest(uri: "cloud-bullet-game/games", httpMethod: "GET", params: ["page_num": pageNum, "page_size": pageSize]) {[weak self] result,code in
             if let list = result?["list"] as? [[String: Any]] {
                 var gameList = [CloudGameBaseInfo]()
                 list.forEach { dic in
@@ -115,7 +117,7 @@ public class CloudGameManager: NSObject {
     ///   - gameId: 游戏id
     ///   - completion: 成功回调
     public func getGameInformation(with gameId: String, completion: ((_ gameInfo: CloudGameDetailInfo?,_ code: Int?)->Void)? = nil) {
-        httpRequest(uri: "cloud-bullet-game/gameid/\(gameId)", httpMethod: "GET") {[weak self] result, code in
+        outsideGameHttpRequest(uri: "cloud-bullet-game/gameid/\(gameId)", httpMethod: "GET") {[weak self] result, code in
             let gameInfo = CloudGameDetailInfo()
             gameInfo.gameId = result?["game_id"] as? String
             gameInfo.name = result?["name"] as? String
@@ -177,7 +179,7 @@ public class CloudGameManager: NSObject {
         
         params["rtc_config"] = rtcConfig
         
-        httpRequest(uri: "cloud-bullet-game/gameid/\(gameId)/start", httpMethod: "POST", params: params) { result, code in
+        outsideGameHttpRequest(uri: "cloud-bullet-game/gameid/\(gameId)/start", httpMethod: "POST", params: params) { result, code in
             completion?(result?["task_id"] as? String,code)
         }
     }
@@ -193,7 +195,7 @@ public class CloudGameManager: NSObject {
         params["room_id"] = roomId
         params["open_id"] = openId
         params["task_id"] = taskId
-        httpRequest(uri: "cloud-bullet-game/gameid/\(id)/stop", httpMethod: "POST", params: params) { result, code in
+        outsideGameHttpRequest(uri: "cloud-bullet-game/gameid/\(id)/stop", httpMethod: "POST", params: params) { result, code in
             completion?(code)
         }
     }
@@ -205,7 +207,7 @@ public class CloudGameManager: NSObject {
     public func getGameStatus(with id:String, taskId: String,completion: ((_ status: String?)->Void)?) {
         var params = [String: Any]()
         params["task_id"] = taskId
-        httpRequest(uri: "cloud-bullet-game/gameid/\(id)/status", httpMethod: "GET", params: params) { result, code in
+        outsideGameHttpRequest(uri: "cloud-bullet-game/gameid/\(id)/status", httpMethod: "GET", params: params) { result, code in
             completion?(result?["status"] as? String)
         }
     }
@@ -217,23 +219,28 @@ public class CloudGameManager: NSObject {
     ///   - giftConfig: 发送礼物配置项
     ///   - completion: 成功回调
     public func sendGift(gameId: String, giftConfig: CloudGameSendGiftConfigure, completion: ((_ code: Int?)->Void)? = nil){
+        guard let roomId = giftConfig.roomId else {
+            assertionFailure("roomId 不能为空 ")
+            return
+        }
         var params = [String: Any]()
-        params["vid"] = giftConfig.vid
-        params["room_id"] = giftConfig.roomId
         
         var payload = [String: Any]()
         payload["msg_id"] = giftConfig.msgId
-        payload["open_id"] = giftConfig.openId
-        payload["nickname"] = giftConfig.nickname
-        payload["timestamp"] = giftConfig.timestamp
-        payload["avatar"] = giftConfig.avatar
+        payload["openid"] = giftConfig.openId
         payload["gift_id"] = giftConfig.giftId
         payload["gift_num"] = giftConfig.giftNum
         payload["gift_value"] = giftConfig.giftValue
+        payload["avatar_url"] = giftConfig.avatar
+        payload["nickname"] = giftConfig.nickname
+        payload["timestamp"] = giftConfig.timestamp
         
-        params["payload"] = [payload]
+        guard let data = try? JSONSerialization.data(withJSONObject: [payload], options: []), let jsonStr = String(data: data, encoding: .utf8) else {
+            return
+        }
+        params["payload"] = jsonStr
         
-        httpRequest(uri: "cloud-bullet-game/gameid/\(gameId)/gift", httpMethod: "POST", params: params) { result, code in
+        inGameHttpRequest(uri: "bullet-game/api/live-data/games/\(gameId)/rooms/\(appId)_\(roomId)/msgType/live_gift:push", httpMethod: "POST", params: params) { result, code in
             completion?(code)
         }
     }
@@ -244,21 +251,26 @@ public class CloudGameManager: NSObject {
     ///   - giftConfig: 发送评论参数
     ///   - completion: 成功回调
     public func sendComment(gameId: String, commentConfig: CloudGameSendCommentConfigure, completion: ((_ code: Int?)->Void)? = nil){
+        guard let roomId = commentConfig.roomId else {
+            assertionFailure("roomId 不能为空 ")
+            return
+        }
         var params = [String: Any]()
-        params["vid"] = commentConfig.vid
-        params["room_id"] = commentConfig.roomId
         
         var payload = [String: Any]()
         payload["msg_id"] = commentConfig.msgId
-        payload["open_id"] = commentConfig.openId
+        payload["openid"] = commentConfig.openId
+        payload["content"] = commentConfig.content
+        payload["avatar_url"] = commentConfig.avatar
         payload["nickname"] = commentConfig.nickname
         payload["timestamp"] = commentConfig.timestamp
-        payload["avatar"] = commentConfig.avatar
-        payload["content"] = commentConfig.content
         
-        params["payload"] = [payload]
-        
-        httpRequest(uri: "cloud-bullet-game/gameid/\(gameId)/comment", httpMethod: "POST", params: params) { result, code in
+        guard let data = try? JSONSerialization.data(withJSONObject: [payload], options: []), let jsonStr = String(data: data, encoding: .utf8) else {
+            return
+        }
+        params["payload"] = jsonStr
+    
+        inGameHttpRequest(uri: "bullet-game/api/live-data/games/\(gameId)/rooms/\(appId)_\(roomId)/msgType/live_comment:push", httpMethod: "POST", params: params) { result, code in
             completion?(code)
         }
     }
@@ -269,21 +281,26 @@ public class CloudGameManager: NSObject {
     ///   - giftConfig: 发送评论配置项
     ///   - completion: 成功回调
     public func sendLike(gameId: String, commentConfig: CloudGameSendLikeConfigure, completion: ((_ code: Int?)->Void)? = nil){
+        guard let roomId = commentConfig.roomId else {
+            assertionFailure("roomId 不能为空 ")
+            return
+        }
         var params = [String: Any]()
-        params["vid"] = commentConfig.vid
-        params["room_id"] = commentConfig.roomId
-        
         var payload = [String: Any]()
         payload["msg_id"] = commentConfig.msgId
-        payload["open_id"] = commentConfig.openId
+        payload["openid"] = commentConfig.openId
+        payload["like_num"] = commentConfig.likeNum
+        payload["avatar_url"] = commentConfig.avatar
         payload["nickname"] = commentConfig.nickname
         payload["timestamp"] = commentConfig.timestamp
-        payload["avatar"] = commentConfig.avatar
-        payload["like_num"] = commentConfig.likeNum
         
-        params["payload"] = [payload]
+        guard let data = try? JSONSerialization.data(withJSONObject: [payload], options: []), let jsonStr = String(data: data, encoding: .utf8) else {
+            return
+        }
+        params["payload"] = jsonStr
         
-        httpRequest(uri: "cloud-bullet-game/gameid/\(gameId)/like", httpMethod: "POST", params: params) { result, code in
+       
+        inGameHttpRequest(uri: "bullet-game/api/live-data/games/\(gameId)/rooms/\(appId)_\(roomId)/msgType/live_like:push", httpMethod: "POST", params: params) { result, code in
             completion?(code)
         }
     }
@@ -297,9 +314,33 @@ typealias HttpCompletion = (_ result: [String: Any]?, _ code: Int?)->Void
 
 extension CloudGameManager {
     
-    private func httpRequest(uri: String, httpMethod:String, params:[String: Any]? = nil, completion: HttpCompletion?) {
-
-        var url = URL(string: "\(host)\(appId)/\(uri)")!
+    private func inGameHttpRequest(uri: String, httpMethod:String, params:[String: Any]? = nil, completion: HttpCompletion?) {
+        let urlStr = "\(inGameHost)\(appId)/\(uri)"
+        httpRequest(urlStr:urlStr, httpMethod: httpMethod, params: params) { dic in
+            let msg = dic["err_msg"] as? [String: Any]
+            let code = dic["err_no"] as? Int
+            print(" response dic = \(dic)")
+            DispatchQueue.main.async {
+                completion?(msg,code)
+            }
+        }
+    }
+    
+    /// 游戏外的接口
+    private func outsideGameHttpRequest(uri: String, httpMethod:String, params:[String: Any]? = nil, completion: HttpCompletion?) {
+        let urlStr = "\(outsideGameHost)\(appId)/\(uri)"
+        httpRequest(urlStr:urlStr, httpMethod: httpMethod, params: params) { dic in
+            let result = dic["result"] as? [String: Any]
+            let code = dic["code"] as? Int
+            print(" response dic = \(dic)")
+            DispatchQueue.main.async {
+                completion?(result,code)
+            }
+        }
+    }
+    
+    private func httpRequest(urlStr: String, httpMethod:String, params:[String: Any]? = nil, completion: (([String: Any])->())?) {
+        var url = URL(string: urlStr)!
         if let params = params {
             if httpMethod == "GET" {
                 url = appendQueryParams(to: url, queryParams: params) ?? url
@@ -308,7 +349,7 @@ extension CloudGameManager {
         }
        
         var request = URLRequest(url: url)
-        request.addValue("text/plain", forHTTPHeaderField: "Con1tent-Type")
+        request.addValue("text/plain;application/json", forHTTPHeaderField: "Content-Type")
         request.addValue("agora token=\(TokenCreater.rtmToken)", forHTTPHeaderField: "Authorization")
         print(" agora token=\(TokenCreater.rtmToken)")
 
@@ -318,6 +359,7 @@ extension CloudGameManager {
                 let jsonBody = try? JSONSerialization.data(withJSONObject: params)
                 request.httpBody = jsonBody
                 print(" POST url = \(url), params = \(params.debugDescription)")
+                print(" curl = \(request.cURL())")
             }
         }
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
@@ -327,12 +369,7 @@ extension CloudGameManager {
             }
             print(" httpRequest data = \(data) ")
             if let dic = try? JSONSerialization.jsonObject(with: data) as? [String: Any] {
-                let result = dic["result"] as? [String: Any]
-                let code = dic["code"] as? Int
-                print(" result = \(String(describing: result)), code = \(String(describing: code))")
-                DispatchQueue.main.async {
-                    completion?(result,code)                    
-                }
+                completion?(dic)
             }
         }
         task.resume()
@@ -355,5 +392,33 @@ extension CloudGameManager {
             urlComponents?.query = paramsString
         }
         return urlComponents?.url
+    }
+}
+
+
+
+public extension URLRequest {
+    func cURL(pretty: Bool = false) -> String {
+        let newLine = pretty ? "\\\n" : ""
+        let method = (pretty ? "--request " : "-X ") + "\(httpMethod ?? "GET") \(newLine)"
+        let url: String = (pretty ? "--url " : "") + "\'\(url?.absoluteString ?? "")\' \(newLine)"
+
+        var cURL = "curl "
+        var header = ""
+        var data = ""
+
+        if let httpHeaders = allHTTPHeaderFields, httpHeaders.keys.count > 0 {
+            for (key, value) in httpHeaders {
+                header += (pretty ? "--header " : "-H ") + "\'\(key): \(value)\' \(newLine)"
+            }
+        }
+
+        if let bodyData = httpBody, let bodyString = String(data: bodyData, encoding: .utf8), !bodyString.isEmpty {
+            data = "--data '\(bodyString)'"
+        }
+
+        cURL += method + url + header + data
+
+        return cURL
     }
 }

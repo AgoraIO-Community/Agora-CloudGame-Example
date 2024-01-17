@@ -12,6 +12,8 @@ import RTMTokenBuilder
 import SVProgressHUD
 import IQKeyboardManager
 
+private let defalutAvatar = "https://img2.baidu.com/it/u=4260210395,2753506949&fm=253&app=138&size=w931&n=0&f=JPEG&fmt=auto?sec=1705510800&t=95ea34a1d9cc3e9c1e478a18a18d1eff"
+
 private let showGiftSegueId = "showGiftList"
 private let showGuideSegueId = "showGuide"
 
@@ -229,7 +231,7 @@ class GameLiveViewController: UIViewController {
             config.roomId = roomId
             config.openId = openId
             config.nickname = "user_\(myUid!)"
-            config.avatar = "/avatar.png"
+            config.avatar = defalutAvatar
             config.content = text
             config.timestamp = Int(Date().timeIntervalSince1970 * 1000)
             config.msgId = "\(config.timestamp!)_\(arc4random()%10000)"
@@ -250,7 +252,7 @@ class GameLiveViewController: UIViewController {
         config.roomId = roomId
         config.openId = openId
         config.nickname = "user_\(myUid!)"
-        config.avatar = "/avatar.png"
+        config.avatar = defalutAvatar
         config.likeNum = 1
         config.timestamp = Int(Date().timeIntervalSince1970 * 1000)
         config.msgId = "\(config.timestamp!)_\(arc4random()%10000)"
@@ -289,7 +291,7 @@ class GameLiveViewController: UIViewController {
                     config.nickname = "user_\(myUid!)"
                     config.roomId = self.roomId
                     config.giftId = gift?.vendorGiftId
-                    config.avatar = "/avatar.png"
+                    config.avatar = defalutAvatar
                     config.giftNum = count
                     config.giftValue = (gift?.price ?? 0) * count
                     config.timestamp = Int(Date().timeIntervalSince1970 * 1000)
@@ -345,7 +347,7 @@ extension GameLiveViewController {
             config.roomId = roomId
             config.openId = openId
             config.nickname = "user_\(myUid!)"
-            config.avatar = ""
+            config.avatar = defalutAvatar
             config.assistantUid = UInt(assistantUid) ?? 0
             config.token = token
             config.channelName = roomId
@@ -436,13 +438,10 @@ extension GameLiveViewController: AgoraRtcEngineDelegate {
         let estimateHeight = height / width * view.bounds.width
         if (gameView.frame.origin.y + estimateHeight) <= CGRectGetMaxY(view.frame) {
             gameViewHeightCon.constant = estimateHeight
-            print(" ===== 没有超出屏幕高度 ")
         }else{
-            print(" ===== 超出屏幕高度 ")
             gameViewHeightCon.constant = CGRectGetMaxY(view.bounds) - gameView.frame.origin.y
             gameViewWidthCon.constant = view.bounds.width - width * (gameViewHeightCon.constant / height)
         }
-        print("gameView.bounds = \(gameView.bounds), gameView.frame = \(gameView.frame), gameViewHeightCon.constant  = \(gameViewHeightCon.constant)")
     }
     
     func rtcEngine(_ engine: AgoraRtcEngineKit, didOccurError errorCode: AgoraErrorCode) {

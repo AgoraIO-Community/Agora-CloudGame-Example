@@ -28,7 +28,9 @@ class KeyCenter: NSObject {
     
     static let Certificate = <#Certificate#>
     
-    static let Host = "https://api-test.agora.io/v1/apps/"
+    static let OutsideGameHost = "https://api-test.agora.io/v1/apps/"
+    
+    static let InGameHost = "https://api-test.agora.io/v2/projects/"
 
     static var Token: String? = nil
 
