@@ -89,7 +89,7 @@ public class RareBackend {
         }
 
         default void onFailure(@NonNull ApiRequestException e) {
-            onFailure(e);
+
         }
     }
 
