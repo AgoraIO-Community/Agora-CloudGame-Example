@@ -87,7 +87,8 @@ public class GameGoDelegate extends PageDelegate {
                     }
                     mEntity.uid = KeyCenter.getLiveUid();
                     ViewJudge.INSTANCE.hideKeyboard(Objects.requireNonNull(getActivity()));
-                    NavigationUtils.enterNewFragment(Objects.requireNonNull(getRootFragmentManager()), PageDelegate.DelegateFragment.newInstance(new GameDetailsDelegate(mEntity, isLiveSelect)), R.id.content);
+                    //NavigationUtils.enterNewFragment(Objects.requireNonNull(getRootFragmentManager()), PageDelegate.DelegateFragment.newInstance(new GameDetailsDelegate(mEntity, isLiveSelect)), R.id.content);
+                    NavigationUtils.enterNewFragment(Objects.requireNonNull(getRootFragmentManager()), PageDelegate.DelegateFragment.newInstance(new GameDetailsWebViewDelegate(mEntity, isLiveSelect)), R.id.content);
                     break;
                 default:
                     break;
