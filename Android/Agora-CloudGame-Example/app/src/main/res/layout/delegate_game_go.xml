@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -9,20 +10,23 @@
 
     </data>
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical">
 
-
         <LinearLayout
+            android:id="@+id/anchor_type_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="45dp"
+            android:layout_marginStart="45dp"
             android:layout_marginTop="20dp"
-            android:layout_marginRight="55dp"
+            android:layout_marginEnd="55dp"
             android:gravity="center"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -45,19 +49,24 @@
 
         </LinearLayout>
 
+
         <LinearLayout
+            android:id="@+id/game_name_layout"
             android:layout_width="match_parent"
             android:layout_height="43dp"
-            android:layout_marginLeft="45dp"
+            android:layout_marginStart="45dp"
             android:layout_marginTop="30dp"
-            android:layout_marginRight="55dp"
-            android:background="@drawable/shape_password_input">
+            android:layout_marginEnd="55dp"
+            android:background="@drawable/shape_password_input"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/anchor_type_layout">
 
             <EditText
                 android:id="@+id/new_text"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="20dp"
+                android:layout_marginStart="20dp"
                 android:background="@null"
                 android:hint="channel_name"
                 android:inputType="text"
@@ -67,12 +76,16 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/channel_id_layout"
             android:layout_width="match_parent"
             android:layout_height="43dp"
-            android:layout_marginLeft="45dp"
+            android:layout_marginStart="45dp"
             android:layout_marginTop="10dp"
-            android:layout_marginRight="55dp"
-            android:background="@drawable/shape_password_input">
+            android:layout_marginEnd="55dp"
+            android:background="@drawable/shape_password_input"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/game_name_layout">
 
             <EditText
                 android:id="@+id/channel_text"
@@ -87,13 +100,17 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/uid_layout"
             android:layout_width="match_parent"
             android:layout_height="43dp"
-            android:layout_marginLeft="45dp"
+            android:layout_marginStart="45dp"
             android:layout_marginTop="10dp"
-            android:layout_marginRight="55dp"
+            android:layout_marginEnd="55dp"
             android:background="@drawable/shape_password_input"
-            android:visibility="gone">
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/channel_id_layout">
 
             <EditText
                 android:id="@+id/uid_view"
@@ -109,18 +126,22 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/token_layout"
             android:layout_width="match_parent"
             android:layout_height="43dp"
-            android:layout_marginLeft="45dp"
+            android:layout_marginStart="45dp"
             android:layout_marginTop="10dp"
-            android:layout_marginRight="55dp"
+            android:layout_marginEnd="55dp"
             android:background="@drawable/shape_password_input"
-            android:visibility="gone">
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/uid_layout">
 
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="20dp"
+                android:layout_marginStart="20dp"
                 android:background="@null"
                 android:hint="助手token"
                 android:inputType="text"
@@ -133,17 +154,79 @@
             android:id="@+id/join_view"
             android:layout_width="match_parent"
             android:layout_height="43dp"
-            android:layout_marginLeft="45dp"
+            android:layout_marginStart="45dp"
             android:layout_marginTop="50dp"
-            android:layout_marginRight="55dp"
+            android:layout_marginEnd="55dp"
             android:background="@drawable/shape_user_send"
             android:fontFamily="sans-serif-medium"
             android:gravity="center"
             android:onClick="@{handler}"
             android:text="加入房间"
             android:textColor="@color/white"
-            android:textSize="14sp" />
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/token_layout" />
 
-    </LinearLayout>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:gravity="center"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/settings_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="15dp"
+                    android:fontFamily="sans-serif-medium"
+                    android:text="@string/settings"
+                    android:textColor="#162640"
+                    android:textSize="15sp"
+                    android:textStyle="bold|italic"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <RadioGroup
+                    android:id="@+id/rtc_type_layout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="15dp"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/settings_title">
+
+                    <RadioButton
+                        android:id="@+id/native_rtc_radio"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="true"
+                        android:text="@string/native_rtc" />
+
+                    <RadioButton
+                        android:id="@+id/web_rtc_radio"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/web_rtc" />
+
+
+                </RadioGroup>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 
 </layout>

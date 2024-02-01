@@ -188,6 +188,10 @@ function handleUserUnpublished(user, mediaType) {
 }
 
 function sendDataStream(dataBase64String) {
+  if (!isJoinChannel) {
+    console.log("not join channel and return");
+    return -1;
+  }
   console.log("sendDataStream dataBase64String = " + dataBase64String)
   let ret = client.sendStreamMessage({ payload: base64ToByteArray(dataBase64String), syncWithAudio: true });
   console.log("sendStreamMessage success ret = " + ret)
@@ -225,5 +229,5 @@ function getRemoteVideoStats(uid) {
   }, 1000);
 }
 function sendVideoSizeChange(width, height) {
-  window.Android.onVideoSizeChange(width, height);
+  window.NativeInterface.onVideoSizeChange(width, height);
 }

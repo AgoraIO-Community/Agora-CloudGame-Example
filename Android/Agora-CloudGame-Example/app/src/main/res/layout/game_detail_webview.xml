@@ -55,7 +55,6 @@
                         android:layout_marginStart="15dp"
                         android:background="@drawable/shape_finish_in_select"
                         android:gravity="center"
-                        android:onClick="@{handler}"
                         android:text="@string/exit"
                         android:textColor="@color/white"
                         android:textSize="14sp" />
@@ -76,7 +75,6 @@
                         android:layout_marginEnd="15dp"
                         android:background="@drawable/shape_finish_in_select"
                         android:gravity="center"
-                        android:onClick="@{handler}"
                         android:text="@string/gift"
                         android:textColor="@color/white"
                         android:textSize="14sp" />
@@ -126,7 +124,6 @@
                 android:layout_marginStart="15dp"
                 android:background="@drawable/shape_finish_in_select"
                 android:gravity="center"
-                android:onClick="@{handler}"
                 android:text="@string/comment"
                 android:textColor="@color/white"
                 android:textSize="14sp" />
@@ -138,7 +135,6 @@
                 android:layout_gravity="center_horizontal"
                 android:background="@drawable/shape_finish_in_select"
                 android:gravity="center"
-                android:onClick="@{handler}"
                 android:text="@string/z"
                 android:textColor="@color/white"
                 android:textSize="14sp" />
@@ -151,7 +147,6 @@
                 android:layout_marginEnd="15dp"
                 android:background="@drawable/shape_finish_in_select"
                 android:gravity="center"
-                android:onClick="@{handler}"
                 android:text="@string/like"
                 android:textColor="@color/white"
                 android:textSize="14sp" />

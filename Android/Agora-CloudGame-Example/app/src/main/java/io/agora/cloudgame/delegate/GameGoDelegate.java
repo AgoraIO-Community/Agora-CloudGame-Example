@@ -9,6 +9,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RadioGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -38,6 +39,7 @@ public class GameGoDelegate extends PageDelegate {
     private final GameEntity mEntity;
 
     private boolean isLiveSelect = true;
+    private boolean isNativeRtc = true;
 
     public GameGoDelegate(GameEntity entity) {
         mEntity = entity;
@@ -73,12 +75,19 @@ public class GameGoDelegate extends PageDelegate {
 
         mBinding.liveView.setImageDrawable(Objects.requireNonNull(getContext()).getResources().getDrawable(isLiveSelect ? R.drawable.switch_open : R.drawable.switch_close, null));
 
+        mBinding.rtcTypeLayout.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                isNativeRtc = checkedId == R.id.native_rtc_radio;
+            }
+        });
         mBinding.setHandler(v -> {
             switch (v.getId()) {
                 case R.id.live_view:
                     isLiveSelect = !isLiveSelect;
                     mBinding.liveView.setImageDrawable(Objects.requireNonNull(getContext()).getResources().getDrawable(isLiveSelect ? R.drawable.switch_open : R.drawable.switch_close, null));
                     break;
+
                 case R.id.join_view:
                     mEntity.roomId = mBinding.channelText.getText().toString();
                     if (TextUtils.isEmpty(mEntity.roomId)) {
@@ -87,8 +96,11 @@ public class GameGoDelegate extends PageDelegate {
                     }
                     mEntity.uid = KeyCenter.getLiveUid();
                     ViewJudge.INSTANCE.hideKeyboard(Objects.requireNonNull(getActivity()));
-                    //NavigationUtils.enterNewFragment(Objects.requireNonNull(getRootFragmentManager()), PageDelegate.DelegateFragment.newInstance(new GameDetailsDelegate(mEntity, isLiveSelect)), R.id.content);
-                    NavigationUtils.enterNewFragment(Objects.requireNonNull(getRootFragmentManager()), PageDelegate.DelegateFragment.newInstance(new GameDetailsWebViewDelegate(mEntity, isLiveSelect)), R.id.content);
+                    if (isNativeRtc) {
+                        NavigationUtils.enterNewFragment(Objects.requireNonNull(getRootFragmentManager()), PageDelegate.DelegateFragment.newInstance(new GameDetailsFrameLayoutDelegate(mEntity, isLiveSelect)), R.id.content);
+                    } else {
+                        NavigationUtils.enterNewFragment(Objects.requireNonNull(getRootFragmentManager()), PageDelegate.DelegateFragment.newInstance(new GameDetailsWebViewDelegate(mEntity, isLiveSelect)), R.id.content);
+                    }
                     break;
                 default:
                     break;

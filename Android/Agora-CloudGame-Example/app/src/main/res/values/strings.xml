@@ -11,5 +11,8 @@
     <string name="z">Z(出兵)</string>
     <string name="like">点赞</string>
     <string name="game_state">游戏状态:</string>
+    <string name="settings">设置</string>
+    <string name="native_rtc">Native RTC</string>
+    <string name="web_rtc">Web RTC</string>
 
 </resources>
