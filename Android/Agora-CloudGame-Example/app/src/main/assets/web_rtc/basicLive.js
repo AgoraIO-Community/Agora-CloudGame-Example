@@ -164,6 +164,7 @@ async function subscribe(user, mediaType) {
     user.videoTrack.play(`player-${uid}`, {
       fit: "contain"
     });
+    getRemoteVideoStats(uid);
   }
   if (mediaType === 'audio') {
     user.audioTrack.play();
@@ -200,4 +201,29 @@ function base64ToByteArray(base64String) {
     byteArray[i] = binaryString.charCodeAt(i);
   }
   return byteArray;
+}
+
+function getRemoteVideoStats(uid) {
+  var width = 0;
+  var height = 0;
+  const interval = setInterval(() => {
+    if (!isJoinChannel) {
+      clearInterval(interval);
+      return;
+    }
+    let remoteVideoStats = client.getRemoteVideoStats()[uid];
+    let videoHeight = remoteVideoStats.receiveResolutionHeight;
+    let videoWidth = remoteVideoStats.receiveResolutionWidth;
+    if (0 != videoHeight && 0 != videoWidth) {
+      if (width != videoWidth || height != videoHeight) {
+        width = videoWidth;
+        height = videoHeight;
+        console.log("onVideoSizeChange width = " + width + " height = " + height)
+        sendVideoSizeChange(width, height);
+      }
+    }
+  }, 1000);
+}
+function sendVideoSizeChange(width, height) {
+  window.Android.onVideoSizeChange(width, height);
 }

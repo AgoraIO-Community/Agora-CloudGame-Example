@@ -7,14 +7,24 @@ import io.agora.cloudgame.constants.Constants;
 
 public class WebAppInterface {
     private static final String TAG = Constants.TAG + "-WebAppInterface";
+    private WebAppInterfaceListener mListener;
 
-    @JavascriptInterface
-    public void method1() {
-        Log.d(TAG, "method1");
+    public WebAppInterface(WebAppInterfaceListener listener) {
+        mListener = listener;
     }
 
     @JavascriptInterface
-    public void method2(String param1, String param2) {
-        Log.e(TAG, "method2" + param1 + param2);
+    public void onVideoSizeChange(int width, int height) {
+        Log.i(TAG, "onVideoSizeChange: width = " + width + ", height = " + height);
+        if (null != mListener) {
+            mListener.onVideoSizeChange(width, height);
+        }
+
+    }
+
+    public interface WebAppInterfaceListener {
+        default void onVideoSizeChange(int width, int height) {
+
+        }
     }
 }

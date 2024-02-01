@@ -16,10 +16,12 @@ import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 
 import com.alibaba.fastjson.JSON;
 import com.gyf.immersionbar.ImmersionBar;
@@ -28,7 +30,6 @@ import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
 import java.util.Objects;
-import java.util.Timer;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -52,13 +53,12 @@ import io.agora.cloudgame.utilities.DialogUtils;
 import io.agora.cloudgame.webview.WebAppInterface;
 import io.agora.cloudgame.widget.SoftKeyboardStateWatcher;
 import io.agora.cloudgame.widget.ViewJudge;
-import io.agora.rtc2.Constants;
-import io.agora.rtc2.IRtcEngineEventHandler;
+import io.agora.cloudgame.widget.ViewUtils;
 import me.add1.iris.ApiRequestException;
 import me.add1.iris.PageDelegate;
 import me.add1.iris.utilities.ThreadUtils;
 
-public class GameDetailsWebViewDelegate extends PageDelegate {
+public class GameDetailsWebViewDelegate extends PageDelegate implements WebAppInterface.WebAppInterfaceListener {
 
     private static final String TAG = io.agora.cloudgame.constants.Constants.TAG + "-" + GameDetailsWebViewDelegate.class.getSimpleName();
 
@@ -191,8 +191,8 @@ public class GameDetailsWebViewDelegate extends PageDelegate {
 
         mBinding.webviewLayout.loadUrl("file:///android_asset/web_rtc/index.html");
 
-        mWebAppInterface = new WebAppInterface();
-        mBinding.webviewLayout.addJavascriptInterface(mWebAppInterface, "AndroidWebView");
+        mWebAppInterface = new WebAppInterface(this);
+        mBinding.webviewLayout.addJavascriptInterface(mWebAppInterface, "Android");
 
         mBinding.webviewLayout.setInitialScale(100);
         mBinding.webviewLayout.setWebViewClient(new WebViewClient() {
@@ -530,54 +530,6 @@ public class GameDetailsWebViewDelegate extends PageDelegate {
         });
     }
 
-    private final IRtcEngineEventHandler iRtcEngineEventHandler = new IRtcEngineEventHandler() {
-
-        @Override
-        public void onVideoSizeChanged(Constants.VideoSourceType source, int uid, int width,
-                                       int height, int rotation) {
-            super.onVideoSizeChanged(source, uid, width, height, rotation);
-            Log.i(TAG, "onVideoSizeChanged->" + uid + ", width->" + width + ", height->" + height);
-//            if (null != mVideoView && null != GameDetailsWebviewDelegate.this.getContext()) {
-//                ThreadUtils.postOnUiThread(() -> {
-//                    final int gameLayoutWidth = mBinding.gameLayout.getMeasuredWidth();
-//                    final int gameLayoutHeight = mBinding.gameLayout.getMeasuredHeight();
-//                    Log.i(TAG, "onVideoSizeChanged->gameLayoutWidth:" + gameLayoutWidth + ",gameLayoutHeight:" + gameLayoutHeight);
-//                    int targetWidth = gameLayoutWidth;
-//                    int targetHeight;
-//                    float scale = (float) targetWidth / width;
-//                    targetHeight = (int) (height * scale);
-//
-//                    final int topMargin = gameLayoutHeight - targetHeight;
-//
-//                    Log.i(TAG, "onVideoSizeChanged->targetWidth:" + targetWidth + ",targetHeight:" + targetHeight + ",topMargin:" + topMargin);
-//
-//                    mVideoView.setVideoSize(targetWidth, targetHeight);
-//                    mVideoView.post(new Runnable() {
-//                        @Override
-//                        public void run() {
-//                            ViewGroup.LayoutParams layoutParams = mBinding.frameLayout.getLayoutParams();
-//                            layoutParams.width = targetWidth;
-//                            layoutParams.height = targetHeight;
-//                            if (topMargin < 0) {
-//                                ((LinearLayout.LayoutParams) layoutParams).topMargin = topMargin;
-//                            }
-//                            mBinding.frameLayout.setLayoutParams(layoutParams);
-//
-//                            if (topMargin > 10) {
-//                                ViewGroup.LayoutParams operatorLayoutParams = mBinding.operatorLayout.getLayoutParams();
-//                                operatorLayoutParams.height = topMargin - ViewUtils.dp2px(GameDetailsWebviewDelegate.this.getContext(), 10);
-//                                ((CoordinatorLayout.LayoutParams) operatorLayoutParams).bottomMargin = 0;
-//                                mBinding.operatorLayout.setLayoutParams(operatorLayoutParams);
-//                            }
-//                        }
-//                    });
-//                });
-//            }
-
-        }
-
-    };
-
     @Override
     protected void onActive() {
         super.onActive();
@@ -605,7 +557,7 @@ public class GameDetailsWebViewDelegate extends PageDelegate {
 
         callJs("leave()", value -> Log.i(TAG, "leaves channel onReceiveValue:" + value));
 
-        if(null != mScheduledExecutorService){
+        if (null != mScheduledExecutorService) {
             mScheduledExecutorService.shutdown();
         }
     }
@@ -635,4 +587,42 @@ public class GameDetailsWebViewDelegate extends PageDelegate {
         mBinding.webviewLayout.evaluateJavascript("javascript:" + methodWithParams, callback);
     }
 
+    @Override
+    public void onVideoSizeChange(int width, int height) {
+        if (null != this.getContext()) {
+            ThreadUtils.postOnUiThread(() -> {
+                final int gameLayoutWidth = mBinding.gameLayout.getMeasuredWidth();
+                final int gameLayoutHeight = mBinding.gameLayout.getMeasuredHeight();
+                Log.i(TAG, "onVideoSizeChanged->gameLayoutWidth:" + gameLayoutWidth + ",gameLayoutHeight:" + gameLayoutHeight);
+                int targetWidth = gameLayoutWidth;
+                int targetHeight;
+                float scale = (float) targetWidth / width;
+                targetHeight = (int) (height * scale);
+
+                final int topMargin = gameLayoutHeight - targetHeight;
+
+                Log.i(TAG, "onVideoSizeChange->targetWidth:" + targetWidth + ",targetHeight:" + targetHeight + ",topMargin:" + topMargin);
+
+                mBinding.webviewLayout.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        ViewGroup.LayoutParams layoutParams = mBinding.webviewLayout.getLayoutParams();
+                        layoutParams.width = targetWidth;
+                        layoutParams.height = targetHeight;
+                        if (topMargin < 0) {
+                            ((LinearLayout.LayoutParams) layoutParams).topMargin = topMargin;
+                        }
+                        mBinding.webviewLayout.setLayoutParams(layoutParams);
+
+                        if (topMargin > 10) {
+                            ViewGroup.LayoutParams operatorLayoutParams = mBinding.operatorLayout.getLayoutParams();
+                            operatorLayoutParams.height = topMargin - ViewUtils.dp2px(GameDetailsWebViewDelegate.this.getContext(), 10);
+                            ((CoordinatorLayout.LayoutParams) operatorLayoutParams).bottomMargin = 0;
+                            mBinding.operatorLayout.setLayoutParams(operatorLayoutParams);
+                        }
+                    }
+                });
+            });
+        }
+    }
 }
