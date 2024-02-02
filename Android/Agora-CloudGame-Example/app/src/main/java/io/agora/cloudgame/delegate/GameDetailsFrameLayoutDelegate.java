@@ -45,7 +45,7 @@ public class GameDetailsFrameLayoutDelegate extends GameDetailsBaseDelegate {
 
     @Override
     protected void initData() {
-        TAG = TAG + "-" + GameDetailsFrameLayoutDelegate.class.getSimpleName();
+        TAG = io.agora.cloudgame.constants.Constants.TAG + "-" + GameDetailsFrameLayoutDelegate.class.getSimpleName();
         super.initData();
 
         mJoinChannelOptions = new ChannelMediaOptions();
@@ -271,11 +271,12 @@ public class GameDetailsFrameLayoutDelegate extends GameDetailsBaseDelegate {
     @Override
     protected void onDestroyView() {
         super.onDestroyView();
-        if (mRtcEngine != null) {
+        if (mRtcEngine != null && isJoinChannel) {
             // 停止本地视频预览
             mRtcEngine.stopPreview();
             // 离开频道
             mRtcEngine.leaveChannel();
+            isJoinChannel = false;
         }
         mRtcEngine = null;
     }

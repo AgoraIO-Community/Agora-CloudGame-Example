@@ -49,7 +49,7 @@ import me.add1.iris.PageDelegate;
 import me.add1.iris.utilities.ThreadUtils;
 
 public class GameDetailsBaseDelegate extends PageDelegate {
-    protected static String TAG = Constants.TAG;
+    protected static String TAG = Constants.TAG + "-GameDetailsBaseDelegate";
 
     protected boolean onStatusBarDarkFont() {
         return true;

@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
         transaction.commitAllowingStateLoss();
 
         TextView versionText = findViewById(R.id.version);
-        versionText.setText(String.format("v%s", BuildConfig.VERSION_NAME));
+        versionText.setText(String.format("%s", BuildConfig.VERSION_NAME));
     }
 
     @Override

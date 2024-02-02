@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.ConsoleMessage;
+import android.webkit.PermissionRequest;
 import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
@@ -14,10 +15,12 @@ import android.widget.LinearLayout;
 
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 
+import java.util.Arrays;
 import java.util.Base64;
 import java.util.Objects;
 
 import io.agora.cloudgame.KeyCenter;
+import io.agora.cloudgame.constants.Constants;
 import io.agora.cloudgame.example.databinding.GameDetailWebviewBinding;
 import io.agora.cloudgame.network.model.GameEntity;
 import io.agora.cloudgame.webview.WebAppInterface;
@@ -42,7 +45,7 @@ public class GameDetailsWebViewDelegate extends GameDetailsBaseDelegate implemen
 
     @Override
     protected void initData() {
-        TAG = TAG + "-" + GameDetailsWebViewDelegate.class.getSimpleName();
+        TAG = Constants.TAG + "-" + GameDetailsWebViewDelegate.class.getSimpleName();
         super.initData();
         mWebAppInterface = new WebAppInterface(this);
         mIsNativeRtc = false;
@@ -103,6 +106,13 @@ public class GameDetailsWebViewDelegate extends GameDetailsBaseDelegate implemen
                 return super.onConsoleMessage(consoleMessage);
 
             }
+
+            @Override
+            public void onPermissionRequest(PermissionRequest request) {
+                super.onPermissionRequest(request);
+                logD("onPermissionRequest :" + Arrays.toString(request.getResources()));
+                //request.grant(new String[]{PermissionRequest.RESOURCE_AUDIO_CAPTURE});
+            }
         });
 
     }
@@ -144,10 +154,13 @@ public class GameDetailsWebViewDelegate extends GameDetailsBaseDelegate implemen
     protected void onDestroyView() {
         super.onDestroyView();
 
-        callJs("leave()", value -> Log.i(TAG, "leaves channel onReceiveValue:" + value));
+        if (isJoinChannel) {
+            callJs("leave()", value -> Log.i(TAG, "leaves channel onReceiveValue:" + value));
+            isJoinChannel = false;
+        }
 
-        mBinding.webviewLayout.removeJavascriptInterface("NativeInterface");
-        mBinding.webviewLayout.destroy();
+//        mBinding.webviewLayout.removeJavascriptInterface("NativeInterface");
+//        mBinding.webviewLayout.destroy();
     }
 
     private void callJs(String methodWithParams, ValueCallback<String> callback) {
