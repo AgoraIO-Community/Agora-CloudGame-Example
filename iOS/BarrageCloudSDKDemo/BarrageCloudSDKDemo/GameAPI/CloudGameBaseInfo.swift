@@ -13,5 +13,4 @@ public class CloudGameBaseInfo: NSObject, Codable {
     public var vendor: String?
     public var thumbnail: String?
     public var introduce: String?
-    public var vendorGameId: String?
 }

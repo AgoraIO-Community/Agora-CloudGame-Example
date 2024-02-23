@@ -33,7 +33,7 @@ class GameLiveViewController: UIViewController {
             // 主播的uid固定 实际开发中应该由服务端确定
             let isBroadcaster = role == .broadcaster
             myUid = isBroadcaster ? kBroadcastorUid : RandomIdCreator.RTC_UID
-            openId = isBroadcaster ? kBroadcasterOpenId : RandomIdCreator.OPEN_ID
+            openId = isBroadcaster ? "\(KeyCenter.AppId)_\(kBroadcasterOpenId)" : "\(KeyCenter.AppId)_\(RandomIdCreator.OPEN_ID)"
         }
     }
     
@@ -344,7 +344,6 @@ extension GameLiveViewController {
             let token = TokenCreater.createRctToken(uid: Int32(assistantUid) ?? 0, channelName: roomId, role: Int32(1))
             print("create token uid = \(uid), channel = \(roomId!), token = \(token)")
             let config = CloudGameStartConfigure()
-            config.roomId = roomId
             config.openId = openId
             config.nickname = "user_\(myUid!)"
             config.avatar = defalutAvatar
@@ -356,7 +355,7 @@ extension GameLiveViewController {
             config.salt = ""
             config.broadcastUid = myUid
             startDate = Date()
-            CloudGameManager.shared.startGame(with: gameId, config: config) {[weak self] taskId, code in
+            CloudGameManager.shared.startGame(with: gameId, roomId: "\(KeyCenter.AppId)_\(roomId!)", config: config) {[weak self] taskId, code in
                 self?.taskId = taskId
                 if code == 0 {
                     SVProgressHUD.showSuccess(withStatus: "开始游戏成功")
@@ -370,7 +369,7 @@ extension GameLiveViewController {
     func stopGame(gameId: String){
         if let taskId = taskId {
             startButton.isEnabled = false
-            CloudGameManager.shared.endGame(with: gameId, roomId: roomId, openId: openId, taskId: taskId) {[weak self] code in
+            CloudGameManager.shared.endGame(with: gameId, roomId: "\(KeyCenter.AppId)_\(roomId!)", openId: openId, taskId: taskId) {[weak self] code in
                 self?.taskId = nil
                 if code == 0 {
                     SVProgressHUD.showSuccess(withStatus: "结束游戏成功")

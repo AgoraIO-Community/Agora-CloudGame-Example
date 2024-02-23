@@ -17,8 +17,6 @@ public enum CloudGameStatus: String {
 
 
 public class CloudGameStartConfigure: NSObject {
-    public var vid: String?
-    public var roomId: String?
     public var openId: String?
     public var nickname: String?
     public var avatar: String?
@@ -93,8 +91,11 @@ public class CloudGameManager: NSObject {
     
     /// 获取游戏列表
     public func getGames(pageNum: Int = 1, pageSize: Int = 10){
-        
-        outsideGameHttpRequest(uri: "cloud-bullet-game/games", httpMethod: "GET", params: ["page_num": pageNum, "page_size": pageSize]) {[weak self] result,code in
+        let uri = "cloud-bullet-game/api/live-data/games"
+        let params = ["page_num": pageNum, "page_size": pageSize]
+        outsideGameHttpRequest(uri: uri,
+                               httpMethod: "GET",
+                               params: params) {[weak self] result,code in
             if let list = result?["list"] as? [[String: Any]] {
                 var gameList = [CloudGameBaseInfo]()
                 list.forEach { dic in
@@ -104,7 +105,6 @@ public class CloudGameManager: NSObject {
                     game.vendor = dic["vendor"] as? String
                     game.thumbnail = dic["thumbnail"] as? String
                     game.introduce = dic["introduce"] as? String
-                    game.vendorGameId = dic["vendor_game_id"] as? String
                     gameList.append(game)
                 }
                 self?.delegate?.onGamesResults(gameList)
@@ -117,14 +117,14 @@ public class CloudGameManager: NSObject {
     ///   - gameId: 游戏id
     ///   - completion: 成功回调
     public func getGameInformation(with gameId: String, completion: ((_ gameInfo: CloudGameDetailInfo?,_ code: Int?)->Void)? = nil) {
-        outsideGameHttpRequest(uri: "cloud-bullet-game/gameid/\(gameId)", httpMethod: "GET") {[weak self] result, code in
+        let uri = "cloud-bullet-game/api/live-data/games/\(gameId)"
+        outsideGameHttpRequest(uri: uri, httpMethod: "GET") {[weak self] result, code in
             let gameInfo = CloudGameDetailInfo()
             gameInfo.gameId = result?["game_id"] as? String
             gameInfo.name = result?["name"] as? String
             gameInfo.vendor = result?["vendor"] as? String
             gameInfo.thumbnail = result?["thumbnail"] as? String
             gameInfo.introduce = result?["introduce"] as? String
-            gameInfo.vendorGameId = result?["vendor_game_id"] as? String
             
             if let featureDic = result?["feature"] as? [String: Int] {
                 let feature = CloudGameFeature()
@@ -157,13 +157,11 @@ public class CloudGameManager: NSObject {
     ///   - gameId: 游戏id
     ///   - config: 开始游戏需要的配置项
     ///   - completion: 开启游戏成功回调
-    public func startGame(with gameId: String,config: CloudGameStartConfigure, completion: ((_ taskId: String?,_ code: Int?)->Void)? = nil) {
+    public func startGame(with gameId: String, roomId: String, config: CloudGameStartConfigure, completion: ((_ taskId: String?,_ code: Int?)->Void)? = nil) {
         var params = [String: Any]()
-        params["vid"] = config.vid
-        params["room_id"] = config.roomId
-        params["open_id"] =  config.openId
+        params["openid"] =  config.openId
         params["nickname"] = config.nickname
-        params["avatar"] = config.avatar
+        params["avatar_url"] = config.avatar
         
         var rtcConfig = [String: Any]()
         rtcConfig["uid"] = config.assistantUid
@@ -178,8 +176,8 @@ public class CloudGameManager: NSObject {
         rtcConfig["encryption"] = encryption
         
         params["rtc_config"] = rtcConfig
-        
-        outsideGameHttpRequest(uri: "cloud-bullet-game/gameid/\(gameId)/start", httpMethod: "POST", params: params) { result, code in
+        let uri = "cloud-bullet-game/api/live-data/games/\(gameId)/mode/cloud/rooms/\(roomId):start"
+        outsideGameHttpRequest(uri: uri, httpMethod: "POST", params: params) { result, code in
             completion?(result?["task_id"] as? String,code)
         }
     }
@@ -192,10 +190,10 @@ public class CloudGameManager: NSObject {
     ///   - taskId: taskId
     public func endGame(with id:String, roomId: String, openId: String, taskId: String, completion: ((_ code: Int?)->Void)? = nil) {
         var params = [String: Any]()
-        params["room_id"] = roomId
-        params["open_id"] = openId
+        params["openid"] = openId
         params["task_id"] = taskId
-        outsideGameHttpRequest(uri: "cloud-bullet-game/gameid/\(id)/stop", httpMethod: "POST", params: params) { result, code in
+        let uri = "cloud-bullet-game/api/live-data/games/\(id)/mode/cloud/rooms/\(roomId):stop"
+        outsideGameHttpRequest(uri: uri, httpMethod: "POST", params: params) { result, code in
             completion?(code)
         }
     }
@@ -206,8 +204,9 @@ public class CloudGameManager: NSObject {
     ///   - taskId: taskId
     public func getGameStatus(with id:String, taskId: String,completion: ((_ status: String?)->Void)?) {
         var params = [String: Any]()
-        params["task_id"] = taskId
-        outsideGameHttpRequest(uri: "cloud-bullet-game/gameid/\(id)/status", httpMethod: "GET", params: params) { result, code in
+        params["taskid"] = taskId
+        let uri = "cloud-bullet-game/api/live-data/tasks/\(taskId)/status"
+        outsideGameHttpRequest(uri: uri, httpMethod: "GET", params: params) { result, code in
             completion?(result?["status"] as? String)
         }
     }
@@ -330,8 +329,9 @@ extension CloudGameManager {
     private func outsideGameHttpRequest(uri: String, httpMethod:String, params:[String: Any]? = nil, completion: HttpCompletion?) {
         let urlStr = "\(outsideGameHost)\(appId)/\(uri)"
         httpRequest(urlStr:urlStr, httpMethod: httpMethod, params: params) { dic in
-            let result = dic["result"] as? [String: Any]
-            let code = dic["code"] as? Int
+            let result = dic["data"] as? [String: Any]
+            let code = dic["err_no"] as? Int
+            let logid = dic["logid"] as? String
             print(" response dic = \(dic)")
             DispatchQueue.main.async {
                 completion?(result,code)
@@ -349,7 +349,8 @@ extension CloudGameManager {
         }
        
         var request = URLRequest(url: url)
-        request.addValue("text/plain;application/json", forHTTPHeaderField: "Content-Type")
+        request.addValue("application/json", forHTTPHeaderField: "accept")
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         request.addValue("agora token=\(TokenCreater.rtmToken)", forHTTPHeaderField: "Authorization")
         print(" agora token=\(TokenCreater.rtmToken)")
 
@@ -358,7 +359,7 @@ extension CloudGameManager {
             if httpMethod == "POST" {
                 let jsonBody = try? JSONSerialization.data(withJSONObject: params)
                 request.httpBody = jsonBody
-                print(" POST url = \(url), params = \(params.debugDescription)")
+                print(" POST url = \(url), params = \(params as NSDictionary)")
                 print(" curl = \(request.cURL())")
             }
         }

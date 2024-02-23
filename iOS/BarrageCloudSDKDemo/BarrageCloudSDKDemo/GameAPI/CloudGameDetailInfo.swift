@@ -18,7 +18,6 @@ public class CloudGameDetailInfo: NSObject {
     public var vendor: String?
     public var thumbnail: String?
     public var introduce: String?
-    public var vendorGameId: String?
     public var gifts: [CloudGameGift]?
     public var instrunct: [Any]?
     public var feature: CloudGameFeature?
