@@ -2,9 +2,10 @@ package io.agora.cloudgame.network.model;
 
 import androidx.annotation.NonNull;
 
-import io.agora.cloudgame.model.JsonModel;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+
+import io.agora.cloudgame.model.JsonModel;
 
 public class RtcConfig implements JsonModel {
 
@@ -24,6 +25,9 @@ public class RtcConfig implements JsonModel {
     @SerializedName("channel_name")
     public String channelName;
 
+    @Expose
+    @SerializedName("encryption")
+    public String encryption;
 
     @NonNull
     @Override
@@ -33,6 +37,7 @@ public class RtcConfig implements JsonModel {
                 ", uid=" + uid +
                 ", token='" + token + '\'' +
                 ", channelName='" + channelName + '\'' +
+                ", encryption='" + encryption + '\'' +
                 '}';
     }
 }

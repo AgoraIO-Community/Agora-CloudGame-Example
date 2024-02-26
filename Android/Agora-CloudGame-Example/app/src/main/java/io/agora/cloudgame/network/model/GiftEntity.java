@@ -20,21 +20,12 @@ public class GiftEntity implements JsonModel, Serializable {
     public String name;
 
     @Expose
-    @JSONField(name = "value")
-    public int value;
-
-    @Expose
     @JSONField(name = "price")
     public int price;
 
     @Expose
     @JSONField(name = "thumbnail")
     public String thumbnail;
-
-    @Expose
-    @JSONField(name = "vendor_gift_id")
-    @SerializedName("vendor_gift_id")
-    public String vendorGiftId;
 
     @Expose
     @JSONField(name = "game_id")
@@ -52,10 +43,8 @@ public class GiftEntity implements JsonModel, Serializable {
         return "GiftEntity{" +
                 "id='" + id + '\'' +
                 ", name='" + name + '\'' +
-                ", value=" + value +
                 ", price=" + price +
                 ", thumbnail='" + thumbnail + '\'' +
-                ", vendorGiftId='" + vendorGiftId + '\'' +
                 ", gameId='" + gameId + '\'' +
                 ", giftNum=" + giftNum +
                 ", isSelect=" + isSelect +

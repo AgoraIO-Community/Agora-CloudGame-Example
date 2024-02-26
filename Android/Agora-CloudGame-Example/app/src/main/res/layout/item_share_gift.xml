@@ -10,7 +10,7 @@
     android:gravity="center"
     android:orientation="vertical">
 
-    <io.agora.cloudgame.widget.AsyncImageView
+    <io.agora.cloudgame.ui.widget.AsyncImageView
         android:id="@+id/image_view"
         android:layout_width="50dp"
         android:layout_height="50dp"
@@ -36,7 +36,7 @@
         android:textColor="@color/gray_500"
         android:textSize="12sp" />
 
-    <io.agora.cloudgame.widget.AmountView
+    <io.agora.cloudgame.ui.widget.AmountView
         android:id="@+id/amount_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

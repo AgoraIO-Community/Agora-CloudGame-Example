@@ -12,42 +12,47 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_marginTop="6dp"
+        android:layout_height="wrap_content"
         android:layout_marginLeft="14dp"
+        android:layout_marginTop="6dp"
         android:layout_marginRight="14dp"
         android:layout_marginBottom="4dp"
-        android:orientation="vertical"
         android:background="@drawable/shape_card_white"
-        android:layout_height="wrap_content">
+        android:orientation="vertical">
 
-        <io.agora.cloudgame.widget.AsyncImageView
+        <io.agora.cloudgame.ui.widget.AsyncImageView
             android:id="@+id/async_view"
-            android:src="@drawable/img_empty"
             android:layout_width="match_parent"
-            android:layout_height="228dp"
+            android:layout_height="50dp"
             android:scaleType="centerCrop"
-            app:radius="10dp"
+            android:src="@drawable/img_empty"
             app:error="@drawable/shape_default_image"
-            app:placeholder="@drawable/shape_default_image" />
+            app:placeholder="@drawable/shape_default_image"
+            app:radius="10dp" />
 
         <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            android:fontFamily="sans-serif-medium"
             android:text="@{data.name}"
             android:textColor="#ff494949"
-            android:textSize="16sp"
-            android:fontFamily="sans-serif-medium"
-            android:layout_margin="15dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:textSize="16sp" />
 
         <TextView
-            android:text="@{data.brief}"
-            android:textColor="#ff82868e"
-            android:textSize="12sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
             android:layout_marginBottom="15dp"
             android:fontFamily="sans-serif-medium"
-            android:layout_marginLeft="15dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:text="@{data.introduce}"
+            android:textColor="#ff82868e"
+            android:textSize="12sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/black" />
 
     </LinearLayout>
 
