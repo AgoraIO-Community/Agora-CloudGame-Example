@@ -10,6 +10,7 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout;
 
 import java.util.Objects;
 
+import io.agora.base.VideoFrame;
 import io.agora.cloudgame.AppContext;
 import io.agora.cloudgame.context.GameDataContext;
 import io.agora.cloudgame.example.databinding.GameDetailFramelayoutBinding;
@@ -23,6 +24,7 @@ import io.agora.rtc2.DataStreamConfig;
 import io.agora.rtc2.IRtcEngineEventHandler;
 import io.agora.rtc2.RtcEngine;
 import io.agora.rtc2.RtcEngineConfig;
+import io.agora.rtc2.video.IVideoFrameObserver;
 import io.agora.rtc2.video.VideoCanvas;
 import me.add1.iris.utilities.ThreadUtils;
 
@@ -116,6 +118,7 @@ public class GameDetailsFrameLayoutDelegate extends GameDetailsBaseDelegate {
             if (!isJoinChannel) {
                 isJoinChannel = true;
                 if (isLiveRole && null != mRtcEngine) {
+                    mRtcEngine.registerVideoFrameObserver(iRtcVideoFrameObserver);
                     mRtcEngine.joinChannel(KeyCenter.getRtcToken(GameDataContext.getInstance().getRtcConfig().channelName, GameDataContext.getInstance().getRtcConfig().broadcastUid), GameDataContext.getInstance().getRtcConfig().channelName,
                             GameDataContext.getInstance().getRtcConfig().broadcastUid, mJoinChannelOptions);
                 }
@@ -128,6 +131,7 @@ public class GameDetailsFrameLayoutDelegate extends GameDetailsBaseDelegate {
         super.startGameForAudience();
         if (!isJoinChannel) {
             isJoinChannel = true;
+            mRtcEngine.registerVideoFrameObserver(iRtcVideoFrameObserver);
             logD("startGameForAudience uid:" + KeyCenter.getUserUid() + " channelName:" + GameDataContext.getInstance().getRtcConfig().channelName);
             int ret = mRtcEngine.joinChannel(KeyCenter.getRtcToken(GameDataContext.getInstance().getRtcConfig().channelName, KeyCenter.getUserUid()), GameDataContext.getInstance().getRtcConfig().channelName, KeyCenter.getUserUid(), mJoinChannelOptions);
             logI("startGameForAudience->ret:" + ret);
@@ -167,11 +171,12 @@ public class GameDetailsFrameLayoutDelegate extends GameDetailsBaseDelegate {
 
         @Override
         public void onJoinChannelSuccess(String channel, int uid, int elapsed) {
+            logD("onJoinChannelSuccess->" + uid + ", channel->" + channel + ", elapsed->" + elapsed);
             DataStreamConfig config = new DataStreamConfig();
             config.ordered = true;
             config.syncWithAudio = true;
             mStreamId = mRtcEngine.createDataStream(config);
-            Log.i(TAG, "onJoinChannelSuccess->" + uid + ", channel->" + channel + ", elapsed->" + elapsed + ",mStreamId" + mStreamId);
+            Log.i(TAG, "createDataStream->mStreamId" + mStreamId);
         }
 
         @Override
@@ -272,6 +277,54 @@ public class GameDetailsFrameLayoutDelegate extends GameDetailsBaseDelegate {
 
     };
 
+    private final IVideoFrameObserver iRtcVideoFrameObserver = new IVideoFrameObserver() {
+
+        @Override
+        public boolean onCaptureVideoFrame(int sourceType, VideoFrame videoFrame) {
+            return false;
+        }
+
+        @Override
+        public boolean onPreEncodeVideoFrame(int sourceType, VideoFrame videoFrame) {
+            return false;
+        }
+
+        @Override
+        public boolean onMediaPlayerVideoFrame(VideoFrame videoFrame, int mediaPlayerId) {
+            return false;
+        }
+
+        @Override
+        public boolean onRenderVideoFrame(String channelId, int uid, VideoFrame videoFrame) {
+            //logD("onRenderVideoFrame->channelId:" + channelId + ",uid:" + uid);
+            return false;
+        }
+
+        @Override
+        public int getVideoFrameProcessMode() {
+            return 0;
+        }
+
+        @Override
+        public int getVideoFormatPreference() {
+            return 0;
+        }
+
+        @Override
+        public boolean getRotationApplied() {
+            return false;
+        }
+
+        @Override
+        public boolean getMirrorApplied() {
+            return false;
+        }
+
+        @Override
+        public int getObservedFramePosition() {
+            return 0;
+        }
+    };
 
     @Override
     protected void onDestroyView() {
@@ -279,6 +332,7 @@ public class GameDetailsFrameLayoutDelegate extends GameDetailsBaseDelegate {
         if (mRtcEngine != null && isJoinChannel) {
             // 停止本地视频预览
             mRtcEngine.stopPreview();
+            mRtcEngine.registerVideoFrameObserver(null);
             // 离开频道
             mRtcEngine.leaveChannel();
             isJoinChannel = false;
