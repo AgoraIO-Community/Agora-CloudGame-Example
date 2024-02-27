@@ -106,16 +106,35 @@
                     android:textColor="@color/white"
                     app:layout_constraintLeft_toRightOf="@id/game_state_label_tv"
                     app:layout_constraintTop_toTopOf="parent" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </LinearLayout>
 
+                <TextView
+                    android:id="@+id/frame_rate_label_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:text="@string/frame_rate"
+                    android:textColor="@color/white"
+                    app:layout_constraintRight_toLeftOf="@id/frame_rate_tv"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/frame_rate_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="15dp"
+                    android:textColor="@color/white"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </LinearLayout>
 
         <FrameLayout
             android:id="@+id/operator_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
-            android:layout_marginBottom="10dp">
+            android:layout_marginBottom="20dp">
 
             <TextView
                 android:id="@+id/comment_view"
@@ -153,6 +172,28 @@
                 android:textSize="14sp" />
 
         </FrameLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/function_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="2dp">
+
+            <TextView
+                android:id="@+id/dump_video_frame_view"
+                android:layout_width="100dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="15dp"
+                android:background="@drawable/shape_finish_in_select"
+                android:gravity="center"
+                android:text="@string/dump_video_frame"
+                android:textColor="@color/white"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <include
             android:id="@+id/input_bottom"

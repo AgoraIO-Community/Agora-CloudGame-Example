@@ -14,5 +14,7 @@
     <string name="settings">设置</string>
     <string name="native_rtc">Native RTC</string>
     <string name="web_rtc">Web RTC</string>
+    <string name="frame_rate">帧率:</string>
+    <string name="dump_video_frame">Dump视频帧</string>
 
 </resources>

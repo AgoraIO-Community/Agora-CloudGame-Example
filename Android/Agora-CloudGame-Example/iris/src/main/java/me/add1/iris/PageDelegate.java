@@ -4,13 +4,10 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.provider.SyncStateContract;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
@@ -21,7 +18,6 @@ import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Lifecycle;
 
@@ -101,7 +97,7 @@ public abstract class PageDelegate {
     }
 
     protected abstract View onCreateView(LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState);
+                                         Bundle savedInstanceState);
 
     @CallSuper
     protected void onDestroyView() {
@@ -209,13 +205,24 @@ public abstract class PageDelegate {
     }
 
     public void showToast(@StringRes int res) {
-        if (getContext() == null) return;
+        if (getContext() == null) {
+            return;
+        }
         Toast.makeText(getContext(), res, Toast.LENGTH_SHORT).show();
     }
 
     public void showToast(@NonNull String message) {
-        if (getContext() == null) return;
+        if (getContext() == null) {
+            return;
+        }
         Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
+    }
+
+    public void showToastLong(@NonNull String message) {
+        if (getContext() == null) {
+            return;
+        }
+        Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
     }
 
     public void finish() {
@@ -369,7 +376,7 @@ public abstract class PageDelegate {
         @Nullable
         @Override
         public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
-                @Nullable Bundle savedInstanceState) {
+                                 @Nullable Bundle savedInstanceState) {
             return mDelegate.onCreateView(inflater, container, savedInstanceState);
         }
 

@@ -19,14 +19,17 @@ import androidx.annotation.Nullable;
 import com.alibaba.fastjson.JSON;
 import com.gyf.immersionbar.ImmersionBar;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 import agora.pb.rctrl.RemoteCtrlMsg;
+import io.agora.base.VideoFrame;
 import io.agora.cloudgame.constants.Constants;
 import io.agora.cloudgame.context.GameDataContext;
 import io.agora.cloudgame.example.BuildConfig;
@@ -45,12 +48,16 @@ import io.agora.cloudgame.ui.widget.SoftKeyboardStateWatcher;
 import io.agora.cloudgame.ui.widget.ViewJudge;
 import io.agora.cloudgame.utils.DialogUtils;
 import io.agora.cloudgame.utils.KeyCenter;
+import io.agora.cloudgame.utils.YuvDumper;
 import me.add1.iris.ApiRequestException;
 import me.add1.iris.PageDelegate;
 import me.add1.iris.utilities.ThreadUtils;
 
 public class GameDetailsBaseDelegate extends PageDelegate {
     protected static String TAG = Constants.TAG + "-GameDetailsBaseDelegate";
+    protected final static boolean ENABLE_DUMP_REMOTE_VIDEO_FRAME = false;
+
+    protected final static int MAX_DUMP_VIDEO_FRAME_COUNT = 80;
 
     protected boolean onStatusBarDarkFont() {
         return true;
@@ -89,8 +96,15 @@ public class GameDetailsBaseDelegate extends PageDelegate {
     protected View mBackView;
     protected View mGameViewLayout;
     protected TextView mGameStateTv;
+    protected TextView mFrameRateTv;
+    protected TextView mDumpVideoFrameTv;
 
     protected boolean mIsNativeRtc;
+    protected long mCurrentTimeInSeconds;
+    protected int mVideoFrameRate;
+    protected YuvDumper mYuvDumper;
+    protected int mDumperVideoFrameCount;
+    protected boolean mEnableDumperVideoFrame;
 
 
     protected final static int INTERVAL_SEND_EVENT_MESSAGE = 30;
@@ -160,6 +174,26 @@ public class GameDetailsBaseDelegate extends PageDelegate {
         mPreGameState = "";
         mScheduledExecutorService = Executors.newScheduledThreadPool(1);
 
+        if (ENABLE_DUMP_REMOTE_VIDEO_FRAME) {
+            mYuvDumper = new YuvDumper(getContext(), "video_frame", new YuvDumper.DumperCallback() {
+                @Override
+                public void onDumpSuccess(String filePath) {
+                    logI("yuv DumpSuccess:" + filePath);
+                    Objects.requireNonNull(getActivity()).runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            showToastLong("yuv Dump成功:" + filePath);
+                            if (null != mDumpVideoFrameTv) {
+                                mDumpVideoFrameTv.setEnabled(true);
+                            }
+                        }
+                    });
+                }
+            });
+        }
+        mEnableDumperVideoFrame = false;
+
+
         GameDataContext.getInstance().setOpenId(appId + "_" + (isLiveRole ? "abcd" : String.valueOf(KeyCenter.getUserUid())));
         GameDataContext.getInstance().setNickName("00");
 
@@ -216,6 +250,12 @@ public class GameDetailsBaseDelegate extends PageDelegate {
                         }
                     }
             );
+        }
+
+        if (!ENABLE_DUMP_REMOTE_VIDEO_FRAME) {
+            if (null != mDumpVideoFrameTv) {
+                mDumpVideoFrameTv.setVisibility(View.GONE);
+            }
         }
     }
 
@@ -340,6 +380,20 @@ public class GameDetailsBaseDelegate extends PageDelegate {
                 return true;
             }
         });
+
+        if (null != mDumpVideoFrameTv) {
+            mDumpVideoFrameTv.setOnClickListener(v -> {
+                showToastLong("Dump YUV中，请稍等...");
+                if (null != mYuvDumper) {
+                    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss", Locale.getDefault());
+                    String time = format.format(System.currentTimeMillis());
+
+                    mYuvDumper.updateFileName("video_frame_" + time);
+                }
+                mEnableDumperVideoFrame = true;
+                mDumpVideoFrameTv.setEnabled(false);
+            });
+        }
     }
 
     private void initGameDetails() {
@@ -552,6 +606,10 @@ public class GameDetailsBaseDelegate extends PageDelegate {
         if (null != mScheduledExecutorService) {
             mScheduledExecutorService.shutdown();
         }
+
+        if (null != mYuvDumper) {
+            mYuvDumper.clearFrames();
+        }
     }
 
     protected SendMessageBody getSendMessageBody(MessageEntity message) {
@@ -573,6 +631,41 @@ public class GameDetailsBaseDelegate extends PageDelegate {
         send.payload = JSON.toJSONString(list);
 
         return send;
+    }
+
+    protected void handleOnRenderVideoFrame(int uid, VideoFrame videoFrame) {
+        if (uid == GameDataContext.getInstance().getRtcConfig().uid) {
+            long currentTimeInSeconds = System.currentTimeMillis() / 1000;
+            if (currentTimeInSeconds != mCurrentTimeInSeconds) {
+                mCurrentTimeInSeconds = currentTimeInSeconds;
+                final int frameRate = mVideoFrameRate;
+                Objects.requireNonNull(getActivity()).runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (null != mFrameRateTv) {
+                            mFrameRateTv.setText(String.valueOf(frameRate));
+                        }
+                    }
+                });
+                mVideoFrameRate = 0;
+            } else {
+                mVideoFrameRate++;
+            }
+            if (mEnableDumperVideoFrame) {
+                if (mDumperVideoFrameCount <= MAX_DUMP_VIDEO_FRAME_COUNT) {
+                    if (null != mYuvDumper) {
+                        mYuvDumper.pushFrame(videoFrame);
+                        mDumperVideoFrameCount++;
+                    }
+                } else {
+                    if (null != mYuvDumper) {
+                        mYuvDumper.saveToFile();
+                        mDumperVideoFrameCount = 0;
+                    }
+                    mEnableDumperVideoFrame = false;
+                }
+            }
+        }
     }
 
     protected void logD(String message) {

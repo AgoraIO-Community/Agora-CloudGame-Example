@@ -57,7 +57,6 @@ public class GameDetailsFrameLayoutDelegate extends GameDetailsBaseDelegate {
         mJoinChannelOptions.autoSubscribeVideo = true;
         mJoinChannelOptions.autoSubscribeAudio = true;
         mJoinChannelOptions.publishCameraTrack = false;
-
     }
 
     @Override
@@ -108,6 +107,8 @@ public class GameDetailsFrameLayoutDelegate extends GameDetailsBaseDelegate {
         mBackView = mBinding.backView;
         mGameViewLayout = mBinding.frameLayout;
         mGameStateTv = mBinding.gameStateTv;
+        mFrameRateTv = mBinding.frameRateTv;
+        mDumpVideoFrameTv = mBinding.dumpVideoFrameView;
         super.initView();
     }
 
@@ -297,6 +298,7 @@ public class GameDetailsFrameLayoutDelegate extends GameDetailsBaseDelegate {
         @Override
         public boolean onRenderVideoFrame(String channelId, int uid, VideoFrame videoFrame) {
             //logD("onRenderVideoFrame->channelId:" + channelId + ",uid:" + uid);
+            handleOnRenderVideoFrame(uid, videoFrame);
             return false;
         }
 
