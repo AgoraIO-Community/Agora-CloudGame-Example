@@ -11,7 +11,9 @@ public class GameDataContext {
     private String mOpenId;
     private String mNickName;
     private String mAvatarUrl;
-    private int mUid;
+    private int mBroadcastUid;
+    private int mAgentUid;
+    private int mAudienceUid;
     private String mChannelName;
     private RtcConfig mRtcConfig;
     private String mTaskId;
@@ -26,7 +28,9 @@ public class GameDataContext {
         mOpenId = "";
         mNickName = "";
         mAvatarUrl = "https://agora-video-call.oss-cn-shanghai.aliyuncs.com/aigc/avatar.png";
-        mUid = 0;
+        mBroadcastUid = 0;
+        mAgentUid = 0;
+        mAudienceUid = 0;
         mChannelName = "";
         mRtcConfig = null;
         mTaskId = "";
@@ -88,13 +92,31 @@ public class GameDataContext {
         mAvatarUrl = avatarUrl;
     }
 
-    public int getUid() {
-        return mUid;
+    public int getBroadcastUid() {
+        return mBroadcastUid;
     }
 
-    public void setUid(int uid) {
-        mUid = uid;
+    public void setBroadcastUid(int broadcastUid) {
+        this.mBroadcastUid = broadcastUid;
+        mAgentUid = broadcastUid + 1;
     }
+
+    public int getAgentUid() {
+        return mAgentUid;
+    }
+
+    public void setAgentUid(int agentUid) {
+        this.mAgentUid = agentUid;
+    }
+
+    public int getAudienceUid() {
+        return mAudienceUid;
+    }
+
+    public void setAudienceUid(int audienceUid) {
+        this.mAudienceUid = audienceUid;
+    }
+
 
     public String getChannelName() {
         return mChannelName;

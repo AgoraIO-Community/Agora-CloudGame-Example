@@ -194,12 +194,12 @@ public class GameDetailsBaseDelegate extends PageDelegate {
         mEnableDumperVideoFrame = false;
 
 
-        GameDataContext.getInstance().setOpenId(appId + "_" + (isLiveRole ? "abcd" : String.valueOf(KeyCenter.getUserUid())));
-        GameDataContext.getInstance().setNickName("00");
+        GameDataContext.getInstance().setOpenId(appId + "_" + (isLiveRole ? GameDataContext.getInstance().getBroadcastUid() : GameDataContext.getInstance().getAudienceUid()));
+        GameDataContext.getInstance().setNickName("test_" + (isLiveRole ? GameDataContext.getInstance().getBroadcastUid() : GameDataContext.getInstance().getAudienceUid()));
 
         RtcConfig rtcConfig = new RtcConfig();
-        rtcConfig.broadcastUid = KeyCenter.getBroadcastUid();
-        rtcConfig.uid = GameDataContext.getInstance().getUid();
+        rtcConfig.broadcastUid = GameDataContext.getInstance().getBroadcastUid();
+        rtcConfig.uid = GameDataContext.getInstance().getAgentUid();
         rtcConfig.token = KeyCenter.getRtcToken(GameDataContext.getInstance().getChannelName(), rtcConfig.uid);
         rtcConfig.channelName = GameDataContext.getInstance().getChannelName();
         logI("rtcConfig:" + rtcConfig);
@@ -223,7 +223,7 @@ public class GameDetailsBaseDelegate extends PageDelegate {
         nameBuilder.append(GameDataContext.getInstance().getGameEntity().name);
         nameBuilder.append("\n");
         nameBuilder.append("uid: ");
-        nameBuilder.append(isLiveRole ? GameDataContext.getInstance().getRtcConfig().broadcastUid : KeyCenter.getUserUid());
+        nameBuilder.append(isLiveRole ? GameDataContext.getInstance().getBroadcastUid() : GameDataContext.getInstance().getAudienceUid());
         nameBuilder.append(isLiveRole ? "(主播)" : "(观众)");
         nameBuilder.append("\n");
         nameBuilder.append("房间号：");
@@ -296,7 +296,9 @@ public class GameDetailsBaseDelegate extends PageDelegate {
 
                                 @Override
                                 public void onFailure(@NonNull ApiRequestException e) {
-                                    showToast(e.code + "," + e.message);
+                                    ThreadUtils.postOnUiThread(() -> {
+                                        showToast("赠送礼物失败：" + e.code + "," + e.message);
+                                    });
                                 }
                             });
                 });
@@ -319,8 +321,20 @@ public class GameDetailsBaseDelegate extends PageDelegate {
                 setControllerView(mLikeView, true);
                 RareBackend.getInstance().gameLikeV2(appId, GameDataContext.getInstance().getRoomId(), GameDataContext.getInstance().getGameEntity().gameId,
                         getSendMessageBody(entity)
-                        , t -> ThreadUtils.postOnUiThread(() -> {
-                        }));
+                        , new RareBackend.ApiRequestCallback<Boolean>() {
+                            @Override
+                            public void onSucceed(@NonNull ApiResult<Boolean> t) {
+                                ThreadUtils.postOnUiThread(() -> {
+                                });
+                            }
+
+                            @Override
+                            public void onFailure(@NonNull ApiRequestException e) {
+                                ThreadUtils.postOnUiThread(() -> {
+                                    showToast("发送点赞失败：" + e.code + "," + e.message);
+                                });
+                            }
+                        });
             });
         }
 
@@ -333,12 +347,16 @@ public class GameDetailsBaseDelegate extends PageDelegate {
                         getSendMessageBody(entity), new RareBackend.ApiRequestCallback<Boolean>() {
                             @Override
                             public void onSucceed(@NonNull ApiResult<Boolean> t) {
-                                showToast("发送评论成功");
+                                ThreadUtils.postOnUiThread(() -> {
+                                    showToast("发送评论成功");
+                                });
                             }
 
                             @Override
                             public void onFailure(@NonNull ApiRequestException e) {
-                                showToast("发送评论失败");
+                                ThreadUtils.postOnUiThread(() -> {
+                                    showToast("发送评论失败：" + e.code + "," + e.message);
+                                });
                             }
                         });
                 mChatLayout.setVisibility(View.GONE);
@@ -434,6 +452,7 @@ public class GameDetailsBaseDelegate extends PageDelegate {
             RareBackend.getInstance().startGame(appId, GameDataContext.getInstance().getGameEntity().gameId, GameDataContext.getInstance().getRoomId(), body, new RareBackend.ApiRequestCallback<StartGameResult>() {
                 @Override
                 public void onSucceed(@NonNull ApiResult<StartGameResult> t) {
+                    logD("startGame onSucceed");
                     if (!TextUtils.isEmpty(t.data.taskId)) {
                         GameDataContext.getInstance().setTaskId(t.data.taskId);
                         mScheduledExecutorService.scheduleAtFixedRate(new Runnable() {
@@ -591,11 +610,12 @@ public class GameDetailsBaseDelegate extends PageDelegate {
             RareBackend.getInstance().stopGame(appId, GameDataContext.getInstance().getGameEntity().gameId, GameDataContext.getInstance().getRoomId(), body, new RareBackend.ApiRequestCallback<Boolean>() {
                 @Override
                 public void onSucceed(@NonNull ApiResult<Boolean> t) {
-
+                    logD("stopGame onSucceed");
                 }
 
                 @Override
                 public void onFailure(@NonNull ApiRequestException e) {
+                    logE("stopGame onFailure:" + e.message);
                     if (isAlive() && !TextUtils.isEmpty(e.message)) {
                         showToast(e.code + " " + e.message);
                     }
@@ -634,36 +654,34 @@ public class GameDetailsBaseDelegate extends PageDelegate {
     }
 
     protected void handleOnRenderVideoFrame(int uid, VideoFrame videoFrame) {
-        if (uid == GameDataContext.getInstance().getRtcConfig().uid) {
-            long currentTimeInSeconds = System.currentTimeMillis() / 1000;
-            if (currentTimeInSeconds != mCurrentTimeInSeconds) {
-                mCurrentTimeInSeconds = currentTimeInSeconds;
-                final int frameRate = mVideoFrameRate;
-                Objects.requireNonNull(getActivity()).runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (null != mFrameRateTv) {
-                            mFrameRateTv.setText(String.valueOf(frameRate));
-                        }
+        long currentTimeInSeconds = System.currentTimeMillis() / 1000;
+        if (currentTimeInSeconds != mCurrentTimeInSeconds) {
+            mCurrentTimeInSeconds = currentTimeInSeconds;
+            final int frameRate = mVideoFrameRate;
+            Objects.requireNonNull(getActivity()).runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    if (null != mFrameRateTv) {
+                        mFrameRateTv.setText(String.valueOf(frameRate));
                     }
-                });
-                mVideoFrameRate = 0;
-            } else {
-                mVideoFrameRate++;
-            }
-            if (mEnableDumperVideoFrame) {
-                if (mDumperVideoFrameCount <= MAX_DUMP_VIDEO_FRAME_COUNT) {
-                    if (null != mYuvDumper) {
-                        mYuvDumper.pushFrame(videoFrame);
-                        mDumperVideoFrameCount++;
-                    }
-                } else {
-                    if (null != mYuvDumper) {
-                        mYuvDumper.saveToFile();
-                        mDumperVideoFrameCount = 0;
-                    }
-                    mEnableDumperVideoFrame = false;
                 }
+            });
+            mVideoFrameRate = 0;
+        } else {
+            mVideoFrameRate++;
+        }
+        if (mEnableDumperVideoFrame) {
+            if (mDumperVideoFrameCount <= MAX_DUMP_VIDEO_FRAME_COUNT) {
+                if (null != mYuvDumper) {
+                    mYuvDumper.pushFrame(videoFrame);
+                    mDumperVideoFrameCount++;
+                }
+            } else {
+                if (null != mYuvDumper) {
+                    mYuvDumper.saveToFile();
+                    mDumperVideoFrameCount = 0;
+                }
+                mEnableDumperVideoFrame = false;
             }
         }
     }

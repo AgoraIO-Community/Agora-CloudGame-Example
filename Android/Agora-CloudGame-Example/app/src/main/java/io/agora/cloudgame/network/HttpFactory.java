@@ -11,10 +11,11 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
 
-import io.agora.cloudgame.utils.KeyCenter;
 import io.agora.cloudgame.constants.Constants;
 import io.agora.cloudgame.example.BuildConfig;
 import io.agora.cloudgame.utils.FileUtils;
+import io.agora.cloudgame.utils.KeyCenter;
+import io.agora.cloudgame.utils.Utils;
 import me.add1.iris.utilities.Lazy;
 import okhttp3.Cache;
 import okhttp3.Interceptor;
@@ -96,6 +97,8 @@ public class HttpFactory {
 
             Request authRequest = originalRequest.newBuilder()
                     .addHeader("Content-Type", "text/plain")
+                    .removeHeader("User-Agent")
+                    .addHeader("User-Agent", Utils.getUserAgent())
                     .addHeader("Authorization", String.format("agora token=%s", KeyCenter.getRtmToken2(KeyCenter.getUserUid())))
                     .method(originalRequest.method(), originalRequest.body())
                     .build();

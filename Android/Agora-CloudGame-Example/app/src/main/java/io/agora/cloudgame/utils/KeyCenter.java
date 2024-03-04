@@ -13,14 +13,14 @@ public class KeyCenter {
 
     private static int USER_RTC_UID = -1;
 
-    public static int getBroadcastUid() {
-        return 123456;
-    }
-
-    public static int getLiveUid() {
-        return 456789;
-    }
-
+//    public static int getBroadcastUid() {
+//        return 123456;
+//    }
+//
+//    public static int getLiveUid() {
+//        return 456789;
+//    }
+//
     public static int getUserUid() {
         if (-1 == USER_RTC_UID) {
             USER_RTC_UID = new Random().nextInt(USER_MAX_UID);

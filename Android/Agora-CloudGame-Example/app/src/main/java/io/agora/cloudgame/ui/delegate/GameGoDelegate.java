@@ -23,7 +23,6 @@ import io.agora.cloudgame.example.BuildConfig;
 import io.agora.cloudgame.example.R;
 import io.agora.cloudgame.example.databinding.DelegateGameGoBinding;
 import io.agora.cloudgame.ui.widget.ViewJudge;
-import io.agora.cloudgame.utils.KeyCenter;
 import io.agora.cloudgame.utils.NavigationUtils;
 import me.add1.iris.PageDelegate;
 
@@ -91,9 +90,24 @@ public class GameGoDelegate extends PageDelegate {
                     if (TextUtils.isEmpty(mBinding.channelText.getText().toString())) {
                         showToast("请输入频道名称");
                         return;
+                    } else if (TextUtils.isEmpty(mBinding.uidView.getText().toString())) {
+                        showToast("请输入uid");
+                        return;
                     }
                     GameDataContext.getInstance().setChannelName(mBinding.channelText.getText().toString());
-                    GameDataContext.getInstance().setUid(KeyCenter.getLiveUid());
+                    int uid = 0;
+                    try {
+                        uid = Integer.parseInt(mBinding.uidView.getText().toString());
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    if (0 != uid) {
+                        if (isLiveSelect) {
+                            GameDataContext.getInstance().setBroadcastUid(uid);
+                        } else {
+                            GameDataContext.getInstance().setAudienceUid(uid);
+                        }
+                    }
                     GameDataContext.getInstance().setRoomId(BuildConfig.APP_ID + "_" + mBinding.channelText.getText().toString());
 
                     ViewJudge.INSTANCE.hideKeyboard(Objects.requireNonNull(getActivity()));

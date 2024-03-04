@@ -91,7 +91,7 @@ public class GameDetailsWebViewDelegate extends GameDetailsBaseDelegate implemen
                 super.onPageFinished(view, url);
                 Log.i(TAG, "onPageFinished:" + url);
                 if (!isLiveRole) {
-                    callJs("joinChannel(" + false + ",'" + GameDataContext.getInstance().getRtcConfig().channelName + "'," + KeyCenter.getUserUid() + ",'" + KeyCenter.APP_ID + "','" + KeyCenter.getRtcToken(GameDataContext.getInstance().getRtcConfig().channelName, KeyCenter.getUserUid()) + "')", value -> {
+                    callJs("joinChannel(" + false + ",'" + GameDataContext.getInstance().getRtcConfig().channelName + "'," + GameDataContext.getInstance().getAudienceUid() + ",'" + KeyCenter.APP_ID + "','" + KeyCenter.getRtcToken(GameDataContext.getInstance().getRtcConfig().channelName, GameDataContext.getInstance().getAudienceUid()) + "')", value -> {
                         Log.i(TAG, "joinChannel onReceiveValue:" + value);
                     });
                 }

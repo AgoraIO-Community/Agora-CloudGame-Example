@@ -133,8 +133,8 @@ public class GameDetailsFrameLayoutDelegate extends GameDetailsBaseDelegate {
         if (!isJoinChannel) {
             isJoinChannel = true;
             mRtcEngine.registerVideoFrameObserver(iRtcVideoFrameObserver);
-            logD("startGameForAudience uid:" + KeyCenter.getUserUid() + " channelName:" + GameDataContext.getInstance().getRtcConfig().channelName);
-            int ret = mRtcEngine.joinChannel(KeyCenter.getRtcToken(GameDataContext.getInstance().getRtcConfig().channelName, KeyCenter.getUserUid()), GameDataContext.getInstance().getRtcConfig().channelName, KeyCenter.getUserUid(), mJoinChannelOptions);
+            logD("startGameForAudience uid:" + GameDataContext.getInstance().getAudienceUid() + " channelName:" + GameDataContext.getInstance().getRtcConfig().channelName);
+            int ret = mRtcEngine.joinChannel(KeyCenter.getRtcToken(GameDataContext.getInstance().getRtcConfig().channelName, GameDataContext.getInstance().getAudienceUid()), GameDataContext.getInstance().getRtcConfig().channelName, GameDataContext.getInstance().getAudienceUid(), mJoinChannelOptions);
             logI("startGameForAudience->ret:" + ret);
         }
     }
@@ -168,6 +168,14 @@ public class GameDetailsFrameLayoutDelegate extends GameDetailsBaseDelegate {
         @Override
         public void onLeaveChannel(RtcStats stats) {
             super.onLeaveChannel(stats);
+            logD("onLeaveChannel->" + stats);
+            Objects.requireNonNull(getActivity()).runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    RtcEngine.destroy();
+                    mRtcEngine = null;
+                }
+            });
         }
 
         @Override
@@ -184,6 +192,24 @@ public class GameDetailsFrameLayoutDelegate extends GameDetailsBaseDelegate {
         public void onRemoteVideoStateChanged(int uid, int state, int reason, int elapsed) {
             super.onRemoteVideoStateChanged(uid, state, reason, elapsed);
             Log.i(TAG, "onRemoteVideoStateChanged->" + uid + ", state->" + state + ", reason->" + reason);
+            if (Constants.REMOTE_VIDEO_STATE_STARTING == state) {
+                ThreadUtils.postOnUiThread(() -> {
+                    mVideoView = new VideoTextureView(Objects.requireNonNull(AppContext.Companion.get()).getApplicationContext());
+
+                    mBinding.frameLayout.removeAllViews();
+                    mBinding.frameLayout.addView(mVideoView);
+                    try {
+                        mRtcEngine.setupRemoteVideo(new VideoCanvas(mVideoView, Constants.RENDER_MODE_FIT, uid));
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                });
+            } else if (Constants.REMOTE_VIDEO_STATE_STOPPED == state || Constants.REMOTE_VIDEO_STATE_FAILED == state) {
+                ThreadUtils.postOnUiThread(() -> {
+                    mBinding.frameLayout.removeAllViews();
+                    mVideoView = null;
+                });
+            }
         }
 
         @Override
@@ -239,23 +265,11 @@ public class GameDetailsFrameLayoutDelegate extends GameDetailsBaseDelegate {
         @Override
         public void onUserJoined(int uid, int elapsed) {
             super.onUserJoined(uid, elapsed);
-            Log.i(TAG, "onUserJoined->" + uid + ", elapsed->" + elapsed + ", elapsed->" + elapsed);
+            Log.i(TAG, "onUserJoined->" + uid + ", elapsed->" + elapsed);
 
-            if (uid != GameDataContext.getInstance().getRtcConfig().uid) {
+/*            if (uid != GameDataContext.getInstance().getAgentUid()) {
                 return;
-            }
-
-            ThreadUtils.postOnUiThread(() -> {
-                mVideoView = new VideoTextureView(Objects.requireNonNull(AppContext.Companion.get()).getApplicationContext());
-
-                mBinding.frameLayout.removeAllViews();
-                mBinding.frameLayout.addView(mVideoView);
-                try {
-                    mRtcEngine.setupRemoteVideo(new VideoCanvas(mVideoView, Constants.RENDER_MODE_FIT, uid));
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            });
+            }*/
         }
 
         @Override
@@ -339,6 +353,5 @@ public class GameDetailsFrameLayoutDelegate extends GameDetailsBaseDelegate {
             mRtcEngine.leaveChannel();
             isJoinChannel = false;
         }
-        mRtcEngine = null;
     }
 }
