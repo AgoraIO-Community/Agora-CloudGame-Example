@@ -11,14 +11,14 @@ properties.load(inputStream)
 
 android {
     namespace 'io.agora.cloudgame.example'
-    compileSdk 31
+    compileSdk 33
 
     defaultConfig {
         applicationId "io.agora.cloudgame.example"
         minSdk 26
         targetSdk 31
         versionCode 1
-        versionName "v8.0304.1"
+        versionName "v9.0327.1"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
