@@ -48,16 +48,6 @@
                     android:layout_height="?attr/actionBarSize"
                     android:background="@android:color/transparent">
 
-                    <TextView
-                        android:id="@+id/back_view"
-                        android:layout_width="60dp"
-                        android:layout_height="30dp"
-                        android:layout_marginStart="15dp"
-                        android:background="@drawable/shape_finish_in_select"
-                        android:gravity="center"
-                        android:text="@string/exit"
-                        android:textColor="@color/white"
-                        android:textSize="14sp" />
 
                     <TextView
                         android:id="@+id/name_view"
@@ -68,14 +58,15 @@
                         android:textSize="14sp" />
 
                     <TextView
-                        android:id="@+id/gift_view"
+                        android:id="@+id/back_view"
                         android:layout_width="60dp"
                         android:layout_height="30dp"
                         android:layout_gravity="right"
-                        android:layout_marginEnd="15dp"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginEnd="5dp"
                         android:background="@drawable/shape_finish_in_select"
                         android:gravity="center"
-                        android:text="@string/gift"
+                        android:text="@string/exit"
                         android:textColor="@color/white"
                         android:textSize="14sp" />
 
@@ -105,6 +96,20 @@
                     android:textColor="@color/white"
                     app:layout_constraintLeft_toRightOf="@id/game_state_label_tv"
                     app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/gift_view"
+                    android:layout_width="60dp"
+                    android:layout_height="30dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginEnd="5dp"
+                    android:background="@drawable/shape_finish_in_select"
+                    android:gravity="center"
+                    android:text="@string/gift"
+                    android:textColor="@color/white"
+                    android:textSize="14sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/game_state_tv" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </LinearLayout>
 

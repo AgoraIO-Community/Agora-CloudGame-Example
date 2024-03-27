@@ -82,11 +82,6 @@ public class GameDetailsFrameLayoutDelegate extends GameDetailsBaseDelegate {
                     + "}"
                     + "}");
             mRtcEngine.setLocalAccessPoint(AppContext.Companion.get().getGlobalSettings().getPrivateCloudConfig());
-
-            DataStreamConfig dataStreamConfig = new DataStreamConfig();
-            dataStreamConfig.ordered = true;
-            dataStreamConfig.syncWithAudio = true;
-            mStreamId = mRtcEngine.createDataStream(dataStreamConfig);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -151,7 +146,7 @@ public class GameDetailsFrameLayoutDelegate extends GameDetailsBaseDelegate {
             Objects.requireNonNull(getActivity()).runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    showToast("控制事件发送失败(sendStreamMessage)！");
+                    showToast("控制事件发送失败(sendStreamMessage)！：" + ret);
                 }
             });
         }
@@ -172,7 +167,6 @@ public class GameDetailsFrameLayoutDelegate extends GameDetailsBaseDelegate {
             Objects.requireNonNull(getActivity()).runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    RtcEngine.destroy();
                     mRtcEngine = null;
                 }
             });
@@ -353,5 +347,6 @@ public class GameDetailsFrameLayoutDelegate extends GameDetailsBaseDelegate {
             mRtcEngine.leaveChannel();
             isJoinChannel = false;
         }
+        RtcEngine.destroy();
     }
 }
