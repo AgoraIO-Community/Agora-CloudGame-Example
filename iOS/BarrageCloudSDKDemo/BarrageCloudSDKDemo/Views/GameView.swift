@@ -9,6 +9,7 @@ import UIKit
 
 protocol GameViewTouchDelegate: NSObjectProtocol {
     func touchDown(_ view: GameView, point: CGPoint)
+    func touchMove(_ view: GameView, point: CGPoint)
     func touchUp(_ view: GameView, point: CGPoint)
 }
 
@@ -20,6 +21,13 @@ class GameView: UIView {
         if let touch = touches.first {
             let point = touch.location(in: self)
             touchDelegate?.touchDown(self, point: point)
+        }
+    }
+    
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+        if let touch = touches.first {
+            let point = touch.location(in: self)
+            touchDelegate?.touchMove(self, point: point)
         }
     }
     

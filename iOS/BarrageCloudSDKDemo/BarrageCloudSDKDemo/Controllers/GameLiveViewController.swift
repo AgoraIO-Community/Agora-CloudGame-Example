@@ -87,6 +87,9 @@ class GameLiveViewController: UIViewController {
     
     private var myUid: UInt!
     
+    var previousX: CGFloat = -1
+    var previousY: CGFloat = -1
+    
     @IBOutlet weak var commentButton: UIButton!
     @IBOutlet weak var likeButton: UIButton!
     @IBOutlet weak var zButton: UIButton!
@@ -411,6 +414,7 @@ extension GameLiveViewController: AgoraRtcEngineDelegate {
     func rtcEngine(_ engine: AgoraRtcEngineKit, didJoinedOfUid uid: UInt, elapsed: Int) {
         if "\(uid)" == self.assistantUid {
             setupRemoteView(uid: uid, canvasView: gameView)
+            print("setupRemoteView == \(uid)")
         }
         print("didJoinedOfUid uid == \(uid)")
     }
@@ -499,6 +503,19 @@ extension GameLiveViewController {
         sendStreamMessage(data)
     }
     
+    func sendWheelEvent(type: Agora_Pb_Rctrl_MouseEventType,
+                        point: CGPoint,
+                        scrollAmount: Int,
+                        factor: Int) {
+        guard let data = CloudGameMsgHandler.shared.createWheelEvent(type: type,
+                                                                     point: point,
+                                                                     scrollAmount: scrollAmount,
+                                                                     factor: factor,
+                                                                     gameViewSize: gameView.bounds.size)
+        else { return }
+        sendStreamMessage(data)
+    }
+    
     func sendKeyboardEvent(type: Agora_Pb_Rctrl_KeyboardEventType, key:Character){
         guard let data = CloudGameMsgHandler.shared.createKeyboardEvent(type: type, key: key) else { return }
         sendStreamMessage(data)
@@ -511,8 +528,26 @@ extension GameLiveViewController: GameViewTouchDelegate {
         sendMouseEvent(type: .mouseEventLbuttonUp, point: point)
     }
     
+    func touchMove(_ view: GameView, point: CGPoint) {
+        let currentPoint = point
+        let SCROLL_FACTOR = 120
+        
+        let deltaY = currentPoint.y - previousY;
+        if (abs(deltaY) > gameView.bounds.size.height/15.0) {
+            let scrollAmount = deltaY > 0 ? -1 : 1
+            
+            sendWheelEvent(type: .mouseEventWheel,
+                           point: point,
+                           scrollAmount: scrollAmount,
+                           factor: SCROLL_FACTOR)
+            previousX = currentPoint.x;
+            previousY = currentPoint.y;
+        }
+    }
+    
     func touchDown(_ view: GameView, point: CGPoint) {
         sendMouseEvent(type: .mouseEventLbuttonDown, point: point)
-
+        previousX = point.x
+        previousY = point.y
     }
 }

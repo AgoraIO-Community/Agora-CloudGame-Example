@@ -19,6 +19,36 @@ class CloudGameMsgHandler: NSObject {
     
     private override init() {}
     
+    func createWheelEvent(type: Agora_Pb_Rctrl_MouseEventType,
+                          point: CGPoint,
+                          scrollAmount: Int,
+                          factor: Int,
+                          gameViewSize: CGSize) -> Data?{
+
+        msgId += 1
+        let currentDate = Date()
+        
+        print("=== wheel 原始坐标： \(point)， scrollAmount = \(scrollAmount)， factor = \(factor)")
+        let x = (Int(point.x) << 16) / Int(gameViewSize.width)
+        let y = (Int(point.y) << 16) / Int(gameViewSize.height)
+        let extData = Int32(factor * scrollAmount) << 16
+        print("=== wheel 处理后: x = \(x), y = \(y), extData: \(extData)")
+        var event = Agora_Pb_Rctrl_MouseEventMsg()
+        event.mouseEvent = UInt32(type.rawValue)
+        event.x = Int32(x)
+        event.y = Int32(y)
+        event.extData = extData
+        
+        var msg = Agora_Pb_Rctrl_RctrlMsg()
+        msg.type = .mouseEventType
+        msg.msgID = UInt32(msgId)
+        msg.timestamp = UInt64(currentDate.timeIntervalSince1970)
+        if let eventData = try? event.serializedData() {
+            msg.payload = eventData
+        }
+        
+        return createMsg(msg, currentDate: currentDate)
+    }
     
     func createMouseEvent(type: Agora_Pb_Rctrl_MouseEventType, point: CGPoint, gameViewSize: CGSize) -> Data?{
 
