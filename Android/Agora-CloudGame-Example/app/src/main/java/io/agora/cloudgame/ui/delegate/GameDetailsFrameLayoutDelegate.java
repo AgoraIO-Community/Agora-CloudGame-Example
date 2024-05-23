@@ -111,13 +111,17 @@ public class GameDetailsFrameLayoutDelegate extends GameDetailsBaseDelegate {
     protected void onGameStateChange(String state) {
         super.onGameStateChange(state);
         if ("started".equals(state)) {
-            if (!isJoinChannel) {
-                isJoinChannel = true;
-                if (isLiveRole && null != mRtcEngine) {
-                    mRtcEngine.registerVideoFrameObserver(iRtcVideoFrameObserver);
-                    mRtcEngine.joinChannel(KeyCenter.getRtcToken(GameDataContext.getInstance().getRtcConfig().channelName, GameDataContext.getInstance().getRtcConfig().broadcastUid), GameDataContext.getInstance().getRtcConfig().channelName,
-                            GameDataContext.getInstance().getRtcConfig().broadcastUid, mJoinChannelOptions);
-                }
+            startGameForBroadcaster();
+        }
+    }
+
+    protected void startGameForBroadcaster() {
+        if (!isJoinChannel) {
+            isJoinChannel = true;
+            if (isLiveRole && null != mRtcEngine) {
+                mRtcEngine.registerVideoFrameObserver(iRtcVideoFrameObserver);
+                mRtcEngine.joinChannel(KeyCenter.getRtcToken(GameDataContext.getInstance().getRtcConfig().channelName, GameDataContext.getInstance().getRtcConfig().broadcastUid), GameDataContext.getInstance().getRtcConfig().channelName,
+                        GameDataContext.getInstance().getRtcConfig().broadcastUid, mJoinChannelOptions);
             }
         }
     }

@@ -58,6 +58,9 @@ public class GameDetailsBaseDelegate extends PageDelegate {
     protected final static boolean ENABLE_DUMP_REMOTE_VIDEO_FRAME = false;
 
     protected final static int MAX_DUMP_VIDEO_FRAME_COUNT = 80;
+    protected static final float SCROLL_FACTOR = 120; // 映射到Windows滚轮事件的滚动因子
+    private float mPreviousX = -1;
+    private float mPreviousY = -1;
 
     protected boolean onStatusBarDarkFont() {
         return true;
@@ -373,6 +376,9 @@ public class GameDetailsBaseDelegate extends PageDelegate {
                     case MotionEvent.ACTION_UP:
                         sendMouseMessage(event, RemoteCtrlMsg.MouseEventType.MOUSE_EVENT_LBUTTON_UP.getNumber());
                         break;
+                    case MotionEvent.ACTION_MOVE:
+                        sendMouseWheelMessage(event, RemoteCtrlMsg.MouseEventType.MOUSE_EVENT_WHEEL.getNumber());
+                        break;
                     default:
                         break;
                 }
@@ -503,6 +509,9 @@ public class GameDetailsBaseDelegate extends PageDelegate {
         logI("onGameStateChange:" + state);
     }
 
+    protected void startGameForBroadcaster() {
+
+    }
 
     protected void startGameForAudience() {
 
@@ -520,6 +529,9 @@ public class GameDetailsBaseDelegate extends PageDelegate {
             return;
         }
         logI("sendMouseMessage:event x:" + event.getX() + ",event y:" + event.getY() + ",value:" + value);
+
+        mPreviousX = event.getX();
+        mPreviousY = event.getY();
 
         int x = ((int) (event.getX()) << 16) / mGameViewLayout.getMeasuredWidth();
         int y = ((int) (event.getY()) << 16) / mGameViewLayout.getMeasuredHeight();
@@ -545,6 +557,49 @@ public class GameDetailsBaseDelegate extends PageDelegate {
         }
     }
 
+    protected synchronized void sendMouseWheelMessage(MotionEvent event, int value) {
+        if (!isLiveRole) {
+            return;
+        }
+
+        float currentX = event.getX();
+        float currentY = event.getY();
+
+        float deltaY = mPreviousY - currentY;
+        if (Math.abs(deltaY) > ((float) mGameViewLayout.getMeasuredHeight() / 20)) {
+            // 将移动距离转换为Windows滚轮事件的滚动量
+            int scrollAmount = deltaY > 0 ? -1 : 1;
+
+            int x = ((int) (currentX) << 16) / mGameViewLayout.getMeasuredWidth();
+            int y = ((int) (currentY) << 16) / mGameViewLayout.getMeasuredHeight();
+            int extData = ((int) (SCROLL_FACTOR * scrollAmount)) << 16;
+
+            logI("sendMouseWheelMessage:event mPreviousX:" + mPreviousX + ",mPreviousY:" + mPreviousY + ",currentX:" + currentX + ",currentY:" + currentY + ",deltaY:" + deltaY + ",scrollAmount:" + scrollAmount + ",x:" + x + ",y:" + y + ",extData:" + extData);
+
+            RemoteCtrlMsg.MouseEventMsg eventMsg = RemoteCtrlMsg.MouseEventMsg.newBuilder()
+                    .setMouseEvent(value)
+                    .setX(x)
+                    .setY(y)
+                    .setExtData(extData)
+                    .build();
+
+            RemoteCtrlMsg.RctrlMsg rctrlMsg = RemoteCtrlMsg.RctrlMsg.newBuilder()
+                    .setType(RemoteCtrlMsg.MsgType.MOUSE_EVENT_TYPE)
+                    .setTimestamp(System.currentTimeMillis())
+                    .setPayload(eventMsg.toByteString())
+                    .build();
+
+            mEventMessagelist.add(rctrlMsg);
+            if (System.currentTimeMillis() - mLastSendEventMessageTime > INTERVAL_SEND_EVENT_MESSAGE) {
+                sendEventMessages();
+            } else {
+                mHandler.sendEmptyMessageDelayed(MESSAGE_SEND_EVENT_MESSAGE, INTERVAL_SEND_EVENT_MESSAGE - (System.currentTimeMillis() - mLastSendEventMessageTime));
+            }
+            // 重置之前的位置为当前位置
+            mPreviousX = currentX;
+            mPreviousY = currentY;
+        }
+    }
 
     protected synchronized void sendKeyboardMessage(RemoteCtrlMsg.KeyboardEventType eventType, char key) {
         if (!isLiveRole) {
@@ -576,7 +631,7 @@ public class GameDetailsBaseDelegate extends PageDelegate {
 
 
     private void sendEventMessages() {
-        if (mEventMessagelist.size() == 0) {
+        if (mEventMessagelist.isEmpty()) {
             return;
         }
         mHandler.removeMessages(MESSAGE_SEND_EVENT_MESSAGE);
